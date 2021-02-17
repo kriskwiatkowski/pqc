@@ -83,44 +83,97 @@ set(CMAKE_C_FLAGS "${C_CXX_FLAGS} -D${ARCH}")
 set(CMAKE_CXX_FLAGS "${C_CXX_FLAGS} -D${ARCH}")
 
 add_library(
-	pqclean
+  common
+  OBJECT
 
-	SHARED
-
-	common/fips202.c
-	common/sp800-185.c
-	common/randombytes.c
-
-	crypto_sign/dilithium2/clean/ntt.c
-	crypto_sign/dilithium2/clean/packing.c
-	crypto_sign/dilithium2/clean/poly.c
-	crypto_sign/dilithium2/clean/polyvec.c
-	crypto_sign/dilithium2/clean/reduce.c
-	crypto_sign/dilithium2/clean/rounding.c
-	crypto_sign/dilithium2/clean/sign.c
-	crypto_sign/dilithium2/clean/symmetric-shake.c
+  common/fips202.c
+  common/sp800-185.c
+  common/randombytes.c
 )
 
-target_include_directories(
-	pqclean PRIVATE
-	common
+function(define_crypto_alg name namespace src inc)
+  add_library(
+    pqclean_${name}
+    OBJECT
+    ${src}
+  )
+
+  target_include_directories(
+    pqclean_${name} PRIVATE
+    common
+  )
+
+  target_compile_definitions(
+    pqclean_${name} PRIVATE
+    -DPQCLEAN_NAMESPACE=${namespace}
+  )
+
+  add_library(
+    pqclean_test_${name}
+    OBJECT
+    test/crypto_sign/testvectors.c
+  )
+
+  target_compile_definitions(
+    pqclean_test_${name} PRIVATE
+    -DPQCLEAN_NAMESPACE=${namespace}
+  )
+
+  target_include_directories(
+    pqclean_test_${name} PRIVATE
+    common
+    ${inc}
+  )
+endfunction()
+
+set(
+  SRC_CLEAN_DILITHIUM2
+  crypto_sign/dilithium2/clean/ntt.c
+  crypto_sign/dilithium2/clean/packing.c
+  crypto_sign/dilithium2/clean/poly.c
+  crypto_sign/dilithium2/clean/polyvec.c
+  crypto_sign/dilithium2/clean/reduce.c
+  crypto_sign/dilithium2/clean/rounding.c
+  crypto_sign/dilithium2/clean/sign.c
+  crypto_sign/dilithium2/clean/symmetric-shake.c
 )
 
-add_executable(
-	test
-
-	test/crypto_sign/testvectors.c
+set(
+  INC_CLEAN_DILITHIUM2
+  crypto_sign/dilithium2/clean
 )
 
-target_include_directories(
-	test PRIVATE
-	common
-	crypto_sign/dilithium2/clean
+define_crypto_alg(dilithium2_clean
+  PQCLEAN_DILITHIUM2_CLEAN "${SRC_CLEAN_DILITHIUM2}" "${INC_CLEAN_DILITHIUM2}")
+
+add_library(
+  pqclean
+  SHARED
+)
+
+add_library(
+  pqclean_s
+  STATIC
 )
 
 target_link_libraries(
-	test
-	pqclean
+  pqclean
+  common
+  pqclean_dilithium2_clean
 )
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DPQCLEAN_NAMESPACE=PQCLEAN_DILITHIUM2_CLEAN")
+target_link_libraries(
+  pqclean_s
+  common
+  pqclean_dilithium2_clean
+)
+
+add_executable(
+  test
+)
+
+target_link_libraries(
+  test
+  pqclean_s
+  pqclean_test_dilithium2_clean
+)
