@@ -215,6 +215,9 @@ set(
 define_kem_alg(kyber512_clean
   PQCLEAN_KYBER512_CLEAN "${SRC_CLEAN_KYBER512}" "${INC_CLEAN_KYBER512}")
 
+# AVX2 targets
+if(${ARCH} STREQUAL "ARCH_x86_64")
+
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -march=haswell")
 set(
   SRC_AVX2_KYBER512
@@ -235,7 +238,6 @@ set(
   crypto_kem/kyber512/avx2/shuffle.S
 )
 
-if(${ARCH} STREQUAL "ARCH_x86_64")
 set(
   INC_AVX2_KYBER512
   crypto_kem/kyber512/avx2
