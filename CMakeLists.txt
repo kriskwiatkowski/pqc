@@ -219,6 +219,76 @@ define_kem_alg(kyber512_clean
 if(${ARCH} STREQUAL "ARCH_x86_64")
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -march=haswell")
+
+set(
+  SRC_AVX2_DILITHIUM2
+  crypto_sign/dilithium2/avx2/consts.c
+  crypto_sign/dilithium2/avx2/f1600x4.S
+  crypto_sign/dilithium2/avx2/fips202x4.c
+  crypto_sign/dilithium2/avx2/invntt.S
+  crypto_sign/dilithium2/avx2/ntt.S
+  crypto_sign/dilithium2/avx2/packing.c
+  crypto_sign/dilithium2/avx2/pointwise.S
+  crypto_sign/dilithium2/avx2/poly.c
+  crypto_sign/dilithium2/avx2/polyvec.c
+  crypto_sign/dilithium2/avx2/rejsample.c
+  crypto_sign/dilithium2/avx2/rounding.c
+  crypto_sign/dilithium2/avx2/shuffle.S
+  crypto_sign/dilithium2/avx2/sign.c
+  crypto_sign/dilithium2/avx2/symmetric-shake.c)
+set(
+  INC_AVX2_DILITHIUM2
+  crypto_sign/dilithium2/avx2
+)
+define_sig_alg(dilithium2_avx2
+  PQCLEAN_DILITHIUM2_AVX2 "${SRC_AVX2_DILITHIUM2}" "${INC_AVX2_DILITHIUM2}")
+
+set(
+  SRC_AVX2_DILITHIUM3
+  crypto_sign/dilithium3/avx2/consts.c
+  crypto_sign/dilithium3/avx2/f1600x4.S
+  crypto_sign/dilithium3/avx2/fips202x4.c
+  crypto_sign/dilithium3/avx2/invntt.S
+  crypto_sign/dilithium3/avx2/ntt.S
+  crypto_sign/dilithium3/avx2/packing.c
+  crypto_sign/dilithium3/avx2/pointwise.S
+  crypto_sign/dilithium3/avx2/poly.c
+  crypto_sign/dilithium3/avx2/polyvec.c
+  crypto_sign/dilithium3/avx2/rejsample.c
+  crypto_sign/dilithium3/avx2/rounding.c
+  crypto_sign/dilithium3/avx2/shuffle.S
+  crypto_sign/dilithium3/avx2/sign.c
+  crypto_sign/dilithium3/avx2/symmetric-shake.c)
+set(
+  INC_AVX2_DILITHIUM3
+  crypto_sign/dilithium3/avx2
+)
+define_sig_alg(dilithium3_avx2
+  PQCLEAN_DILITHIUM3_AVX2 "${SRC_AVX2_DILITHIUM3}" "${INC_AVX2_DILITHIUM3}")
+
+set(
+  SRC_AVX2_DILITHIUM5
+  crypto_sign/dilithium5/avx2/consts.c
+  crypto_sign/dilithium5/avx2/f1600x4.S
+  crypto_sign/dilithium5/avx2/fips202x4.c
+  crypto_sign/dilithium5/avx2/invntt.S
+  crypto_sign/dilithium5/avx2/ntt.S
+  crypto_sign/dilithium5/avx2/packing.c
+  crypto_sign/dilithium5/avx2/pointwise.S
+  crypto_sign/dilithium5/avx2/poly.c
+  crypto_sign/dilithium5/avx2/polyvec.c
+  crypto_sign/dilithium5/avx2/rejsample.c
+  crypto_sign/dilithium5/avx2/rounding.c
+  crypto_sign/dilithium5/avx2/shuffle.S
+  crypto_sign/dilithium5/avx2/sign.c
+  crypto_sign/dilithium5/avx2/symmetric-shake.c)
+set(
+  INC_AVX2_DILITHIUM5
+  crypto_sign/dilithium5/avx2
+)
+define_sig_alg(dilithium5_avx2
+  PQCLEAN_DILITHIUM5_AVX2 "${SRC_AVX2_DILITHIUM5}" "${INC_AVX2_DILITHIUM5}")
+
 set(
   SRC_AVX2_KYBER512
   crypto_kem/kyber512/avx2/cbd.c
