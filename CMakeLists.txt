@@ -198,22 +198,60 @@ define_sig_alg(dilithium5_clean
 
 set(
   SRC_CLEAN_KYBER512
-  crypto_kem/kyber512/clean/cbd.c
-  crypto_kem/kyber512/clean/indcpa.c
-  crypto_kem/kyber512/clean/kem.c
-  crypto_kem/kyber512/clean/ntt.c
-  crypto_kem/kyber512/clean/poly.c
-  crypto_kem/kyber512/clean/polyvec.c
-  crypto_kem/kyber512/clean/reduce.c
-  crypto_kem/kyber512/clean/symmetric-shake.c
-  crypto_kem/kyber512/clean/verify.c
+  crypto_kem/kyber/kyber512/clean/cbd.c
+  crypto_kem/kyber/kyber512/clean/indcpa.c
+  crypto_kem/kyber/kyber512/clean/kem.c
+  crypto_kem/kyber/kyber512/clean/ntt.c
+  crypto_kem/kyber/kyber512/clean/poly.c
+  crypto_kem/kyber/kyber512/clean/polyvec.c
+  crypto_kem/kyber/kyber512/clean/reduce.c
+  crypto_kem/kyber/kyber512/clean/symmetric-shake.c
+  crypto_kem/kyber/kyber512/clean/verify.c
 )
 set(
   INC_CLEAN_KYBER512
-  crypto_kem/kyber512/clean
+  crypto_kem/kyber/kyber512/clean
 )
 define_kem_alg(kyber512_clean
   PQCLEAN_KYBER512_CLEAN "${SRC_CLEAN_KYBER512}" "${INC_CLEAN_KYBER512}")
+
+set(
+  SRC_CLEAN_KYBER768
+  crypto_kem/kyber/kyber768/clean/cbd.c
+  crypto_kem/kyber/kyber768/clean/indcpa.c
+  crypto_kem/kyber/kyber768/clean/kem.c
+  crypto_kem/kyber/kyber768/clean/ntt.c
+  crypto_kem/kyber/kyber768/clean/poly.c
+  crypto_kem/kyber/kyber768/clean/polyvec.c
+  crypto_kem/kyber/kyber768/clean/reduce.c
+  crypto_kem/kyber/kyber768/clean/symmetric-shake.c
+  crypto_kem/kyber/kyber768/clean/verify.c
+)
+set(
+  INC_CLEAN_KYBER768
+  crypto_kem/kyber/kyber768/clean
+)
+define_kem_alg(kyber768_clean
+  PQCLEAN_KYBER768_CLEAN "${SRC_CLEAN_KYBER768}" "${INC_CLEAN_KYBER768}")
+
+set(
+  SRC_CLEAN_KYBER1024
+  crypto_kem/kyber/kyber1024/clean/cbd.c
+  crypto_kem/kyber/kyber1024/clean/indcpa.c
+  crypto_kem/kyber/kyber1024/clean/kem.c
+  crypto_kem/kyber/kyber1024/clean/ntt.c
+  crypto_kem/kyber/kyber1024/clean/poly.c
+  crypto_kem/kyber/kyber1024/clean/polyvec.c
+  crypto_kem/kyber/kyber1024/clean/reduce.c
+  crypto_kem/kyber/kyber1024/clean/symmetric-shake.c
+  crypto_kem/kyber/kyber1024/clean/verify.c
+)
+set(
+  INC_CLEAN_KYBER1024
+  crypto_kem/kyber/kyber1024/clean
+)
+define_kem_alg(kyber1024_clean
+  PQCLEAN_KYBER1024_CLEAN "${SRC_CLEAN_KYBER1024}" "${INC_CLEAN_KYBER1024}")
 
 # AVX2 targets
 if(${ARCH} STREQUAL "ARCH_x86_64")
@@ -291,30 +329,79 @@ define_sig_alg(dilithium5_avx2
 
 set(
   SRC_AVX2_KYBER512
-  crypto_kem/kyber512/avx2/cbd.c
-  crypto_kem/kyber512/avx2/consts.c
-  crypto_kem/kyber512/avx2/fips202x4.c
-  crypto_kem/kyber512/avx2/indcpa.c
-  crypto_kem/kyber512/avx2/kem.c
-  crypto_kem/kyber512/avx2/poly.c
-  crypto_kem/kyber512/avx2/polyvec.c
-  crypto_kem/kyber512/avx2/rejsample.c
-  crypto_kem/kyber512/avx2/symmetric-shake.c
-  crypto_kem/kyber512/avx2/verify.c
-  crypto_kem/kyber512/avx2/basemul.S
-  crypto_kem/kyber512/avx2/fq.S
-  crypto_kem/kyber512/avx2/invntt.S
-  crypto_kem/kyber512/avx2/ntt.S
-  crypto_kem/kyber512/avx2/shuffle.S
+  crypto_kem/kyber/kyber512/avx2/cbd.c
+  crypto_kem/kyber/kyber512/avx2/consts.c
+  crypto_kem/kyber/kyber512/avx2/fips202x4.c
+  crypto_kem/kyber/kyber512/avx2/indcpa.c
+  crypto_kem/kyber/kyber512/avx2/kem.c
+  crypto_kem/kyber/kyber512/avx2/poly.c
+  crypto_kem/kyber/kyber512/avx2/polyvec.c
+  crypto_kem/kyber/kyber512/avx2/rejsample.c
+  crypto_kem/kyber/kyber512/avx2/symmetric-shake.c
+  crypto_kem/kyber/kyber512/avx2/verify.c
+  crypto_kem/kyber/kyber512/avx2/basemul.S
+  crypto_kem/kyber/kyber512/avx2/fq.S
+  crypto_kem/kyber/kyber512/avx2/invntt.S
+  crypto_kem/kyber/kyber512/avx2/ntt.S
+  crypto_kem/kyber/kyber512/avx2/shuffle.S
 )
-
 set(
   INC_AVX2_KYBER512
-  crypto_kem/kyber512/avx2
+  crypto_kem/kyber/kyber512/avx2
 )
-
 define_kem_alg(kyber512_avx2
   PQCLEAN_KYBER512_AVX2 "${SRC_AVX2_KYBER512}" "${INC_AVX2_KYBER512}")
+
+set(
+  SRC_AVX2_KYBER768
+  crypto_kem/kyber/kyber768/avx2/cbd.c
+  crypto_kem/kyber/kyber768/avx2/consts.c
+  crypto_kem/kyber/kyber768/avx2/fips202x4.c
+  crypto_kem/kyber/kyber768/avx2/indcpa.c
+  crypto_kem/kyber/kyber768/avx2/kem.c
+  crypto_kem/kyber/kyber768/avx2/poly.c
+  crypto_kem/kyber/kyber768/avx2/polyvec.c
+  crypto_kem/kyber/kyber768/avx2/rejsample.c
+  crypto_kem/kyber/kyber768/avx2/symmetric-shake.c
+  crypto_kem/kyber/kyber768/avx2/verify.c
+  crypto_kem/kyber/kyber768/avx2/basemul.S
+  crypto_kem/kyber/kyber768/avx2/fq.S
+  crypto_kem/kyber/kyber768/avx2/invntt.S
+  crypto_kem/kyber/kyber768/avx2/ntt.S
+  crypto_kem/kyber/kyber768/avx2/shuffle.S
+)
+set(
+  INC_AVX2_KYBER768
+  crypto_kem/kyber/kyber768/avx2
+)
+define_kem_alg(kyber768_avx2
+  PQCLEAN_KYBER768_AVX2 "${SRC_AVX2_KYBER768}" "${INC_AVX2_KYBER768}")
+
+set(
+  SRC_AVX2_KYBER1024
+  crypto_kem/kyber/kyber1024/avx2/cbd.c
+  crypto_kem/kyber/kyber1024/avx2/consts.c
+  crypto_kem/kyber/kyber1024/avx2/fips202x4.c
+  crypto_kem/kyber/kyber1024/avx2/indcpa.c
+  crypto_kem/kyber/kyber1024/avx2/kem.c
+  crypto_kem/kyber/kyber1024/avx2/poly.c
+  crypto_kem/kyber/kyber1024/avx2/polyvec.c
+  crypto_kem/kyber/kyber1024/avx2/rejsample.c
+  crypto_kem/kyber/kyber1024/avx2/symmetric-shake.c
+  crypto_kem/kyber/kyber1024/avx2/verify.c
+  crypto_kem/kyber/kyber1024/avx2/basemul.S
+  crypto_kem/kyber/kyber1024/avx2/fq.S
+  crypto_kem/kyber/kyber1024/avx2/invntt.S
+  crypto_kem/kyber/kyber1024/avx2/ntt.S
+  crypto_kem/kyber/kyber1024/avx2/shuffle.S
+)
+set(
+  INC_AVX2_KYBER1024
+  crypto_kem/kyber/kyber1024/avx2
+)
+define_kem_alg(kyber1024_avx2
+  PQCLEAN_KYBER1024_AVX2 "${SRC_AVX2_KYBER1024}" "${INC_AVX2_KYBER1024}")
+
 endif()
 
 # The rest of the library
