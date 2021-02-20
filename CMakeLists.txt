@@ -140,57 +140,57 @@ endfunction()
 # Define sources of the components
 set(
   SRC_CLEAN_DILITHIUM2
-  crypto_sign/dilithium2/clean/ntt.c
-  crypto_sign/dilithium2/clean/packing.c
-  crypto_sign/dilithium2/clean/poly.c
-  crypto_sign/dilithium2/clean/polyvec.c
-  crypto_sign/dilithium2/clean/reduce.c
-  crypto_sign/dilithium2/clean/rounding.c
-  crypto_sign/dilithium2/clean/sign.c
-  crypto_sign/dilithium2/clean/symmetric-shake.c
+  crypto_sign/dilithium/dilithium2/clean/ntt.c
+  crypto_sign/dilithium/dilithium2/clean/packing.c
+  crypto_sign/dilithium/dilithium2/clean/poly.c
+  crypto_sign/dilithium/dilithium2/clean/polyvec.c
+  crypto_sign/dilithium/dilithium2/clean/reduce.c
+  crypto_sign/dilithium/dilithium2/clean/rounding.c
+  crypto_sign/dilithium/dilithium2/clean/sign.c
+  crypto_sign/dilithium/dilithium2/clean/symmetric-shake.c
 )
 
 set(
   INC_CLEAN_DILITHIUM2
-  crypto_sign/dilithium2/clean
+  crypto_sign/dilithium/dilithium2/clean
 )
 define_sig_alg(dilithium2_clean
   PQCLEAN_DILITHIUM2_CLEAN "${SRC_CLEAN_DILITHIUM2}" "${INC_CLEAN_DILITHIUM2}")
 
 set(
   SRC_CLEAN_DILITHIUM3
-  crypto_sign/dilithium3/clean/ntt.c
-  crypto_sign/dilithium3/clean/packing.c
-  crypto_sign/dilithium3/clean/poly.c
-  crypto_sign/dilithium3/clean/polyvec.c
-  crypto_sign/dilithium3/clean/reduce.c
-  crypto_sign/dilithium3/clean/rounding.c
-  crypto_sign/dilithium3/clean/sign.c
-  crypto_sign/dilithium3/clean/symmetric-shake.c
+  crypto_sign/dilithium/dilithium3/clean/ntt.c
+  crypto_sign/dilithium/dilithium3/clean/packing.c
+  crypto_sign/dilithium/dilithium3/clean/poly.c
+  crypto_sign/dilithium/dilithium3/clean/polyvec.c
+  crypto_sign/dilithium/dilithium3/clean/reduce.c
+  crypto_sign/dilithium/dilithium3/clean/rounding.c
+  crypto_sign/dilithium/dilithium3/clean/sign.c
+  crypto_sign/dilithium/dilithium3/clean/symmetric-shake.c
 )
 
 set(
   INC_CLEAN_DILITHIUM3
-  crypto_sign/dilithium3/clean
+  crypto_sign/dilithium/dilithium3/clean
 )
 define_sig_alg(dilithium3_clean
   PQCLEAN_DILITHIUM3_CLEAN "${SRC_CLEAN_DILITHIUM3}" "${INC_CLEAN_DILITHIUM3}")
 
 set(
   SRC_CLEAN_DILITHIUM5
-  crypto_sign/dilithium5/clean/ntt.c
-  crypto_sign/dilithium5/clean/packing.c
-  crypto_sign/dilithium5/clean/poly.c
-  crypto_sign/dilithium5/clean/polyvec.c
-  crypto_sign/dilithium5/clean/reduce.c
-  crypto_sign/dilithium5/clean/rounding.c
-  crypto_sign/dilithium5/clean/sign.c
-  crypto_sign/dilithium5/clean/symmetric-shake.c
+  crypto_sign/dilithium/dilithium5/clean/ntt.c
+  crypto_sign/dilithium/dilithium5/clean/packing.c
+  crypto_sign/dilithium/dilithium5/clean/poly.c
+  crypto_sign/dilithium/dilithium5/clean/polyvec.c
+  crypto_sign/dilithium/dilithium5/clean/reduce.c
+  crypto_sign/dilithium/dilithium5/clean/rounding.c
+  crypto_sign/dilithium/dilithium5/clean/sign.c
+  crypto_sign/dilithium/dilithium5/clean/symmetric-shake.c
 )
 
 set(
   INC_CLEAN_DILITHIUM5
-  crypto_sign/dilithium5/clean
+  crypto_sign/dilithium/dilithium5/clean
 )
 
 define_sig_alg(dilithium5_clean
@@ -222,69 +222,69 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -march=haswell")
 
 set(
   SRC_AVX2_DILITHIUM2
-  crypto_sign/dilithium2/avx2/consts.c
-  crypto_sign/dilithium2/avx2/f1600x4.S
-  crypto_sign/dilithium2/avx2/fips202x4.c
-  crypto_sign/dilithium2/avx2/invntt.S
-  crypto_sign/dilithium2/avx2/ntt.S
-  crypto_sign/dilithium2/avx2/packing.c
-  crypto_sign/dilithium2/avx2/pointwise.S
-  crypto_sign/dilithium2/avx2/poly.c
-  crypto_sign/dilithium2/avx2/polyvec.c
-  crypto_sign/dilithium2/avx2/rejsample.c
-  crypto_sign/dilithium2/avx2/rounding.c
-  crypto_sign/dilithium2/avx2/shuffle.S
-  crypto_sign/dilithium2/avx2/sign.c
-  crypto_sign/dilithium2/avx2/symmetric-shake.c)
+  crypto_sign/dilithium/dilithium2/avx2/consts.c
+  crypto_sign/dilithium/dilithium2/avx2/f1600x4.S
+  crypto_sign/dilithium/dilithium2/avx2/fips202x4.c
+  crypto_sign/dilithium/dilithium2/avx2/invntt.S
+  crypto_sign/dilithium/dilithium2/avx2/ntt.S
+  crypto_sign/dilithium/dilithium2/avx2/packing.c
+  crypto_sign/dilithium/dilithium2/avx2/pointwise.S
+  crypto_sign/dilithium/dilithium2/avx2/poly.c
+  crypto_sign/dilithium/dilithium2/avx2/polyvec.c
+  crypto_sign/dilithium/dilithium2/avx2/rejsample.c
+  crypto_sign/dilithium/dilithium2/avx2/rounding.c
+  crypto_sign/dilithium/dilithium2/avx2/shuffle.S
+  crypto_sign/dilithium/dilithium2/avx2/sign.c
+  crypto_sign/dilithium/dilithium2/avx2/symmetric-shake.c)
 set(
   INC_AVX2_DILITHIUM2
-  crypto_sign/dilithium2/avx2
+  crypto_sign/dilithium/dilithium2/avx2
 )
 define_sig_alg(dilithium2_avx2
   PQCLEAN_DILITHIUM2_AVX2 "${SRC_AVX2_DILITHIUM2}" "${INC_AVX2_DILITHIUM2}")
 
 set(
   SRC_AVX2_DILITHIUM3
-  crypto_sign/dilithium3/avx2/consts.c
-  crypto_sign/dilithium3/avx2/f1600x4.S
-  crypto_sign/dilithium3/avx2/fips202x4.c
-  crypto_sign/dilithium3/avx2/invntt.S
-  crypto_sign/dilithium3/avx2/ntt.S
-  crypto_sign/dilithium3/avx2/packing.c
-  crypto_sign/dilithium3/avx2/pointwise.S
-  crypto_sign/dilithium3/avx2/poly.c
-  crypto_sign/dilithium3/avx2/polyvec.c
-  crypto_sign/dilithium3/avx2/rejsample.c
-  crypto_sign/dilithium3/avx2/rounding.c
-  crypto_sign/dilithium3/avx2/shuffle.S
-  crypto_sign/dilithium3/avx2/sign.c
-  crypto_sign/dilithium3/avx2/symmetric-shake.c)
+  crypto_sign/dilithium/dilithium3/avx2/consts.c
+  crypto_sign/dilithium/dilithium3/avx2/f1600x4.S
+  crypto_sign/dilithium/dilithium3/avx2/fips202x4.c
+  crypto_sign/dilithium/dilithium3/avx2/invntt.S
+  crypto_sign/dilithium/dilithium3/avx2/ntt.S
+  crypto_sign/dilithium/dilithium3/avx2/packing.c
+  crypto_sign/dilithium/dilithium3/avx2/pointwise.S
+  crypto_sign/dilithium/dilithium3/avx2/poly.c
+  crypto_sign/dilithium/dilithium3/avx2/polyvec.c
+  crypto_sign/dilithium/dilithium3/avx2/rejsample.c
+  crypto_sign/dilithium/dilithium3/avx2/rounding.c
+  crypto_sign/dilithium/dilithium3/avx2/shuffle.S
+  crypto_sign/dilithium/dilithium3/avx2/sign.c
+  crypto_sign/dilithium/dilithium3/avx2/symmetric-shake.c)
 set(
   INC_AVX2_DILITHIUM3
-  crypto_sign/dilithium3/avx2
+  crypto_sign/dilithium/dilithium3/avx2
 )
 define_sig_alg(dilithium3_avx2
   PQCLEAN_DILITHIUM3_AVX2 "${SRC_AVX2_DILITHIUM3}" "${INC_AVX2_DILITHIUM3}")
 
 set(
   SRC_AVX2_DILITHIUM5
-  crypto_sign/dilithium5/avx2/consts.c
-  crypto_sign/dilithium5/avx2/f1600x4.S
-  crypto_sign/dilithium5/avx2/fips202x4.c
-  crypto_sign/dilithium5/avx2/invntt.S
-  crypto_sign/dilithium5/avx2/ntt.S
-  crypto_sign/dilithium5/avx2/packing.c
-  crypto_sign/dilithium5/avx2/pointwise.S
-  crypto_sign/dilithium5/avx2/poly.c
-  crypto_sign/dilithium5/avx2/polyvec.c
-  crypto_sign/dilithium5/avx2/rejsample.c
-  crypto_sign/dilithium5/avx2/rounding.c
-  crypto_sign/dilithium5/avx2/shuffle.S
-  crypto_sign/dilithium5/avx2/sign.c
-  crypto_sign/dilithium5/avx2/symmetric-shake.c)
+  crypto_sign/dilithium/dilithium5/avx2/consts.c
+  crypto_sign/dilithium/dilithium5/avx2/f1600x4.S
+  crypto_sign/dilithium/dilithium5/avx2/fips202x4.c
+  crypto_sign/dilithium/dilithium5/avx2/invntt.S
+  crypto_sign/dilithium/dilithium5/avx2/ntt.S
+  crypto_sign/dilithium/dilithium5/avx2/packing.c
+  crypto_sign/dilithium/dilithium5/avx2/pointwise.S
+  crypto_sign/dilithium/dilithium5/avx2/poly.c
+  crypto_sign/dilithium/dilithium5/avx2/polyvec.c
+  crypto_sign/dilithium/dilithium5/avx2/rejsample.c
+  crypto_sign/dilithium/dilithium5/avx2/rounding.c
+  crypto_sign/dilithium/dilithium5/avx2/shuffle.S
+  crypto_sign/dilithium/dilithium5/avx2/sign.c
+  crypto_sign/dilithium/dilithium5/avx2/symmetric-shake.c)
 set(
   INC_AVX2_DILITHIUM5
-  crypto_sign/dilithium5/avx2
+  crypto_sign/dilithium/dilithium5/avx2
 )
 define_sig_alg(dilithium5_avx2
   PQCLEAN_DILITHIUM5_AVX2 "${SRC_AVX2_DILITHIUM5}" "${INC_AVX2_DILITHIUM5}")
