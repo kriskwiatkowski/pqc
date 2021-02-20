@@ -1,0 +1,31 @@
+name: Dilithium3
+type: signature
+claimed-nist-level: 3
+length-public-key: 1952
+length-secret-key: 4016
+length-signature: 3293
+nistkat-sha256: d0d4bb6945e14206d17b52f8a395d5a750ec8a73f2ea06b9f1cd226d225a9bfb
+testvectors-sha256: 531b85dbecaeaf135ad9004c8e2d5ce163b8e72d9c3a537e15bd383cf5f38aa4
+principal-submitters:
+  - Vadim Lyubashevsky
+auxiliary-submitters:
+  - Léo Ducas
+  - Eike Kiltz
+  - Tancrède Lepoint
+  - Peter Schwabe
+  - Gregor Seiler
+  - Damien Stehlé
+implementations:
+    - name: clean
+      version: https://github.com/pq-crystals/dilithium/commit/1e63a1e880401166f105ab44ec67464c9714a315 via https://github.com/jschanck/package-pqclean/tree/b158a891/dilithium
+    - name: avx2
+      version: https://github.com/pq-crystals/dilithium/commit/1e63a1e880401166f105ab44ec67464c9714a315 via https://github.com/jschanck/package-pqclean/tree/b158a891/dilithium
+      supported_platforms:
+        - architecture: x86_64
+          operating_systems:
+              - Linux
+              - Darwin
+          required_flags:
+              - aes
+              - avx2
+              - popcnt
