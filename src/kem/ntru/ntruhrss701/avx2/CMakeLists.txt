@@ -1,0 +1,33 @@
+set(
+  SRC_AVX2_NTRUHRSS701
+  cmov.c
+  kem.c
+  owcpa.c
+  pack3.c
+  packq.c
+  poly.c
+  poly_lift.s
+  poly_mod_3_Phi_n.s
+  poly_mod_q_Phi_n.s
+  poly_r2_inv.c
+  poly_r2_mul.s
+  poly_rq_mul.s
+  poly_rq_to_s3.s
+  poly_s3_inv.c
+  sample.c
+  sample_iid.c
+  square_12_701_shufbytes.s
+  square_15_701_shufbytes.s
+  square_168_701_shufbytes.s
+  square_1_701_patience.s
+  square_27_701_shufbytes.s
+  square_336_701_shufbytes.s
+  square_3_701_patience.s
+  square_42_701_shufbytes.s
+  square_6_701_patience.s
+  square_84_701_shufbytes.s
+  vec32_sample_iid.s
+)
+
+define_kem_alg(ntruhrss701_avx2
+  PQCLEAN_NTRUHRSS701_AVX2 "${SRC_AVX2_NTRUHRSS701}" "${CMAKE_CURRENT_SOURCE_DIR}")

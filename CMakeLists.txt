@@ -66,6 +66,8 @@ if(CLANG)
     -Wmissing-variable-declarations")
 endif()
 
+include(.cmake/common.mk)
+
 # Control Debug/Release mode
 if(CMAKE_BUILD_TYPE_LOWER STREQUAL "debug")
   set(C_CXX_FLAGS "${C_CXX_FLAGS} -g3 -O0 -Wno-unused")
@@ -75,6 +77,7 @@ endif()
 
 include_directories(
   inc
+  src/common/
   src
 )
 
@@ -82,340 +85,124 @@ include_directories(
 set(CMAKE_C_FLAGS "${C_CXX_FLAGS} -D${ARCH}")
 set(CMAKE_CXX_FLAGS "${C_CXX_FLAGS} -D${ARCH}")
 
-# Common function for defining algorithm component
-function(define_crypto_alg name namespace src inc test_src)
-  add_library(
-    pqclean_${name}
-    OBJECT
-    ${src}
-  )
-
-  target_include_directories(
-    pqclean_${name} PRIVATE
-    common
-    ${inc}
-  )
-
-  target_compile_definitions(
-    pqclean_${name} PRIVATE
-    -DPQCLEAN_NAMESPACE=${namespace}
-  )
-
-  add_library(
-    pqclean_test_${name}
-    OBJECT
-    ${test_src}
-  )
-
-  target_compile_definitions(
-    pqclean_test_${name} PRIVATE
-    -DPQCLEAN_NAMESPACE=${namespace}
-  )
-
-  target_include_directories(
-    pqclean_test_${name} PRIVATE
-    common
-    ${inc}
-  )
-
-  add_executable(
-    test_runner_${name}
-  )
-  target_link_libraries(
-    test_runner_${name}
-
-    common
-    pqclean_${name}
-    pqclean_test_${name}
-  )
-endfunction()
-
-function(define_kem_alg name namespace src inc)
-  define_crypto_alg(${name} ${namespace} "${src}" "${inc}" test/crypto_kem/testvectors.c)
-endfunction()
-function(define_sig_alg name namespace src inc)
-  define_crypto_alg(${name} ${namespace} "${src}" "${inc}" test/crypto_sign/testvectors.c)
-endfunction()
-
 # Define sources of the components
-set(
-  SRC_CLEAN_DILITHIUM2
-  crypto_sign/dilithium/dilithium2/clean/ntt.c
-  crypto_sign/dilithium/dilithium2/clean/packing.c
-  crypto_sign/dilithium/dilithium2/clean/poly.c
-  crypto_sign/dilithium/dilithium2/clean/polyvec.c
-  crypto_sign/dilithium/dilithium2/clean/reduce.c
-  crypto_sign/dilithium/dilithium2/clean/rounding.c
-  crypto_sign/dilithium/dilithium2/clean/sign.c
-  crypto_sign/dilithium/dilithium2/clean/symmetric-shake.c
-)
 
-set(
-  INC_CLEAN_DILITHIUM2
-  crypto_sign/dilithium/dilithium2/clean
-)
-define_sig_alg(dilithium2_clean
-  PQCLEAN_DILITHIUM2_CLEAN "${SRC_CLEAN_DILITHIUM2}" "${INC_CLEAN_DILITHIUM2}")
-
-set(
-  SRC_CLEAN_DILITHIUM3
-  crypto_sign/dilithium/dilithium3/clean/ntt.c
-  crypto_sign/dilithium/dilithium3/clean/packing.c
-  crypto_sign/dilithium/dilithium3/clean/poly.c
-  crypto_sign/dilithium/dilithium3/clean/polyvec.c
-  crypto_sign/dilithium/dilithium3/clean/reduce.c
-  crypto_sign/dilithium/dilithium3/clean/rounding.c
-  crypto_sign/dilithium/dilithium3/clean/sign.c
-  crypto_sign/dilithium/dilithium3/clean/symmetric-shake.c
-)
-
-set(
-  INC_CLEAN_DILITHIUM3
-  crypto_sign/dilithium/dilithium3/clean
-)
-define_sig_alg(dilithium3_clean
-  PQCLEAN_DILITHIUM3_CLEAN "${SRC_CLEAN_DILITHIUM3}" "${INC_CLEAN_DILITHIUM3}")
-
-set(
-  SRC_CLEAN_DILITHIUM5
-  crypto_sign/dilithium/dilithium5/clean/ntt.c
-  crypto_sign/dilithium/dilithium5/clean/packing.c
-  crypto_sign/dilithium/dilithium5/clean/poly.c
-  crypto_sign/dilithium/dilithium5/clean/polyvec.c
-  crypto_sign/dilithium/dilithium5/clean/reduce.c
-  crypto_sign/dilithium/dilithium5/clean/rounding.c
-  crypto_sign/dilithium/dilithium5/clean/sign.c
-  crypto_sign/dilithium/dilithium5/clean/symmetric-shake.c
-)
-
-set(
-  INC_CLEAN_DILITHIUM5
-  crypto_sign/dilithium/dilithium5/clean
-)
-
-define_sig_alg(dilithium5_clean
-  PQCLEAN_DILITHIUM5_CLEAN "${SRC_CLEAN_DILITHIUM5}" "${INC_CLEAN_DILITHIUM5}")
-
-set(
-  SRC_CLEAN_KYBER512
-  crypto_kem/kyber/kyber512/clean/cbd.c
-  crypto_kem/kyber/kyber512/clean/indcpa.c
-  crypto_kem/kyber/kyber512/clean/kem.c
-  crypto_kem/kyber/kyber512/clean/ntt.c
-  crypto_kem/kyber/kyber512/clean/poly.c
-  crypto_kem/kyber/kyber512/clean/polyvec.c
-  crypto_kem/kyber/kyber512/clean/reduce.c
-  crypto_kem/kyber/kyber512/clean/symmetric-shake.c
-  crypto_kem/kyber/kyber512/clean/verify.c
-)
-set(
-  INC_CLEAN_KYBER512
-  crypto_kem/kyber/kyber512/clean
-)
-define_kem_alg(kyber512_clean
-  PQCLEAN_KYBER512_CLEAN "${SRC_CLEAN_KYBER512}" "${INC_CLEAN_KYBER512}")
-
-set(
-  SRC_CLEAN_KYBER768
-  crypto_kem/kyber/kyber768/clean/cbd.c
-  crypto_kem/kyber/kyber768/clean/indcpa.c
-  crypto_kem/kyber/kyber768/clean/kem.c
-  crypto_kem/kyber/kyber768/clean/ntt.c
-  crypto_kem/kyber/kyber768/clean/poly.c
-  crypto_kem/kyber/kyber768/clean/polyvec.c
-  crypto_kem/kyber/kyber768/clean/reduce.c
-  crypto_kem/kyber/kyber768/clean/symmetric-shake.c
-  crypto_kem/kyber/kyber768/clean/verify.c
-)
-set(
-  INC_CLEAN_KYBER768
-  crypto_kem/kyber/kyber768/clean
-)
-define_kem_alg(kyber768_clean
-  PQCLEAN_KYBER768_CLEAN "${SRC_CLEAN_KYBER768}" "${INC_CLEAN_KYBER768}")
-
-set(
-  SRC_CLEAN_KYBER1024
-  crypto_kem/kyber/kyber1024/clean/cbd.c
-  crypto_kem/kyber/kyber1024/clean/indcpa.c
-  crypto_kem/kyber/kyber1024/clean/kem.c
-  crypto_kem/kyber/kyber1024/clean/ntt.c
-  crypto_kem/kyber/kyber1024/clean/poly.c
-  crypto_kem/kyber/kyber1024/clean/polyvec.c
-  crypto_kem/kyber/kyber1024/clean/reduce.c
-  crypto_kem/kyber/kyber1024/clean/symmetric-shake.c
-  crypto_kem/kyber/kyber1024/clean/verify.c
-)
-set(
-  INC_CLEAN_KYBER1024
-  crypto_kem/kyber/kyber1024/clean
-)
-define_kem_alg(kyber1024_clean
-  PQCLEAN_KYBER1024_CLEAN "${SRC_CLEAN_KYBER1024}" "${INC_CLEAN_KYBER1024}")
+add_subdirectory(src/sign/dilithium/dilithium2/clean)
+add_subdirectory(src/sign/dilithium/dilithium3/clean)
+add_subdirectory(src/sign/dilithium/dilithium5/clean)
+add_subdirectory(src/sign/falcon/falcon-1024/clean)
+add_subdirectory(src/sign/falcon/falcon-512/clean)
+add_subdirectory(src/sign/rainbow/rainbowV-classic/clean)
+add_subdirectory(src/sign/rainbow/rainbowI-classic/clean)
+add_subdirectory(src/sign/rainbow/rainbowIII-classic/clean)
+add_subdirectory(src/sign/sphincs/sphincs-sha256-192f-simple/clean)
+add_subdirectory(src/sign/sphincs/sphincs-shake256-256f-simple/clean)
+add_subdirectory(src/sign/sphincs/sphincs-shake256-192f-robust/clean)
+add_subdirectory(src/sign/sphincs/sphincs-shake256-128f-simple/clean)
+add_subdirectory(src/sign/sphincs/sphincs-shake256-256s-simple/clean)
+add_subdirectory(src/sign/sphincs/sphincs-shake256-128s-simple/clean)
+add_subdirectory(src/sign/sphincs/sphincs-sha256-128f-robust/clean)
+add_subdirectory(src/sign/sphincs/sphincs-sha256-192s-robust/clean)
+add_subdirectory(src/sign/sphincs/sphincs-shake256-128f-robust/clean)
+add_subdirectory(src/sign/sphincs/sphincs-shake256-128s-robust/clean)
+add_subdirectory(src/sign/sphincs/sphincs-shake256-256s-robust/clean)
+add_subdirectory(src/sign/sphincs/sphincs-sha256-192s-simple/clean)
+add_subdirectory(src/sign/sphincs/sphincs-shake256-192s-simple/clean)
+add_subdirectory(src/sign/sphincs/sphincs-shake256-192s-robust/clean)
+add_subdirectory(src/sign/sphincs/sphincs-shake256-192f-simple/clean)
+add_subdirectory(src/sign/sphincs/sphincs-sha256-256s-simple/clean)
+add_subdirectory(src/sign/sphincs/sphincs-sha256-128s-simple/clean)
+add_subdirectory(src/sign/sphincs/sphincs-shake256-256f-robust/clean)
+add_subdirectory(src/sign/sphincs/sphincs-sha256-256f-robust/clean)
+add_subdirectory(src/sign/sphincs/sphincs-sha256-256f-simple/clean)
+add_subdirectory(src/sign/sphincs/sphincs-sha256-256s-robust/clean)
+add_subdirectory(src/sign/sphincs/sphincs-sha256-128s-robust/clean)
+add_subdirectory(src/sign/sphincs/sphincs-sha256-128f-simple/clean)
+add_subdirectory(src/sign/sphincs/sphincs-sha256-192f-robust/clean)
 
 # AVX2 targets
 if(${ARCH} STREQUAL "ARCH_x86_64")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -march=native -mtune=native")
+add_subdirectory(src/sign/falcon/falcon-512/avx2)
+add_subdirectory(src/sign/falcon/falcon-1024/avx2)
+add_subdirectory(src/sign/dilithium/dilithium2/avx2)
+add_subdirectory(src/sign/dilithium/dilithium3/avx2)
+add_subdirectory(src/sign/dilithium/dilithium5/avx2)
+add_subdirectory(src/sign/sphincs/sphincs-shake256-128s-simple/avx2)
+add_subdirectory(src/sign/sphincs/sphincs-shake256-128f-robust/avx2)
+add_subdirectory(src/sign/sphincs/sphincs-shake256-128s-robust/avx2)
+add_subdirectory(src/sign/sphincs/sphincs-shake256-128f-simple/avx2)
+add_subdirectory(src/sign/sphincs/sphincs-shake256-192s-simple/avx2)
+add_subdirectory(src/sign/sphincs/sphincs-shake256-192f-robust/avx2)
+add_subdirectory(src/sign/sphincs/sphincs-shake256-192s-robust/avx2)
+add_subdirectory(src/sign/sphincs/sphincs-shake256-192f-simple/avx2)
+add_subdirectory(src/sign/sphincs/sphincs-shake256-256f-robust/avx2)
+add_subdirectory(src/sign/sphincs/sphincs-shake256-256f-simple/avx2)
+add_subdirectory(src/sign/sphincs/sphincs-shake256-256s-simple/avx2)
+add_subdirectory(src/sign/sphincs/sphincs-shake256-256s-robust/avx2)
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -march=haswell")
+add_subdirectory(src/sign/sphincs/sphincs-sha256-128f-robust/avx2)
+add_subdirectory(src/sign/sphincs/sphincs-sha256-128s-simple/avx2)
+add_subdirectory(src/sign/sphincs/sphincs-sha256-128s-robust/avx2)
+add_subdirectory(src/sign/sphincs/sphincs-sha256-128f-simple/avx2)
+add_subdirectory(src/sign/sphincs/sphincs-sha256-192s-simple/avx2)
+add_subdirectory(src/sign/sphincs/sphincs-sha256-192f-simple/avx2)
+add_subdirectory(src/sign/sphincs/sphincs-sha256-192s-robust/avx2)
+add_subdirectory(src/sign/sphincs/sphincs-sha256-192f-robust/avx2)
 
-set(
-  SRC_AVX2_DILITHIUM2
-  crypto_sign/dilithium/dilithium2/avx2/consts.c
-  crypto_sign/dilithium/dilithium2/avx2/f1600x4.S
-  crypto_sign/dilithium/dilithium2/avx2/fips202x4.c
-  crypto_sign/dilithium/dilithium2/avx2/invntt.S
-  crypto_sign/dilithium/dilithium2/avx2/ntt.S
-  crypto_sign/dilithium/dilithium2/avx2/packing.c
-  crypto_sign/dilithium/dilithium2/avx2/pointwise.S
-  crypto_sign/dilithium/dilithium2/avx2/poly.c
-  crypto_sign/dilithium/dilithium2/avx2/polyvec.c
-  crypto_sign/dilithium/dilithium2/avx2/rejsample.c
-  crypto_sign/dilithium/dilithium2/avx2/rounding.c
-  crypto_sign/dilithium/dilithium2/avx2/shuffle.S
-  crypto_sign/dilithium/dilithium2/avx2/sign.c
-  crypto_sign/dilithium/dilithium2/avx2/symmetric-shake.c)
-set(
-  INC_AVX2_DILITHIUM2
-  crypto_sign/dilithium/dilithium2/avx2
-)
-define_sig_alg(dilithium2_avx2
-  PQCLEAN_DILITHIUM2_AVX2 "${SRC_AVX2_DILITHIUM2}" "${INC_AVX2_DILITHIUM2}")
-
-set(
-  SRC_AVX2_DILITHIUM3
-  crypto_sign/dilithium/dilithium3/avx2/consts.c
-  crypto_sign/dilithium/dilithium3/avx2/f1600x4.S
-  crypto_sign/dilithium/dilithium3/avx2/fips202x4.c
-  crypto_sign/dilithium/dilithium3/avx2/invntt.S
-  crypto_sign/dilithium/dilithium3/avx2/ntt.S
-  crypto_sign/dilithium/dilithium3/avx2/packing.c
-  crypto_sign/dilithium/dilithium3/avx2/pointwise.S
-  crypto_sign/dilithium/dilithium3/avx2/poly.c
-  crypto_sign/dilithium/dilithium3/avx2/polyvec.c
-  crypto_sign/dilithium/dilithium3/avx2/rejsample.c
-  crypto_sign/dilithium/dilithium3/avx2/rounding.c
-  crypto_sign/dilithium/dilithium3/avx2/shuffle.S
-  crypto_sign/dilithium/dilithium3/avx2/sign.c
-  crypto_sign/dilithium/dilithium3/avx2/symmetric-shake.c)
-set(
-  INC_AVX2_DILITHIUM3
-  crypto_sign/dilithium/dilithium3/avx2
-)
-define_sig_alg(dilithium3_avx2
-  PQCLEAN_DILITHIUM3_AVX2 "${SRC_AVX2_DILITHIUM3}" "${INC_AVX2_DILITHIUM3}")
-
-set(
-  SRC_AVX2_DILITHIUM5
-  crypto_sign/dilithium/dilithium5/avx2/consts.c
-  crypto_sign/dilithium/dilithium5/avx2/f1600x4.S
-  crypto_sign/dilithium/dilithium5/avx2/fips202x4.c
-  crypto_sign/dilithium/dilithium5/avx2/invntt.S
-  crypto_sign/dilithium/dilithium5/avx2/ntt.S
-  crypto_sign/dilithium/dilithium5/avx2/packing.c
-  crypto_sign/dilithium/dilithium5/avx2/pointwise.S
-  crypto_sign/dilithium/dilithium5/avx2/poly.c
-  crypto_sign/dilithium/dilithium5/avx2/polyvec.c
-  crypto_sign/dilithium/dilithium5/avx2/rejsample.c
-  crypto_sign/dilithium/dilithium5/avx2/rounding.c
-  crypto_sign/dilithium/dilithium5/avx2/shuffle.S
-  crypto_sign/dilithium/dilithium5/avx2/sign.c
-  crypto_sign/dilithium/dilithium5/avx2/symmetric-shake.c)
-set(
-  INC_AVX2_DILITHIUM5
-  crypto_sign/dilithium/dilithium5/avx2
-)
-define_sig_alg(dilithium5_avx2
-  PQCLEAN_DILITHIUM5_AVX2 "${SRC_AVX2_DILITHIUM5}" "${INC_AVX2_DILITHIUM5}")
-
-set(
-  SRC_AVX2_KYBER512
-  crypto_kem/kyber/kyber512/avx2/cbd.c
-  crypto_kem/kyber/kyber512/avx2/consts.c
-  crypto_kem/kyber/kyber512/avx2/fips202x4.c
-  crypto_kem/kyber/kyber512/avx2/indcpa.c
-  crypto_kem/kyber/kyber512/avx2/kem.c
-  crypto_kem/kyber/kyber512/avx2/poly.c
-  crypto_kem/kyber/kyber512/avx2/polyvec.c
-  crypto_kem/kyber/kyber512/avx2/rejsample.c
-  crypto_kem/kyber/kyber512/avx2/symmetric-shake.c
-  crypto_kem/kyber/kyber512/avx2/verify.c
-  crypto_kem/kyber/kyber512/avx2/basemul.S
-  crypto_kem/kyber/kyber512/avx2/fq.S
-  crypto_kem/kyber/kyber512/avx2/invntt.S
-  crypto_kem/kyber/kyber512/avx2/ntt.S
-  crypto_kem/kyber/kyber512/avx2/shuffle.S
-)
-set(
-  INC_AVX2_KYBER512
-  crypto_kem/kyber/kyber512/avx2
-)
-define_kem_alg(kyber512_avx2
-  PQCLEAN_KYBER512_AVX2 "${SRC_AVX2_KYBER512}" "${INC_AVX2_KYBER512}")
-
-set(
-  SRC_AVX2_KYBER768
-  crypto_kem/kyber/kyber768/avx2/cbd.c
-  crypto_kem/kyber/kyber768/avx2/consts.c
-  crypto_kem/kyber/kyber768/avx2/fips202x4.c
-  crypto_kem/kyber/kyber768/avx2/indcpa.c
-  crypto_kem/kyber/kyber768/avx2/kem.c
-  crypto_kem/kyber/kyber768/avx2/poly.c
-  crypto_kem/kyber/kyber768/avx2/polyvec.c
-  crypto_kem/kyber/kyber768/avx2/rejsample.c
-  crypto_kem/kyber/kyber768/avx2/symmetric-shake.c
-  crypto_kem/kyber/kyber768/avx2/verify.c
-  crypto_kem/kyber/kyber768/avx2/basemul.S
-  crypto_kem/kyber/kyber768/avx2/fq.S
-  crypto_kem/kyber/kyber768/avx2/invntt.S
-  crypto_kem/kyber/kyber768/avx2/ntt.S
-  crypto_kem/kyber/kyber768/avx2/shuffle.S
-)
-set(
-  INC_AVX2_KYBER768
-  crypto_kem/kyber/kyber768/avx2
-)
-define_kem_alg(kyber768_avx2
-  PQCLEAN_KYBER768_AVX2 "${SRC_AVX2_KYBER768}" "${INC_AVX2_KYBER768}")
-
-set(
-  SRC_AVX2_KYBER1024
-  crypto_kem/kyber/kyber1024/avx2/cbd.c
-  crypto_kem/kyber/kyber1024/avx2/consts.c
-  crypto_kem/kyber/kyber1024/avx2/fips202x4.c
-  crypto_kem/kyber/kyber1024/avx2/indcpa.c
-  crypto_kem/kyber/kyber1024/avx2/kem.c
-  crypto_kem/kyber/kyber1024/avx2/poly.c
-  crypto_kem/kyber/kyber1024/avx2/polyvec.c
-  crypto_kem/kyber/kyber1024/avx2/rejsample.c
-  crypto_kem/kyber/kyber1024/avx2/symmetric-shake.c
-  crypto_kem/kyber/kyber1024/avx2/verify.c
-  crypto_kem/kyber/kyber1024/avx2/basemul.S
-  crypto_kem/kyber/kyber1024/avx2/fq.S
-  crypto_kem/kyber/kyber1024/avx2/invntt.S
-  crypto_kem/kyber/kyber1024/avx2/ntt.S
-  crypto_kem/kyber/kyber1024/avx2/shuffle.S
-)
-set(
-  INC_AVX2_KYBER1024
-  crypto_kem/kyber/kyber1024/avx2
-)
-define_kem_alg(kyber1024_avx2
-  PQCLEAN_KYBER1024_AVX2 "${SRC_AVX2_KYBER1024}" "${INC_AVX2_KYBER1024}")
-
+add_subdirectory(src/sign/sphincs/sphincs-sha256-256s-simple/avx2)
+add_subdirectory(src/sign/sphincs/sphincs-sha256-256f-robust/avx2)
+add_subdirectory(src/sign/sphincs/sphincs-sha256-256f-simple/avx2)
+add_subdirectory(src/sign/sphincs/sphincs-sha256-256s-robust/avx2)
 endif()
 
 # The rest of the library
 set(SRC_COMMON_GENERIC
-  common/fips202.c
-  common/sp800-185.c
-  common/randombytes.c
+  src/common/aes.c
+  src/common/fips202.c
+  src/common/sp800-185.c
+  src/common/randombytes.c
+  src/common/sha2.c
 )
 
 if(${ARCH} STREQUAL "ARCH_x86_64")
 set(SRC_COMMON_AVX2
-  common/keccak4x/KeccakP-1600-times4-SIMD256.c
+  src/common/keccak4x/KeccakP-1600-times4-SIMD256.c
 )
+
+# KEM - AVX2
+add_subdirectory(src/kem/kyber/kyber512/avx2)
+add_subdirectory(src/kem/kyber/kyber768/avx2)
+add_subdirectory(src/kem/kyber/kyber1024/avx2)
+add_subdirectory(src/kem/saber/lightsaber/avx2)
+add_subdirectory(src/kem/saber/firesaber/avx2)
+add_subdirectory(src/kem/saber/saber/avx2)
+add_subdirectory(src/kem/ntru/ntruhps4096821/avx2)
+add_subdirectory(src/kem/ntru/ntruhps2048509/avx2)
+add_subdirectory(src/kem/ntru/ntruhrss701/avx2)
+add_subdirectory(src/kem/ntru/ntruhps2048677/avx2)
+add_subdirectory(src/kem/ntru_prime/ntrulpr761/avx2)
+add_subdirectory(src/kem/ntru_prime/ntrulpr653/avx2)
+add_subdirectory(src/kem/ntru_prime/ntrulpr857/avx2)
 endif()
+
+# KEM - clean
+add_subdirectory(src/kem/kyber/kyber512/clean)
+add_subdirectory(src/kem/kyber/kyber768/clean)
+add_subdirectory(src/kem/kyber/kyber1024/clean)
+add_subdirectory(src/kem/saber/lightsaber/clean)
+add_subdirectory(src/kem/saber/firesaber/clean)
+add_subdirectory(src/kem/saber/saber/clean)
+add_subdirectory(src/kem/frodo/frodokem640shake/clean)
+add_subdirectory(src/kem/frodo/frodokem976shake/clean)
+add_subdirectory(src/kem/frodo/frodokem1344shake/clean)
+add_subdirectory(src/kem/ntru/ntruhps4096821/clean)
+add_subdirectory(src/kem/ntru/ntruhps2048509/clean)
+add_subdirectory(src/kem/ntru/ntruhrss701/clean)
+add_subdirectory(src/kem/ntru/ntruhps2048677/clean)
+add_subdirectory(src/kem/ntru_prime/ntrulpr761/clean)
+add_subdirectory(src/kem/ntru_prime/ntrulpr653/clean)
+add_subdirectory(src/kem/ntru_prime/ntrulpr857/clean)
 
 add_library(
   common
@@ -449,16 +236,3 @@ target_link_libraries(
   pqclean_dilithium3_clean
   pqclean_dilithium5_clean
 )
-
-# TODO: this requires changes to testvectors.c
-# add_executable(
-#   test
-# )
-#
-# target_link_libraries(
-#   test
-#   pqclean_s
-#   pqclean_test_dilithium2_clean
-#   pqclean_test_dilithium3_clean
-#   pqclean_test_dilithium5_clean
-# )

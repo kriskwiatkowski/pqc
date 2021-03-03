@@ -1,0 +1,19 @@
+set(
+  SRC_AVX2_SPHINCS_SHA256_192S_SIMPLE
+  address.c
+  fors.c
+  hash_sha256.c
+  sha256.c
+  sign.c
+  thash_sha256_simple.c
+  utils.c
+  wots.c
+  hash_sha256x8.c
+  sha256avx.c
+  sha256x8.c
+  thash_sha256_simplex8.c
+  utilsx8.c
+)
+define_sig_alg(
+  sphincs_sha256_192s_simple_avx2
+  PQCLEAN_SPHINCSSHA256192SSIMPLE_AVX2 "${SRC_AVX2_SPHINCS_SHA256_192S_SIMPLE}" "${CMAKE_CURRENT_SOURCE_DIR}")

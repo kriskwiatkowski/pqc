@@ -1,0 +1,34 @@
+set(
+  SRC_AVX2_NTRUHPS2048677
+  cmov.c
+  crypto_sort_int32.c
+  kem.c
+  owcpa.c
+  pack3.c
+  packq.c
+  poly.c
+  poly_lift.c
+  poly_mod_3_Phi_n.s
+  poly_mod_q_Phi_n.s
+  poly_r2_inv.c
+  poly_r2_mul.s
+  poly_rq_mul.s
+  poly_rq_to_s3.s
+  poly_s3_inv.c
+  sample.c
+  sample_iid.c
+  square_10_677_shufbytes.s
+  square_1_677_patience.s
+  square_168_677_shufbytes.s
+  square_21_677_shufbytes.s
+  square_2_677_patience.s
+  square_336_677_shufbytes.s
+  square_3_677_patience.s
+  square_42_677_shufbytes.s
+  square_5_677_patience.s
+  square_84_677_shufbytes.s
+  vec32_sample_iid.s
+)
+
+define_kem_alg(ntruhps2048677_avx2
+  PQCLEAN_NTRUHPS2048677_AVX2 "${SRC_AVX2_NTRUHPS2048677}" "${CMAKE_CURRENT_SOURCE_DIR}")
