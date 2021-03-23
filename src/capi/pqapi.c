@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include "pqapi.h"
 #include "kem/kyber/kyber512/clean/api.h"
 
 // helpers
@@ -29,25 +30,6 @@
 #define PQC_CT_BSZ(x) GLUE(A(x), CRYPTO_CIPHERTEXTBYTES)
 #define PQC_NAME(x) GLUE(A(x), CRYPTO_ALGNAME)
 
-
-// Parameters of the scheme
-typedef struct params_t {
-    const uint8_t alg_id;
-    const char* alg_name;
-    const uint32_t prv_key_bsz;
-    const uint32_t pub_key_bsz;
-} params_t;
-
-typedef struct kem_params_t {
-    params_t p;
-    const uint32_t ciphertext_bsz;
-    const uint32_t secret_bsz;
-} kem_params_t;
-
-typedef struct sig_params_t {
-    params_t p;
-    const uint32_t sign_bsz;
-} sig_params_t;
 
 // Macro magic needed to initialize parameters for a scheme
 #define REG_KEM(ID)                         \

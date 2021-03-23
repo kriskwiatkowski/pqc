@@ -233,3 +233,29 @@ target_link_libraries(
   pqclean_dilithium3_clean
   pqclean_dilithium5_clean
 )
+
+add_executable(
+  mytest
+
+  test/mytest.cpp
+)
+
+target_link_libraries(
+  mytest
+  gtest
+  pqclean_s
+  gtest_main)
+
+target_include_directories(
+  mytest PRIVATE
+
+  ${CMAKE_SOURCE_DIR})
+
+
+install(TARGETS pqclean pqclean_s
+  PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ GROUP_WRITE WORLD_READ WORLD_WRITE
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib)
+install(FILES
+  ${QRS_PUBLIC_INC}
+  DESTINATION include/pqclean)
