@@ -86,7 +86,6 @@ set(CMAKE_C_FLAGS "${C_CXX_FLAGS} -D${ARCH}")
 set(CMAKE_CXX_FLAGS "${C_CXX_FLAGS} -D${ARCH}")
 
 # Define sources of the components
-
 add_subdirectory(src/sign/dilithium/dilithium2/clean)
 add_subdirectory(src/sign/dilithium/dilithium3/clean)
 add_subdirectory(src/sign/dilithium/dilithium5/clean)
@@ -119,10 +118,33 @@ add_subdirectory(src/sign/sphincs/sphincs-sha256-256s-robust/clean)
 add_subdirectory(src/sign/sphincs/sphincs-sha256-128s-robust/clean)
 add_subdirectory(src/sign/sphincs/sphincs-sha256-128f-simple/clean)
 add_subdirectory(src/sign/sphincs/sphincs-sha256-192f-robust/clean)
+add_subdirectory(src/kem/kyber/kyber512/clean)
+add_subdirectory(src/kem/kyber/kyber768/clean)
+add_subdirectory(src/kem/kyber/kyber1024/clean)
+add_subdirectory(src/kem/saber/lightsaber/clean)
+add_subdirectory(src/kem/saber/firesaber/clean)
+add_subdirectory(src/kem/saber/saber/clean)
+add_subdirectory(src/kem/frodo/frodokem640shake/clean)
+add_subdirectory(src/kem/frodo/frodokem976shake/clean)
+add_subdirectory(src/kem/frodo/frodokem1344shake/clean)
+add_subdirectory(src/kem/ntru/ntruhps4096821/clean)
+add_subdirectory(src/kem/ntru/ntruhps2048509/clean)
+add_subdirectory(src/kem/ntru/ntruhrss701/clean)
+add_subdirectory(src/kem/ntru/ntruhps2048677/clean)
+add_subdirectory(src/kem/ntru_prime/ntrulpr761/clean)
+add_subdirectory(src/kem/ntru_prime/ntrulpr653/clean)
+add_subdirectory(src/kem/ntru_prime/ntrulpr857/clean)
 
-# AVX2 targets
+# Hardware optimized targets
 if(${ARCH} STREQUAL "ARCH_x86_64")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -march=native -mtune=native")
+
+set(CMAKE_C_FLAGS
+  "${CMAKE_C_FLAGS} -march=native -mtune=native")
+set(SRC_COMMON_AVX2
+  src/common/keccak4x/KeccakP-1600-times4-SIMD256.c
+)
+
+# Sign
 add_subdirectory(src/sign/falcon/falcon-512/avx2)
 add_subdirectory(src/sign/falcon/falcon-1024/avx2)
 add_subdirectory(src/sign/dilithium/dilithium2/avx2)
@@ -140,7 +162,6 @@ add_subdirectory(src/sign/sphincs/sphincs-shake256-256f-robust/avx2)
 add_subdirectory(src/sign/sphincs/sphincs-shake256-256f-simple/avx2)
 add_subdirectory(src/sign/sphincs/sphincs-shake256-256s-simple/avx2)
 add_subdirectory(src/sign/sphincs/sphincs-shake256-256s-robust/avx2)
-
 add_subdirectory(src/sign/sphincs/sphincs-sha256-128f-robust/avx2)
 add_subdirectory(src/sign/sphincs/sphincs-sha256-128s-simple/avx2)
 add_subdirectory(src/sign/sphincs/sphincs-sha256-128s-robust/avx2)
@@ -149,28 +170,12 @@ add_subdirectory(src/sign/sphincs/sphincs-sha256-192s-simple/avx2)
 add_subdirectory(src/sign/sphincs/sphincs-sha256-192f-simple/avx2)
 add_subdirectory(src/sign/sphincs/sphincs-sha256-192s-robust/avx2)
 add_subdirectory(src/sign/sphincs/sphincs-sha256-192f-robust/avx2)
-
 add_subdirectory(src/sign/sphincs/sphincs-sha256-256s-simple/avx2)
 add_subdirectory(src/sign/sphincs/sphincs-sha256-256f-robust/avx2)
 add_subdirectory(src/sign/sphincs/sphincs-sha256-256f-simple/avx2)
 add_subdirectory(src/sign/sphincs/sphincs-sha256-256s-robust/avx2)
-endif()
 
-# The rest of the library
-set(SRC_COMMON_GENERIC
-  src/common/aes.c
-  src/common/fips202.c
-  src/common/sp800-185.c
-  src/common/randombytes.c
-  src/common/sha2.c
-)
-
-if(${ARCH} STREQUAL "ARCH_x86_64")
-set(SRC_COMMON_AVX2
-  src/common/keccak4x/KeccakP-1600-times4-SIMD256.c
-)
-
-# KEM - AVX2
+# KEMs
 add_subdirectory(src/kem/kyber/kyber512/avx2)
 add_subdirectory(src/kem/kyber/kyber768/avx2)
 add_subdirectory(src/kem/kyber/kyber1024/avx2)
@@ -186,23 +191,15 @@ add_subdirectory(src/kem/ntru_prime/ntrulpr653/avx2)
 add_subdirectory(src/kem/ntru_prime/ntrulpr857/avx2)
 endif()
 
-# KEM - clean
-add_subdirectory(src/kem/kyber/kyber512/clean)
-add_subdirectory(src/kem/kyber/kyber768/clean)
-add_subdirectory(src/kem/kyber/kyber1024/clean)
-add_subdirectory(src/kem/saber/lightsaber/clean)
-add_subdirectory(src/kem/saber/firesaber/clean)
-add_subdirectory(src/kem/saber/saber/clean)
-add_subdirectory(src/kem/frodo/frodokem640shake/clean)
-add_subdirectory(src/kem/frodo/frodokem976shake/clean)
-add_subdirectory(src/kem/frodo/frodokem1344shake/clean)
-add_subdirectory(src/kem/ntru/ntruhps4096821/clean)
-add_subdirectory(src/kem/ntru/ntruhps2048509/clean)
-add_subdirectory(src/kem/ntru/ntruhrss701/clean)
-add_subdirectory(src/kem/ntru/ntruhps2048677/clean)
-add_subdirectory(src/kem/ntru_prime/ntrulpr761/clean)
-add_subdirectory(src/kem/ntru_prime/ntrulpr653/clean)
-add_subdirectory(src/kem/ntru_prime/ntrulpr857/clean)
+# The rest of the library
+set(SRC_COMMON_GENERIC
+  src/common/aes.c
+  src/common/fips202.c
+  src/common/sp800-185.c
+  src/common/randombytes.c
+  src/common/sha2.c
+  src/capi/pqapi.c
+)
 
 add_library(
   common
