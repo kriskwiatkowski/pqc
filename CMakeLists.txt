@@ -33,6 +33,8 @@ else()
   message(FATAL_ERROR "Unknown processor:" ${CMAKE_SYSTEM_PROCESSOR})
 endif()
 
+add_subdirectory(3rd/gtest)
+
 # Arch settings
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
