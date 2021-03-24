@@ -8,6 +8,68 @@ extern "C" {
 #include <stdint.h>
 #include <stdbool.h>
 
+// defines supported signature algorithm list
+#define PQC_SUPPORTED_SIGS(_)    \
+    _(DILITHIUM2)                \
+    _(DILITHIUM3)                \
+    _(DILITHIUM5)                \
+    _(FALCON1024)                \
+    _(FALCON512)                 \
+    _(RAINBOWVCLASSIC)           \
+    _(RAINBOWICLASSIC)           \
+    _(RAINBOWIIICLASSIC)         \
+    _(SPHINCSSHA256192FSIMPLE)   \
+    _(SPHINCSSHAKE256256FSIMPLE) \
+    _(SPHINCSSHAKE256192FROBUST) \
+    _(SPHINCSSHAKE256128FSIMPLE) \
+    _(SPHINCSSHAKE256256SSIMPLE) \
+    _(SPHINCSSHAKE256128SSIMPLE) \
+    _(SPHINCSSHA256128FROBUST)   \
+    _(SPHINCSSHA256192SROBUST)   \
+    _(SPHINCSSHAKE256128FROBUST) \
+    _(SPHINCSSHAKE256128SROBUST) \
+    _(SPHINCSSHAKE256256SROBUST) \
+    _(SPHINCSSHA256192SSIMPLE)   \
+    _(SPHINCSSHAKE256192SSIMPLE) \
+    _(SPHINCSSHAKE256192SROBUST) \
+    _(SPHINCSSHAKE256192FSIMPLE) \
+    _(SPHINCSSHA256256SSIMPLE)   \
+    _(SPHINCSSHA256128SSIMPLE)   \
+    _(SPHINCSSHAKE256256FROBUST) \
+    _(SPHINCSSHA256256FROBUST)   \
+    _(SPHINCSSHA256256FSIMPLE)   \
+    _(SPHINCSSHA256256SROBUST)   \
+    _(SPHINCSSHA256128SROBUST)   \
+    _(SPHINCSSHA256128FSIMPLE)   \
+    _(SPHINCSSHA256192FROBUST)
+
+// defines supported kem algorithm list
+#define PQC_SUPPORTED_KEMS(_)\
+    _(FRODOKEM976SHAKE)  \
+    _(FRODOKEM1344SHAKE) \
+    _(FRODOKEM640SHAKE)  \
+    _(KYBER768)          \
+    _(KYBER1024)         \
+    _(KYBER512)          \
+    _(NTRUHPS4096821)    \
+    _(NTRUHPS2048509)    \
+    _(NTRUHRSS701)       \
+    _(NTRUHPS2048677)    \
+    _(NTRULPR761)        \
+    _(NTRULPR653)        \
+    _(NTRULPR857)        \
+    _(LIGHTSABER)        \
+    _(FIRESABER)         \
+    _(SABER)
+
+// Defines IDs for each algorithm. The
+// PQC_ALG_SIG/KEM_MAX indicates number
+// of KEM and signature schemes supported.
+#define DEFNUM(N) N,
+enum { PQC_SUPPORTED_SIGS(DEFNUM) PQC_ALG_SIG_MAX };
+enum { PQC_SUPPORTED_KEMS(DEFNUM) PQC_ALG_KEM_MAX };
+#undef DEFNUM
+
 // Parameters of the scheme
 typedef struct params_t {
     const uint8_t alg_id;
@@ -80,6 +142,10 @@ bool pqc_sig_verify(
     const uint8_t *sig, uint64_t siglen,
     const uint8_t *m, uint64_t mlen,
     const uint8_t *pk);
+
+
+const params_t *pqc_kem_alg_by_id(uint8_t id);
+const params_t *pqc_sig_alg_by_id(uint8_t id);
 
 #ifdef __cplusplus
 }

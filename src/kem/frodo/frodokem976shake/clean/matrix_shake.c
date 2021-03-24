@@ -13,7 +13,7 @@
 #include "common.h"
 #include "params.h"
 
-int PQCLEAN_FRODOKEM976SHAKE_OPT_mul_add_as_plus_e(uint16_t *out, const uint16_t *s, const uint16_t *e, const uint8_t *seed_A) {
+int PQCLEAN_FRODOKEM976SHAKE_CLEAN_mul_add_as_plus_e(uint16_t *out, const uint16_t *s, const uint16_t *e, const uint8_t *seed_A) {
     // Generate-and-multiply: generate matrix A (N x N) row-wise, multiply by s on the right.
     // Inputs: s, e (N x N_BAR)
     // Output: out = A*s + e (N x N_BAR)
@@ -29,16 +29,16 @@ int PQCLEAN_FRODOKEM976SHAKE_OPT_mul_add_as_plus_e(uint16_t *out, const uint16_t
     uint16_t *seed_A_origin = (uint16_t *)&seed_A_separated;
     memcpy(&seed_A_separated[2], seed_A, BYTES_SEED_A);
     for (i = 0; i < PARAMS_N; i += 4) {
-        seed_A_origin[0] = PQCLEAN_FRODOKEM976SHAKE_OPT_UINT16_TO_LE(i + 0);
+        seed_A_origin[0] = PQCLEAN_FRODOKEM976SHAKE_CLEAN_UINT16_TO_LE(i + 0);
         shake128((unsigned char *)(a_row + 0 * PARAMS_N), (unsigned long long)(2 * PARAMS_N), seed_A_separated, 2 + BYTES_SEED_A);
-        seed_A_origin[0] = PQCLEAN_FRODOKEM976SHAKE_OPT_UINT16_TO_LE(i + 1);
+        seed_A_origin[0] = PQCLEAN_FRODOKEM976SHAKE_CLEAN_UINT16_TO_LE(i + 1);
         shake128((unsigned char *)(a_row + 1 * PARAMS_N), (unsigned long long)(2 * PARAMS_N), seed_A_separated, 2 + BYTES_SEED_A);
-        seed_A_origin[0] = PQCLEAN_FRODOKEM976SHAKE_OPT_UINT16_TO_LE(i + 2);
+        seed_A_origin[0] = PQCLEAN_FRODOKEM976SHAKE_CLEAN_UINT16_TO_LE(i + 2);
         shake128((unsigned char *)(a_row + 2 * PARAMS_N), (unsigned long long)(2 * PARAMS_N), seed_A_separated, 2 + BYTES_SEED_A);
-        seed_A_origin[0] = PQCLEAN_FRODOKEM976SHAKE_OPT_UINT16_TO_LE(i + 3);
+        seed_A_origin[0] = PQCLEAN_FRODOKEM976SHAKE_CLEAN_UINT16_TO_LE(i + 3);
         shake128((unsigned char *)(a_row + 3 * PARAMS_N), (unsigned long long)(2 * PARAMS_N), seed_A_separated, 2 + BYTES_SEED_A);
         for (k = 0; k < 4 * PARAMS_N; k++) {
-            a_row[k] = PQCLEAN_FRODOKEM976SHAKE_OPT_LE_TO_UINT16(a_row[k]);
+            a_row[k] = PQCLEAN_FRODOKEM976SHAKE_CLEAN_LE_TO_UINT16(a_row[k]);
         }
         for (k = 0; k < PARAMS_NBAR; k++) {
             uint16_t sum[4] = {0};
@@ -61,7 +61,7 @@ int PQCLEAN_FRODOKEM976SHAKE_OPT_mul_add_as_plus_e(uint16_t *out, const uint16_t
 
 
 
-int PQCLEAN_FRODOKEM976SHAKE_OPT_mul_add_sa_plus_e(uint16_t *out, const uint16_t *s, const uint16_t *e, const uint8_t *seed_A) {
+int PQCLEAN_FRODOKEM976SHAKE_CLEAN_mul_add_sa_plus_e(uint16_t *out, const uint16_t *s, const uint16_t *e, const uint8_t *seed_A) {
     // Generate-and-multiply: generate matrix A (N x N) column-wise, multiply by s' on the left.
     // Inputs: s', e' (N_BAR x N)
     // Output: out = s'*A + e' (N_BAR x N)
@@ -79,16 +79,16 @@ int PQCLEAN_FRODOKEM976SHAKE_OPT_mul_add_sa_plus_e(uint16_t *out, const uint16_t
     uint16_t *seed_A_origin = (uint16_t *)&seed_A_separated;
     memcpy(&seed_A_separated[2], seed_A, BYTES_SEED_A);
     for (kk = 0; kk < PARAMS_N; kk += 4) {
-        seed_A_origin[0] = PQCLEAN_FRODOKEM976SHAKE_OPT_UINT16_TO_LE(kk + 0);
+        seed_A_origin[0] = PQCLEAN_FRODOKEM976SHAKE_CLEAN_UINT16_TO_LE(kk + 0);
         shake128((unsigned char *)(a_cols + 0 * PARAMS_N), (unsigned long long)(2 * PARAMS_N), seed_A_separated, 2 + BYTES_SEED_A);
-        seed_A_origin[0] = PQCLEAN_FRODOKEM976SHAKE_OPT_UINT16_TO_LE(kk + 1);
+        seed_A_origin[0] = PQCLEAN_FRODOKEM976SHAKE_CLEAN_UINT16_TO_LE(kk + 1);
         shake128((unsigned char *)(a_cols + 1 * PARAMS_N), (unsigned long long)(2 * PARAMS_N), seed_A_separated, 2 + BYTES_SEED_A);
-        seed_A_origin[0] = PQCLEAN_FRODOKEM976SHAKE_OPT_UINT16_TO_LE(kk + 2);
+        seed_A_origin[0] = PQCLEAN_FRODOKEM976SHAKE_CLEAN_UINT16_TO_LE(kk + 2);
         shake128((unsigned char *)(a_cols + 2 * PARAMS_N), (unsigned long long)(2 * PARAMS_N), seed_A_separated, 2 + BYTES_SEED_A);
-        seed_A_origin[0] = PQCLEAN_FRODOKEM976SHAKE_OPT_UINT16_TO_LE(kk + 3);
+        seed_A_origin[0] = PQCLEAN_FRODOKEM976SHAKE_CLEAN_UINT16_TO_LE(kk + 3);
         shake128((unsigned char *)(a_cols + 3 * PARAMS_N), (unsigned long long)(2 * PARAMS_N), seed_A_separated, 2 + BYTES_SEED_A);
         for (i = 0; i < 4 * PARAMS_N; i++) {
-            a_cols[i] = PQCLEAN_FRODOKEM976SHAKE_OPT_LE_TO_UINT16(a_cols[i]);
+            a_cols[i] = PQCLEAN_FRODOKEM976SHAKE_CLEAN_LE_TO_UINT16(a_cols[i]);
         }
 
         for (i = 0; i < PARAMS_NBAR; i++) {

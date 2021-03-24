@@ -114,7 +114,7 @@
 #include "kem/saber/saber/clean/api.h"
 #include "kem/saber/saber/avx2/api.h"
 
-// helpers
+// not proud of this thingy
 #define OPT_VERSION _CLEAN_
 
 // Helper to stringify constants
@@ -164,7 +164,7 @@
     .secret_bsz = PQC_KEM_BSZ(ID),    \
     .encapsulate = PQC_FN_ENCAPS(ID), \
     .decapsulate = PQC_FN_DECAPS(ID), \
-}
+},
 
 // Macro magic needed to initialize parameters for a scheme
 #define REG_SIG(ID)                   \
@@ -174,26 +174,37 @@
     .sign_bsz = PQC_SIGN_BSZ(ID),     \
     .sign = PQC_FN_SIGN(ID),          \
     .verify = PQC_FN_VERIFY(ID),      \
+},
+
+// Registers supported KEMs
+const kem_params_t kems[] = {
+    PQC_SUPPORTED_KEMS(REG_KEM)
+};
+
+// Registers supported signatures
+const sig_params_t sigs[] = {
+    PQC_SUPPORTED_SIGS(REG_SIG)
+};
+
+const params_t *pqc_kem_alg_by_id(uint8_t id) {
+    int i;
+    for(i=0; i<PQC_ALG_KEM_MAX; i++) {
+        if (kems[i].p.alg_id == id) {
+            return (params_t*)&kems[i];
+        }
+    }
+    return 0;
 }
 
-enum {
-    KYBER512,
-    KYBER768,
-    KYBER1024,
-    FALCON512,
-    DILITHIUM3,
-};
-
-const kem_params_t kems[] = {
-    REG_KEM(KYBER512),
-    REG_KEM(KYBER768),
-    REG_KEM(KYBER1024),
-};
-
-const sig_params_t sigs[] = {
-    REG_SIG(FALCON512),
-    REG_SIG(DILITHIUM3),
-};
+const params_t *pqc_sig_alg_by_id(uint8_t id) {
+    int i;
+    for(i=0; i<PQC_ALG_SIG_MAX; i++) {
+        if (sigs[i].p.alg_id == id) {
+            return (params_t*)&sigs[i];
+        }
+    }
+    return 0;
+}
 
 bool pqc_keygen(const params_t *p, uint8_t *sk, uint8_t *pk) {
     return !p->keygen(sk, pk);

@@ -3,13 +3,10 @@
 #include <gtest/gtest.h>
 #include "capi/pqapi.h"
 
-extern const kem_params_t kems[];
-extern const sig_params_t sigs[];
-
 TEST(Kyber,KEMOneOff) {
 
-	for (int i=0; i<3; i++) {
-		const params_t *p = (params_t*)&kems[i];
+	for (int i=0; i<PQC_ALG_KEM_MAX; i++) {
+		const params_t *p = pqc_kem_alg_by_id(i);
 
 	    std::vector<uint8_t> ct(ciphertext_bsz(p));
 	    std::vector<uint8_t> ss1(shared_secret_bsz(p));
@@ -30,8 +27,8 @@ TEST(Kyber,KEMOneOff) {
 
 TEST(Kyber,SIGNOneOff) {
 
-	for (int i=0; i<2; i++) {
-		const params_t *p = (params_t*)&sigs[i];
+	for (int i=0; i<PQC_ALG_SIG_MAX; i++) {
+		const params_t *p = pqc_sig_alg_by_id(i);
 
 		uint8_t msg[1234];
 	    std::vector<uint8_t> sig(signature_bsz(p));
