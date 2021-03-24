@@ -9,6 +9,7 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "~/.cmake/Modules")
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "3rd/cmake-modules")
 set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 string(TOLOWER "${CMAKE_BUILD_TYPE}" CMAKE_BUILD_TYPE_LOWER)
 
@@ -81,6 +82,9 @@ include_directories(
   src
 )
 
+set_property(GLOBAL PROPERTY obj_libs "")
+
+
 # Set CPU architecture
 set(CMAKE_C_FLAGS "${C_CXX_FLAGS} -D${ARCH}")
 set(CMAKE_CXX_FLAGS "${C_CXX_FLAGS} -D${ARCH}")
@@ -118,6 +122,7 @@ add_subdirectory(src/sign/sphincs/sphincs-sha256-256s-robust/clean)
 add_subdirectory(src/sign/sphincs/sphincs-sha256-128s-robust/clean)
 add_subdirectory(src/sign/sphincs/sphincs-sha256-128f-simple/clean)
 add_subdirectory(src/sign/sphincs/sphincs-sha256-192f-robust/clean)
+
 add_subdirectory(src/kem/kyber/kyber512/clean)
 add_subdirectory(src/kem/kyber/kyber768/clean)
 add_subdirectory(src/kem/kyber/kyber1024/clean)
@@ -217,37 +222,34 @@ add_library(
   pqclean_s
   STATIC
 )
+get_property(OBJ_LIBS GLOBAL PROPERTY obj_libs)
 
 target_link_libraries(
   pqclean
   common
-  pqclean_dilithium2_clean
-  pqclean_dilithium3_clean
-  pqclean_dilithium5_clean
+  ${OBJ_LIBS}
 )
 
 target_link_libraries(
   pqclean_s
   common
-  pqclean_dilithium2_clean
-  pqclean_dilithium3_clean
-  pqclean_dilithium5_clean
+  ${OBJ_LIBS}
 )
 
 add_executable(
-  mytest
+  ut
 
-  test/mytest.cpp
+  test/ut.cpp
 )
 
 target_link_libraries(
-  mytest
+  ut
   gtest
-  pqclean_s
-  gtest_main)
+  gtest_main
+  pqclean_s)
 
 target_include_directories(
-  mytest PRIVATE
+  ut PRIVATE
 
   ${CMAKE_SOURCE_DIR})
 
