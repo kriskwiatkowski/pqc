@@ -1,7 +1,7 @@
 #include <algorithm>
 #include <vector>
 #include <gtest/gtest.h>
-#include "capi/pqapi.h"
+#include <pqc/pqc.h>
 
 TEST(Kyber,KEMOneOff) {
 

@@ -1,6 +1,6 @@
 #include <stdint.h>
 #include <stdbool.h>
-#include "pqapi.h"
+#include <pqc/pqc.h>
 
 // PQClean include
 #include "sign/rainbow/rainbowV-classic/clean/api.h"

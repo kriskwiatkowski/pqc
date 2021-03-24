@@ -77,7 +77,7 @@ else()
 endif()
 
 include_directories(
-  inc
+  public
   src/common/
   src
 )

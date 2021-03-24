@@ -23,3 +23,17 @@ This is a repository of post-quantum schemes coppied from the submission to the 
 
 **Alternate candidates:**
 * SPHINCS+
+
+## Building
+
+CMake is used to build the library:
+
+```
+mkdir build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Release ..
+make
+```
+
+Build outputs two libraries, a static ``libpqc_s.a`` and dynamic ``libpqc.so``, which can be linked with a project.
+
