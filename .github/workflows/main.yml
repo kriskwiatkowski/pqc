@@ -21,3 +21,6 @@ jobs:
       - name: run tests
         run: |
           cd build && ./ut
+      - name: Build Rust bindings
+        run: |
+          cd src/rustapi/pqc-sys && cargo build
