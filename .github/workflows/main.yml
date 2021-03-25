@@ -24,3 +24,9 @@ jobs:
       - name: Build Rust bindings
         run: |
           cd src/rustapi/pqc-sys && cargo build
+      - name: Run KAT tests
+        run: |
+          cd test/katrunner &&
+          curl http://amongbytes.com/~flowher/permalinks/kat.zip --output kat.zip
+          unzip kat.zip
+          cargo run -- --katdir KAT

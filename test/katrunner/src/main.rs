@@ -17,9 +17,14 @@ fn signature_scheme(el: &TestVector) {
 	unsafe {
 		let p = pqc_sig_alg_by_id(el.scheme_id as u8);
 		assert_ne!(p.is_null(), true);
+		// pqc doesn't use "envelope" API. From the other
+		// hand in KATs for signature scheme, the signature
+		// is concatenaed with a message. Use only part with
+		// the signature.
+		let sm_len = el.sig.sm.len() - el.sig.msg.len();
 		assert_eq!(
 			pqc_sig_verify(p,
-				el.sig.sm.as_ptr(), el.sig.sm.len() as u64,
+				el.sig.sm.as_ptr(), sm_len as u64,
 				el.sig.msg.as_ptr(), el.sig.msg.len() as u64,
 				el.sig.pk.as_ptr()),
 			true);
