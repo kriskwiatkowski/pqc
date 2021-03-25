@@ -1,0 +1,15 @@
+[package]
+name = "pqc-sys"
+version = "0.1.0"
+authors = ["Kris Kwiatkowski <contact@amongbytes.com>"]
+edition = "2018"
+links = "pqc_s"
+build = "src/build.rs"
+
+[build-dependencies]
+cmake = "0.1.31"
+bindgen = "0.56.0"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
