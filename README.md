@@ -43,7 +43,7 @@ Build outputs two libraries, a static ``libpqc_s.a`` and dynamic ``libpqc.so``, 
 
 Library provides simple API, wrapping PQClean. For example to use KEM, one should call the library in following way:
 ```c
-	#include <pqc/pqc.h>
+    #include <pqc/pqc.h>
 
     std::vector<uint8_t> ct(ciphertext_bsz(p));
     std::vector<uint8_t> ss1(shared_secret_bsz(p));
@@ -51,10 +51,10 @@ Library provides simple API, wrapping PQClean. For example to use KEM, one shoul
     std::vector<uint8_t> sk(private_key_bsz(p));
     std::vector<uint8_t> pk(public_key_bsz(p));
 
-	const params_t *p = pqc_kem_alg_by_id(KYBER512);
-	pqc_keygen(p, pk.data(), sk.data());
-	pqc_kem_encapsulate(p, ct.data(), ss1.data(), pk.data());
-	pqc_kem_decapsulate(p, ss2.data(), ct.data(), sk.data());
+    const params_t *p = pqc_kem_alg_by_id(KYBER512);
+    pqc_keygen(p, pk.data(), sk.data());
+    pqc_kem_encapsulate(p, ct.data(), ss1.data(), pk.data());
+    pqc_kem_decapsulate(p, ss2.data(), ct.data(), sk.data());
 ```
 
 See test implemetnation in ``test/ut.cpp`` for more details.
