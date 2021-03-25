@@ -22,7 +22,8 @@ fn signature_scheme(el: &TestVector) {
 		assert_eq!(
 			pqc_sig_verify(p, msg.as_mut_ptr(), el.sig.msg.len() as u64,
 				el.sig.sm.as_ptr(), el.sig.sm.len() as u64,
-				el.sig.pk.as_ptr()), true);
+				el.sig.pk.as_ptr()),
+			true);
 	}
 }
 

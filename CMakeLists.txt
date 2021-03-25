@@ -216,24 +216,24 @@ add_library(
 )
 
 add_library(
-  pqclean
+  pqc
   SHARED
 )
 
 add_library(
-  pqclean_s
+  pqc_s
   STATIC
 )
 get_property(OBJ_LIBS GLOBAL PROPERTY obj_libs)
 
 target_link_libraries(
-  pqclean
+  pqc
   common
   ${OBJ_LIBS}
 )
 
 target_link_libraries(
-  pqclean_s
+  pqc_s
   common
   ${OBJ_LIBS}
 )
@@ -248,7 +248,7 @@ target_link_libraries(
   ut
   gtest
   gtest_main
-  pqclean_s)
+  pqc_s)
 
 target_include_directories(
   ut PRIVATE
@@ -256,10 +256,10 @@ target_include_directories(
   ${CMAKE_SOURCE_DIR})
 
 
-install(TARGETS pqclean pqclean_s
+install(TARGETS pqc pqc_s
   PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ GROUP_WRITE WORLD_READ WORLD_WRITE
   LIBRARY DESTINATION lib
   ARCHIVE DESTINATION lib)
 install(FILES
   ${QRS_PUBLIC_INC}
-  DESTINATION include/pqclean)
+  DESTINATION include/pqc)
