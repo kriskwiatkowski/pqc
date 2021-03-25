@@ -1,0 +1,11 @@
+[package]
+name = "katrunner"
+version = "0.1.0"
+authors = ["Kris Kwiatkowski <contact@amongbytes.com>"]
+edition = "2018"
+
+[dependencies]
+katwalk = "0.0.3"
+pqc-sys = { path = "../../src/rustapi/pqc-sys" }
+hex = "0.4.2"
+threadpool = "1.8.1"
