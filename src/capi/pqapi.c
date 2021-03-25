@@ -206,24 +206,33 @@ const params_t *pqc_sig_alg_by_id(uint8_t id) {
     return 0;
 }
 
-bool pqc_keygen(const params_t *p, uint8_t *sk, uint8_t *pk) {
+bool pqc_keygen(const params_t *p,
+    uint8_t *sk, uint8_t *pk) {
     return !p->keygen(sk, pk);
 }
 
-bool pqc_kem_encapsulate(const params_t *p, uint8_t *ct, uint8_t *ss, const uint8_t *pk) {
+bool pqc_kem_encapsulate(const params_t *p,
+    uint8_t *ct, uint8_t *ss,
+    const uint8_t *pk) {
     return !((kem_params_t*)p)->encapsulate(ct, ss, pk);
 }
 
-bool pqc_kem_decapsulate(const params_t *p, uint8_t *ss, const uint8_t *ct, const uint8_t *sk) {
+bool pqc_kem_decapsulate(const params_t *p,
+    uint8_t *ss, const uint8_t *ct,
+    const uint8_t *sk) {
     return !((kem_params_t*)p)->decapsulate(ss, ct, sk);
 }
 
-bool pqc_sig_create(
-    const params_t *p, uint8_t *sig, uint64_t *siglen, const uint8_t *m, uint64_t mlen, const uint8_t *sk) {
+bool pqc_sig_create(const params_t *p,
+    uint8_t *sig, uint64_t *siglen,
+    const uint8_t *m, uint64_t mlen,
+    const uint8_t *sk) {
     return !((sig_params_t *)p)->sign(sig, siglen, m, mlen, sk);
 }
 
-bool pqc_sig_verify(
-    const params_t *p, const uint8_t *sig, uint64_t siglen, const uint8_t *m, uint64_t mlen, const uint8_t *pk) {
+bool pqc_sig_verify(const params_t *p,
+    const uint8_t *sig, uint64_t siglen,
+    const uint8_t *m, uint64_t mlen,
+    const uint8_t *pk) {
     return !((sig_params_t *)p)->verify(sig, siglen, m, mlen, pk);
 }
