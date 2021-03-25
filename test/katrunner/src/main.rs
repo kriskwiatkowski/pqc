@@ -14,14 +14,13 @@ struct Register {
 
 fn signature_scheme(el: &TestVector) {
 
-	let mut msg = Vec::new();
-	msg.resize(el.sig.msg.len(), 0);
-	msg.extend(el.sig.msg.iter().copied());
 	unsafe {
 		let p = pqc_sig_alg_by_id(el.scheme_id as u8);
+		assert_ne!(p.is_null(), true);
 		assert_eq!(
-			pqc_sig_verify(p, msg.as_mut_ptr(), el.sig.msg.len() as u64,
+			pqc_sig_verify(p,
 				el.sig.sm.as_ptr(), el.sig.sm.len() as u64,
+				el.sig.msg.as_ptr(), el.sig.msg.len() as u64,
 				el.sig.pk.as_ptr()),
 			true);
 	}
