@@ -2,6 +2,8 @@
 
 This is a repository of post-quantum schemes coppied from the submission to the NIST Post-Quantum Standarization. The sources were cloned from the PQClean project to form new library. The goal of the library is mainly experimentation.
 
+Users shouldn't expect any level of security provided by this code.
+
 ## Schemes
 
 ### Key Encapsulation Mechanisms
@@ -37,3 +39,30 @@ make
 
 Build outputs two libraries, a static ``libpqc_s.a`` and dynamic ``libpqc.so``, which can be linked with a project.
 
+## API
+
+Library provides simple API, wrapping PQClean. For example to use KEM, one should call the library in following way:
+```c
+	#include <pqc/pqc.h>
+
+    std::vector<uint8_t> ct(ciphertext_bsz(p));
+    std::vector<uint8_t> ss1(shared_secret_bsz(p));
+    std::vector<uint8_t> ss2(shared_secret_bsz(p));
+    std::vector<uint8_t> sk(private_key_bsz(p));
+    std::vector<uint8_t> pk(public_key_bsz(p));
+
+	const params_t *p = pqc_kem_alg_by_id(KYBER512);
+	pqc_keygen(p, pk.data(), sk.data());
+	pqc_kem_encapsulate(p, ct.data(), ss1.data(), pk.data());
+	pqc_kem_decapsulate(p, ss2.data(), ct.data(), sk.data());
+```
+
+See test implemetnation in ``test/ut.cpp`` for more details.
+
+## Rust binding
+
+Rust bindgings are provided in the ``src/rustapi/pqc-sys`` and can be regenerated automatically by running ``cargo build`` in this directory.
+
+## Testing
+
+Algorithms are tested against KATs, by the runner implemented in the ``teste/katrunner`` (wip). The runner uses ``katwalk`` crate.
