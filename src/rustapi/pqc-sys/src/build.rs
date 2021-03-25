@@ -9,7 +9,7 @@ fn main() {
 		.build();
 
 	println!("cargo:rustc-link-search=native={}/lib", dst.display());
-    println!("cargo:rustc-link-lib=dylib=pqc");
+    println!("cargo:rustc-link-lib=static=pqc_s");
     println!("cargo:rerun-if-changed=../../../capi/*,../../../kem/*,../../../sign/*,../../../../public/pqc/pqc.h");
 
     // The bindgen::Builder is the main entry point
