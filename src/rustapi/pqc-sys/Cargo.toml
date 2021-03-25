@@ -5,6 +5,9 @@ authors = ["Kris Kwiatkowski <contact@amongbytes.com>"]
 edition = "2018"
 links = "pqc_s"
 build = "src/build.rs"
+description = "Rust bindings for PQ CryptoCatalog"
+license = "BSD-2-Clause"
+homepage = "github.com/henrydcase/pqc"
 
 [build-dependencies]
 cmake = "0.1.31"
