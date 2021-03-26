@@ -71,4 +71,4 @@ Rust bindgings are provided in the ``src/rustapi/pqc-sys`` and can be regenerate
 
 ## Testing
 
-Algorithms are tested against KATs, by the runner implemented in the ``teste/katrunner`` (wip). The runner uses ``katwalk`` crate.
+Algorithms are tested against KATs, by the runner implemented in the ``teste/katrunner``. The runner uses ``katwalk`` crate.
