@@ -1,0 +1,2099 @@
+From 3b468577b4a58cdf83966f4ea166bfe544a45e06 Mon Sep 17 00:00:00 2001
+From: Thom Wiggers <thom@thomwiggers.nl>
+Date: Wed, 10 Mar 2021 15:32:29 +0100
+Subject: [PATCH 1/3] Update SPHINCS+ parameters
+
+---
+ crypto_sign/sphincs-haraka-128f-robust/META.yml         | 6 +++---
+ crypto_sign/sphincs-haraka-128f-robust/aesni/api.h      | 2 +-
+ crypto_sign/sphincs-haraka-128f-robust/aesni/params.h   | 8 ++++----
+ crypto_sign/sphincs-haraka-128f-robust/clean/api.h      | 2 +-
+ crypto_sign/sphincs-haraka-128f-robust/clean/params.h   | 8 ++++----
+ crypto_sign/sphincs-haraka-128f-simple/META.yml         | 6 +++---
+ crypto_sign/sphincs-haraka-128f-simple/aesni/api.h      | 2 +-
+ crypto_sign/sphincs-haraka-128f-simple/aesni/params.h   | 8 ++++----
+ crypto_sign/sphincs-haraka-128f-simple/clean/api.h      | 2 +-
+ crypto_sign/sphincs-haraka-128f-simple/clean/params.h   | 8 ++++----
+ crypto_sign/sphincs-haraka-128s-robust/META.yml         | 6 +++---
+ crypto_sign/sphincs-haraka-128s-robust/aesni/api.h      | 2 +-
+ crypto_sign/sphincs-haraka-128s-robust/aesni/params.h   | 8 ++++----
+ crypto_sign/sphincs-haraka-128s-robust/clean/api.h      | 2 +-
+ crypto_sign/sphincs-haraka-128s-robust/clean/params.h   | 8 ++++----
+ crypto_sign/sphincs-haraka-128s-simple/META.yml         | 6 +++---
+ crypto_sign/sphincs-haraka-128s-simple/aesni/api.h      | 2 +-
+ crypto_sign/sphincs-haraka-128s-simple/aesni/params.h   | 8 ++++----
+ crypto_sign/sphincs-haraka-128s-simple/clean/api.h      | 2 +-
+ crypto_sign/sphincs-haraka-128s-simple/clean/params.h   | 8 ++++----
+ crypto_sign/sphincs-haraka-192s-robust/META.yml         | 6 +++---
+ crypto_sign/sphincs-haraka-192s-robust/aesni/api.h      | 2 +-
+ crypto_sign/sphincs-haraka-192s-robust/aesni/params.h   | 8 ++++----
+ crypto_sign/sphincs-haraka-192s-robust/clean/api.h      | 2 +-
+ crypto_sign/sphincs-haraka-192s-robust/clean/params.h   | 8 ++++----
+ crypto_sign/sphincs-haraka-192s-simple/META.yml         | 6 +++---
+ crypto_sign/sphincs-haraka-192s-simple/aesni/api.h      | 2 +-
+ crypto_sign/sphincs-haraka-192s-simple/aesni/params.h   | 8 ++++----
+ crypto_sign/sphincs-haraka-192s-simple/clean/api.h      | 2 +-
+ crypto_sign/sphincs-haraka-192s-simple/clean/params.h   | 8 ++++----
+ crypto_sign/sphincs-haraka-256f-robust/META.yml         | 6 +++---
+ crypto_sign/sphincs-haraka-256f-robust/aesni/api.h      | 2 +-
+ crypto_sign/sphincs-haraka-256f-robust/aesni/params.h   | 4 ++--
+ crypto_sign/sphincs-haraka-256f-robust/clean/api.h      | 2 +-
+ crypto_sign/sphincs-haraka-256f-robust/clean/params.h   | 4 ++--
+ crypto_sign/sphincs-haraka-256f-simple/META.yml         | 6 +++---
+ crypto_sign/sphincs-haraka-256f-simple/aesni/api.h      | 2 +-
+ crypto_sign/sphincs-haraka-256f-simple/aesni/params.h   | 4 ++--
+ crypto_sign/sphincs-haraka-256f-simple/clean/api.h      | 2 +-
+ crypto_sign/sphincs-haraka-256f-simple/clean/params.h   | 4 ++--
+ crypto_sign/sphincs-sha256-128f-robust/META.yml         | 6 +++---
+ crypto_sign/sphincs-sha256-128f-robust/avx2/api.h       | 2 +-
+ crypto_sign/sphincs-sha256-128f-robust/avx2/params.h    | 8 ++++----
+ crypto_sign/sphincs-sha256-128f-robust/clean/api.h      | 2 +-
+ crypto_sign/sphincs-sha256-128f-robust/clean/params.h   | 8 ++++----
+ crypto_sign/sphincs-sha256-128f-simple/META.yml         | 6 +++---
+ crypto_sign/sphincs-sha256-128f-simple/avx2/api.h       | 2 +-
+ crypto_sign/sphincs-sha256-128f-simple/avx2/params.h    | 8 ++++----
+ crypto_sign/sphincs-sha256-128f-simple/clean/api.h      | 2 +-
+ crypto_sign/sphincs-sha256-128f-simple/clean/params.h   | 8 ++++----
+ crypto_sign/sphincs-sha256-128s-robust/META.yml         | 6 +++---
+ crypto_sign/sphincs-sha256-128s-robust/avx2/api.h       | 2 +-
+ crypto_sign/sphincs-sha256-128s-robust/avx2/params.h    | 8 ++++----
+ crypto_sign/sphincs-sha256-128s-robust/clean/api.h      | 2 +-
+ crypto_sign/sphincs-sha256-128s-robust/clean/params.h   | 8 ++++----
+ crypto_sign/sphincs-sha256-128s-simple/META.yml         | 6 +++---
+ crypto_sign/sphincs-sha256-128s-simple/avx2/api.h       | 2 +-
+ crypto_sign/sphincs-sha256-128s-simple/avx2/params.h    | 8 ++++----
+ crypto_sign/sphincs-sha256-128s-simple/clean/api.h      | 2 +-
+ crypto_sign/sphincs-sha256-128s-simple/clean/params.h   | 8 ++++----
+ crypto_sign/sphincs-sha256-192s-robust/META.yml         | 6 +++---
+ crypto_sign/sphincs-sha256-192s-robust/avx2/api.h       | 2 +-
+ crypto_sign/sphincs-sha256-192s-robust/avx2/params.h    | 8 ++++----
+ crypto_sign/sphincs-sha256-192s-robust/clean/api.h      | 2 +-
+ crypto_sign/sphincs-sha256-192s-robust/clean/params.h   | 8 ++++----
+ crypto_sign/sphincs-sha256-192s-simple/META.yml         | 6 +++---
+ crypto_sign/sphincs-sha256-192s-simple/avx2/api.h       | 2 +-
+ crypto_sign/sphincs-sha256-192s-simple/avx2/params.h    | 8 ++++----
+ crypto_sign/sphincs-sha256-192s-simple/clean/api.h      | 2 +-
+ crypto_sign/sphincs-sha256-192s-simple/clean/params.h   | 8 ++++----
+ crypto_sign/sphincs-sha256-256f-robust/META.yml         | 6 +++---
+ crypto_sign/sphincs-sha256-256f-robust/avx2/api.h       | 2 +-
+ crypto_sign/sphincs-sha256-256f-robust/avx2/params.h    | 4 ++--
+ crypto_sign/sphincs-sha256-256f-robust/clean/api.h      | 2 +-
+ crypto_sign/sphincs-sha256-256f-robust/clean/params.h   | 4 ++--
+ crypto_sign/sphincs-sha256-256f-simple/META.yml         | 6 +++---
+ crypto_sign/sphincs-sha256-256f-simple/avx2/api.h       | 2 +-
+ crypto_sign/sphincs-sha256-256f-simple/avx2/params.h    | 4 ++--
+ crypto_sign/sphincs-sha256-256f-simple/clean/api.h      | 2 +-
+ crypto_sign/sphincs-sha256-256f-simple/clean/params.h   | 4 ++--
+ crypto_sign/sphincs-shake256-128f-robust/META.yml       | 6 +++---
+ crypto_sign/sphincs-shake256-128f-robust/avx2/api.h     | 2 +-
+ crypto_sign/sphincs-shake256-128f-robust/avx2/params.h  | 8 ++++----
+ crypto_sign/sphincs-shake256-128f-robust/clean/api.h    | 2 +-
+ crypto_sign/sphincs-shake256-128f-robust/clean/params.h | 8 ++++----
+ crypto_sign/sphincs-shake256-128f-simple/META.yml       | 6 +++---
+ crypto_sign/sphincs-shake256-128f-simple/avx2/api.h     | 2 +-
+ crypto_sign/sphincs-shake256-128f-simple/avx2/params.h  | 8 ++++----
+ crypto_sign/sphincs-shake256-128f-simple/clean/api.h    | 2 +-
+ crypto_sign/sphincs-shake256-128f-simple/clean/params.h | 8 ++++----
+ crypto_sign/sphincs-shake256-128s-robust/META.yml       | 6 +++---
+ crypto_sign/sphincs-shake256-128s-robust/avx2/api.h     | 2 +-
+ crypto_sign/sphincs-shake256-128s-robust/avx2/params.h  | 8 ++++----
+ crypto_sign/sphincs-shake256-128s-robust/clean/api.h    | 2 +-
+ crypto_sign/sphincs-shake256-128s-robust/clean/params.h | 8 ++++----
+ crypto_sign/sphincs-shake256-128s-simple/META.yml       | 6 +++---
+ crypto_sign/sphincs-shake256-128s-simple/avx2/api.h     | 2 +-
+ crypto_sign/sphincs-shake256-128s-simple/avx2/params.h  | 8 ++++----
+ crypto_sign/sphincs-shake256-128s-simple/clean/api.h    | 2 +-
+ crypto_sign/sphincs-shake256-128s-simple/clean/params.h | 8 ++++----
+ crypto_sign/sphincs-shake256-192s-robust/META.yml       | 6 +++---
+ crypto_sign/sphincs-shake256-192s-robust/avx2/api.h     | 2 +-
+ crypto_sign/sphincs-shake256-192s-robust/avx2/params.h  | 8 ++++----
+ crypto_sign/sphincs-shake256-192s-robust/clean/api.h    | 2 +-
+ crypto_sign/sphincs-shake256-192s-robust/clean/params.h | 8 ++++----
+ crypto_sign/sphincs-shake256-192s-simple/META.yml       | 6 +++---
+ crypto_sign/sphincs-shake256-192s-simple/avx2/api.h     | 2 +-
+ crypto_sign/sphincs-shake256-192s-simple/avx2/params.h  | 8 ++++----
+ crypto_sign/sphincs-shake256-192s-simple/clean/api.h    | 2 +-
+ crypto_sign/sphincs-shake256-192s-simple/clean/params.h | 8 ++++----
+ crypto_sign/sphincs-shake256-256f-robust/META.yml       | 6 +++---
+ crypto_sign/sphincs-shake256-256f-robust/avx2/api.h     | 2 +-
+ crypto_sign/sphincs-shake256-256f-robust/avx2/params.h  | 4 ++--
+ crypto_sign/sphincs-shake256-256f-robust/clean/api.h    | 2 +-
+ crypto_sign/sphincs-shake256-256f-robust/clean/params.h | 4 ++--
+ crypto_sign/sphincs-shake256-256f-simple/META.yml       | 6 +++---
+ crypto_sign/sphincs-shake256-256f-simple/avx2/api.h     | 2 +-
+ crypto_sign/sphincs-shake256-256f-simple/avx2/params.h  | 4 ++--
+ crypto_sign/sphincs-shake256-256f-simple/clean/api.h    | 2 +-
+ crypto_sign/sphincs-shake256-256f-simple/clean/params.h | 4 ++--
+ 120 files changed, 288 insertions(+), 288 deletions(-)
+
+diff --git a/crypto_sign/sphincs-haraka-128f-robust/META.yml b/crypto_sign/sphincs-haraka-128f-robust/META.yml
+index 5b5686d9..5b9e721a 100644
+--- a/crypto_sign/sphincs-haraka-128f-robust/META.yml
++++ b/crypto_sign/sphincs-haraka-128f-robust/META.yml
+@@ -3,9 +3,9 @@ type: signature
+ claimed-nist-level: 1
+ length-public-key: 32
+ length-secret-key: 64
+-length-signature: 16976
+-testvectors-sha256: a86f82106578f5bb8ea54caa913dbe2b0ca13294432e06c615e0cc2f3fba66ac
+-nistkat-sha256: 22afe9a2b538742f99fbf02293024de6424726eebddb3cac456534055689a4c3
++length-signature: 17088
++testvectors-sha256: 8a2d4399b3d1282530804d319dc4fb91fa66c3e4c42bd7b859a3eaa96c5f515f
++nistkat-sha256: a8b966844b0c9bb2d954d95d25777bd548ee3dcb78e0833de8333a033d24cacb
+ principal-submitters:
+   - Andreas Hülsing
+ auxiliary-submitters:
+diff --git a/crypto_sign/sphincs-haraka-128f-robust/aesni/api.h b/crypto_sign/sphincs-haraka-128f-robust/aesni/api.h
+index 1ec301eb..a5919f14 100644
+--- a/crypto_sign/sphincs-haraka-128f-robust/aesni/api.h
++++ b/crypto_sign/sphincs-haraka-128f-robust/aesni/api.h
+@@ -10,7 +10,7 @@
+ 
+ #define PQCLEAN_SPHINCSHARAKA128FROBUST_AESNI_CRYPTO_SECRETKEYBYTES 64
+ #define PQCLEAN_SPHINCSHARAKA128FROBUST_AESNI_CRYPTO_PUBLICKEYBYTES 32
+-#define PQCLEAN_SPHINCSHARAKA128FROBUST_AESNI_CRYPTO_BYTES 16976
++#define PQCLEAN_SPHINCSHARAKA128FROBUST_AESNI_CRYPTO_BYTES 17088
+ #define PQCLEAN_SPHINCSHARAKA128FROBUST_AESNI_CRYPTO_SEEDBYTES 48
+ 
+ 
+diff --git a/crypto_sign/sphincs-haraka-128f-robust/aesni/params.h b/crypto_sign/sphincs-haraka-128f-robust/aesni/params.h
+index 48ec695a..1b2ce946 100644
+--- a/crypto_sign/sphincs-haraka-128f-robust/aesni/params.h
++++ b/crypto_sign/sphincs-haraka-128f-robust/aesni/params.h
+@@ -4,12 +4,12 @@
+ /* Hash output length in bytes. */
+ #define PQCLEAN_SPHINCSHARAKA128FROBUST_AESNI_N 16
+ /* Height of the hypertree. */
+-#define PQCLEAN_SPHINCSHARAKA128FROBUST_AESNI_FULL_HEIGHT 60
++#define PQCLEAN_SPHINCSHARAKA128FROBUST_AESNI_FULL_HEIGHT 66
+ /* Number of subtree layer. */
+-#define PQCLEAN_SPHINCSHARAKA128FROBUST_AESNI_D 20
++#define PQCLEAN_SPHINCSHARAKA128FROBUST_AESNI_D 22
+ /* FORS tree dimensions. */
+-#define PQCLEAN_SPHINCSHARAKA128FROBUST_AESNI_FORS_HEIGHT 9
+-#define PQCLEAN_SPHINCSHARAKA128FROBUST_AESNI_FORS_TREES 30
++#define PQCLEAN_SPHINCSHARAKA128FROBUST_AESNI_FORS_HEIGHT 6
++#define PQCLEAN_SPHINCSHARAKA128FROBUST_AESNI_FORS_TREES 33
+ /* Winternitz parameter, */
+ #define PQCLEAN_SPHINCSHARAKA128FROBUST_AESNI_WOTS_W 16
+ 
+diff --git a/crypto_sign/sphincs-haraka-128f-robust/clean/api.h b/crypto_sign/sphincs-haraka-128f-robust/clean/api.h
+index 24892aaa..581ad5ad 100644
+--- a/crypto_sign/sphincs-haraka-128f-robust/clean/api.h
++++ b/crypto_sign/sphincs-haraka-128f-robust/clean/api.h
+@@ -10,7 +10,7 @@
+ 
+ #define PQCLEAN_SPHINCSHARAKA128FROBUST_CLEAN_CRYPTO_SECRETKEYBYTES 64
+ #define PQCLEAN_SPHINCSHARAKA128FROBUST_CLEAN_CRYPTO_PUBLICKEYBYTES 32
+-#define PQCLEAN_SPHINCSHARAKA128FROBUST_CLEAN_CRYPTO_BYTES 16976
++#define PQCLEAN_SPHINCSHARAKA128FROBUST_CLEAN_CRYPTO_BYTES 17088
+ #define PQCLEAN_SPHINCSHARAKA128FROBUST_CLEAN_CRYPTO_SEEDBYTES 48
+ 
+ 
+diff --git a/crypto_sign/sphincs-haraka-128f-robust/clean/params.h b/crypto_sign/sphincs-haraka-128f-robust/clean/params.h
+index 71b94519..ec4b39be 100644
+--- a/crypto_sign/sphincs-haraka-128f-robust/clean/params.h
++++ b/crypto_sign/sphincs-haraka-128f-robust/clean/params.h
+@@ -4,12 +4,12 @@
+ /* Hash output length in bytes. */
+ #define PQCLEAN_SPHINCSHARAKA128FROBUST_CLEAN_N 16
+ /* Height of the hypertree. */
+-#define PQCLEAN_SPHINCSHARAKA128FROBUST_CLEAN_FULL_HEIGHT 60
++#define PQCLEAN_SPHINCSHARAKA128FROBUST_CLEAN_FULL_HEIGHT 66
+ /* Number of subtree layer. */
+-#define PQCLEAN_SPHINCSHARAKA128FROBUST_CLEAN_D 20
++#define PQCLEAN_SPHINCSHARAKA128FROBUST_CLEAN_D 22
+ /* FORS tree dimensions. */
+-#define PQCLEAN_SPHINCSHARAKA128FROBUST_CLEAN_FORS_HEIGHT 9
+-#define PQCLEAN_SPHINCSHARAKA128FROBUST_CLEAN_FORS_TREES 30
++#define PQCLEAN_SPHINCSHARAKA128FROBUST_CLEAN_FORS_HEIGHT 6
++#define PQCLEAN_SPHINCSHARAKA128FROBUST_CLEAN_FORS_TREES 33
+ /* Winternitz parameter, */
+ #define PQCLEAN_SPHINCSHARAKA128FROBUST_CLEAN_WOTS_W 16
+ 
+diff --git a/crypto_sign/sphincs-haraka-128f-simple/META.yml b/crypto_sign/sphincs-haraka-128f-simple/META.yml
+index d879c904..6567a82b 100644
+--- a/crypto_sign/sphincs-haraka-128f-simple/META.yml
++++ b/crypto_sign/sphincs-haraka-128f-simple/META.yml
+@@ -3,9 +3,9 @@ type: signature
+ claimed-nist-level: 1
+ length-public-key: 32
+ length-secret-key: 64
+-length-signature: 16976
+-testvectors-sha256: db98c3cd0ac0292a2b62e11c52851087d84971277188814bf14cbde7ca60c3e9
+-nistkat-sha256: d0161f60f8bdd26fa2f03a881eb517adf7d3e9a44f5cc337cb9c0d8acf82c145
++length-signature: 17088
++testvectors-sha256: 3507b22679cdaadbbe9d6f2194dbdbb5ee36b2bbc7f2c3d7de0dbb4bfc9c5f79
++nistkat-sha256: 266fb0a5e65ba0183fe4e462d48ff814842a389fb0785d30f89fa1c126df518b
+ principal-submitters:
+   - Andreas Hülsing
+ auxiliary-submitters:
+diff --git a/crypto_sign/sphincs-haraka-128f-simple/aesni/api.h b/crypto_sign/sphincs-haraka-128f-simple/aesni/api.h
+index 63d46ed5..eb2090e0 100644
+--- a/crypto_sign/sphincs-haraka-128f-simple/aesni/api.h
++++ b/crypto_sign/sphincs-haraka-128f-simple/aesni/api.h
+@@ -10,7 +10,7 @@
+ 
+ #define PQCLEAN_SPHINCSHARAKA128FSIMPLE_AESNI_CRYPTO_SECRETKEYBYTES 64
+ #define PQCLEAN_SPHINCSHARAKA128FSIMPLE_AESNI_CRYPTO_PUBLICKEYBYTES 32
+-#define PQCLEAN_SPHINCSHARAKA128FSIMPLE_AESNI_CRYPTO_BYTES 16976
++#define PQCLEAN_SPHINCSHARAKA128FSIMPLE_AESNI_CRYPTO_BYTES 17088
+ #define PQCLEAN_SPHINCSHARAKA128FSIMPLE_AESNI_CRYPTO_SEEDBYTES 48
+ 
+ 
+diff --git a/crypto_sign/sphincs-haraka-128f-simple/aesni/params.h b/crypto_sign/sphincs-haraka-128f-simple/aesni/params.h
+index 9054fb9e..2f7fb17b 100644
+--- a/crypto_sign/sphincs-haraka-128f-simple/aesni/params.h
++++ b/crypto_sign/sphincs-haraka-128f-simple/aesni/params.h
+@@ -4,12 +4,12 @@
+ /* Hash output length in bytes. */
+ #define PQCLEAN_SPHINCSHARAKA128FSIMPLE_AESNI_N 16
+ /* Height of the hypertree. */
+-#define PQCLEAN_SPHINCSHARAKA128FSIMPLE_AESNI_FULL_HEIGHT 60
++#define PQCLEAN_SPHINCSHARAKA128FSIMPLE_AESNI_FULL_HEIGHT 66
+ /* Number of subtree layer. */
+-#define PQCLEAN_SPHINCSHARAKA128FSIMPLE_AESNI_D 20
++#define PQCLEAN_SPHINCSHARAKA128FSIMPLE_AESNI_D 22
+ /* FORS tree dimensions. */
+-#define PQCLEAN_SPHINCSHARAKA128FSIMPLE_AESNI_FORS_HEIGHT 9
+-#define PQCLEAN_SPHINCSHARAKA128FSIMPLE_AESNI_FORS_TREES 30
++#define PQCLEAN_SPHINCSHARAKA128FSIMPLE_AESNI_FORS_HEIGHT 6
++#define PQCLEAN_SPHINCSHARAKA128FSIMPLE_AESNI_FORS_TREES 33
+ /* Winternitz parameter, */
+ #define PQCLEAN_SPHINCSHARAKA128FSIMPLE_AESNI_WOTS_W 16
+ 
+diff --git a/crypto_sign/sphincs-haraka-128f-simple/clean/api.h b/crypto_sign/sphincs-haraka-128f-simple/clean/api.h
+index edf32d17..0b14992b 100644
+--- a/crypto_sign/sphincs-haraka-128f-simple/clean/api.h
++++ b/crypto_sign/sphincs-haraka-128f-simple/clean/api.h
+@@ -10,7 +10,7 @@
+ 
+ #define PQCLEAN_SPHINCSHARAKA128FSIMPLE_CLEAN_CRYPTO_SECRETKEYBYTES 64
+ #define PQCLEAN_SPHINCSHARAKA128FSIMPLE_CLEAN_CRYPTO_PUBLICKEYBYTES 32
+-#define PQCLEAN_SPHINCSHARAKA128FSIMPLE_CLEAN_CRYPTO_BYTES 16976
++#define PQCLEAN_SPHINCSHARAKA128FSIMPLE_CLEAN_CRYPTO_BYTES 17088
+ #define PQCLEAN_SPHINCSHARAKA128FSIMPLE_CLEAN_CRYPTO_SEEDBYTES 48
+ 
+ 
+diff --git a/crypto_sign/sphincs-haraka-128f-simple/clean/params.h b/crypto_sign/sphincs-haraka-128f-simple/clean/params.h
+index 3587d902..6f17b1f7 100644
+--- a/crypto_sign/sphincs-haraka-128f-simple/clean/params.h
++++ b/crypto_sign/sphincs-haraka-128f-simple/clean/params.h
+@@ -4,12 +4,12 @@
+ /* Hash output length in bytes. */
+ #define PQCLEAN_SPHINCSHARAKA128FSIMPLE_CLEAN_N 16
+ /* Height of the hypertree. */
+-#define PQCLEAN_SPHINCSHARAKA128FSIMPLE_CLEAN_FULL_HEIGHT 60
++#define PQCLEAN_SPHINCSHARAKA128FSIMPLE_CLEAN_FULL_HEIGHT 66
+ /* Number of subtree layer. */
+-#define PQCLEAN_SPHINCSHARAKA128FSIMPLE_CLEAN_D 20
++#define PQCLEAN_SPHINCSHARAKA128FSIMPLE_CLEAN_D 22
+ /* FORS tree dimensions. */
+-#define PQCLEAN_SPHINCSHARAKA128FSIMPLE_CLEAN_FORS_HEIGHT 9
+-#define PQCLEAN_SPHINCSHARAKA128FSIMPLE_CLEAN_FORS_TREES 30
++#define PQCLEAN_SPHINCSHARAKA128FSIMPLE_CLEAN_FORS_HEIGHT 6
++#define PQCLEAN_SPHINCSHARAKA128FSIMPLE_CLEAN_FORS_TREES 33
+ /* Winternitz parameter, */
+ #define PQCLEAN_SPHINCSHARAKA128FSIMPLE_CLEAN_WOTS_W 16
+ 
+diff --git a/crypto_sign/sphincs-haraka-128s-robust/META.yml b/crypto_sign/sphincs-haraka-128s-robust/META.yml
+index a346153c..c270de21 100644
+--- a/crypto_sign/sphincs-haraka-128s-robust/META.yml
++++ b/crypto_sign/sphincs-haraka-128s-robust/META.yml
+@@ -3,9 +3,9 @@ type: signature
+ claimed-nist-level: 1
+ length-public-key: 32
+ length-secret-key: 64
+-length-signature: 8080
+-testvectors-sha256: b39fd1f6f34923b4c0696b72a1242f5a9e45df48eb28dcb9a53e4ba9955e130c
+-nistkat-sha256: de504b1aa6ee3cc6513a0da3511414b5d2472c5bd9efa780239518876c4e9fb2
++length-signature: 7856
++testvectors-sha256: 73227687507e01bbedad53e309507042052e6a86bea5fd65ea0efaf4a14800db
++nistkat-sha256: ffad452b5ec3217d204ed13f5af76009ce265dd61ce9097714d941fec106dd01
+ principal-submitters:
+   - Andreas Hülsing
+ auxiliary-submitters:
+diff --git a/crypto_sign/sphincs-haraka-128s-robust/aesni/api.h b/crypto_sign/sphincs-haraka-128s-robust/aesni/api.h
+index 54e4264e..bdf18264 100644
+--- a/crypto_sign/sphincs-haraka-128s-robust/aesni/api.h
++++ b/crypto_sign/sphincs-haraka-128s-robust/aesni/api.h
+@@ -10,7 +10,7 @@
+ 
+ #define PQCLEAN_SPHINCSHARAKA128SROBUST_AESNI_CRYPTO_SECRETKEYBYTES 64
+ #define PQCLEAN_SPHINCSHARAKA128SROBUST_AESNI_CRYPTO_PUBLICKEYBYTES 32
+-#define PQCLEAN_SPHINCSHARAKA128SROBUST_AESNI_CRYPTO_BYTES 8080
++#define PQCLEAN_SPHINCSHARAKA128SROBUST_AESNI_CRYPTO_BYTES 7856
+ #define PQCLEAN_SPHINCSHARAKA128SROBUST_AESNI_CRYPTO_SEEDBYTES 48
+ 
+ 
+diff --git a/crypto_sign/sphincs-haraka-128s-robust/aesni/params.h b/crypto_sign/sphincs-haraka-128s-robust/aesni/params.h
+index 9781caed..4008d557 100644
+--- a/crypto_sign/sphincs-haraka-128s-robust/aesni/params.h
++++ b/crypto_sign/sphincs-haraka-128s-robust/aesni/params.h
+@@ -4,12 +4,12 @@
+ /* Hash output length in bytes. */
+ #define PQCLEAN_SPHINCSHARAKA128SROBUST_AESNI_N 16
+ /* Height of the hypertree. */
+-#define PQCLEAN_SPHINCSHARAKA128SROBUST_AESNI_FULL_HEIGHT 64
++#define PQCLEAN_SPHINCSHARAKA128SROBUST_AESNI_FULL_HEIGHT 63
+ /* Number of subtree layer. */
+-#define PQCLEAN_SPHINCSHARAKA128SROBUST_AESNI_D 8
++#define PQCLEAN_SPHINCSHARAKA128SROBUST_AESNI_D 7
+ /* FORS tree dimensions. */
+-#define PQCLEAN_SPHINCSHARAKA128SROBUST_AESNI_FORS_HEIGHT 15
+-#define PQCLEAN_SPHINCSHARAKA128SROBUST_AESNI_FORS_TREES 10
++#define PQCLEAN_SPHINCSHARAKA128SROBUST_AESNI_FORS_HEIGHT 12
++#define PQCLEAN_SPHINCSHARAKA128SROBUST_AESNI_FORS_TREES 14
+ /* Winternitz parameter, */
+ #define PQCLEAN_SPHINCSHARAKA128SROBUST_AESNI_WOTS_W 16
+ 
+diff --git a/crypto_sign/sphincs-haraka-128s-robust/clean/api.h b/crypto_sign/sphincs-haraka-128s-robust/clean/api.h
+index c7e26331..fc12fc00 100644
+--- a/crypto_sign/sphincs-haraka-128s-robust/clean/api.h
++++ b/crypto_sign/sphincs-haraka-128s-robust/clean/api.h
+@@ -10,7 +10,7 @@
+ 
+ #define PQCLEAN_SPHINCSHARAKA128SROBUST_CLEAN_CRYPTO_SECRETKEYBYTES 64
+ #define PQCLEAN_SPHINCSHARAKA128SROBUST_CLEAN_CRYPTO_PUBLICKEYBYTES 32
+-#define PQCLEAN_SPHINCSHARAKA128SROBUST_CLEAN_CRYPTO_BYTES 8080
++#define PQCLEAN_SPHINCSHARAKA128SROBUST_CLEAN_CRYPTO_BYTES 7856
+ #define PQCLEAN_SPHINCSHARAKA128SROBUST_CLEAN_CRYPTO_SEEDBYTES 48
+ 
+ 
+diff --git a/crypto_sign/sphincs-haraka-128s-robust/clean/params.h b/crypto_sign/sphincs-haraka-128s-robust/clean/params.h
+index bef5e86c..70f544ab 100644
+--- a/crypto_sign/sphincs-haraka-128s-robust/clean/params.h
++++ b/crypto_sign/sphincs-haraka-128s-robust/clean/params.h
+@@ -4,12 +4,12 @@
+ /* Hash output length in bytes. */
+ #define PQCLEAN_SPHINCSHARAKA128SROBUST_CLEAN_N 16
+ /* Height of the hypertree. */
+-#define PQCLEAN_SPHINCSHARAKA128SROBUST_CLEAN_FULL_HEIGHT 64
++#define PQCLEAN_SPHINCSHARAKA128SROBUST_CLEAN_FULL_HEIGHT 63
+ /* Number of subtree layer. */
+-#define PQCLEAN_SPHINCSHARAKA128SROBUST_CLEAN_D 8
++#define PQCLEAN_SPHINCSHARAKA128SROBUST_CLEAN_D 7
+ /* FORS tree dimensions. */
+-#define PQCLEAN_SPHINCSHARAKA128SROBUST_CLEAN_FORS_HEIGHT 15
+-#define PQCLEAN_SPHINCSHARAKA128SROBUST_CLEAN_FORS_TREES 10
++#define PQCLEAN_SPHINCSHARAKA128SROBUST_CLEAN_FORS_HEIGHT 12
++#define PQCLEAN_SPHINCSHARAKA128SROBUST_CLEAN_FORS_TREES 14
+ /* Winternitz parameter, */
+ #define PQCLEAN_SPHINCSHARAKA128SROBUST_CLEAN_WOTS_W 16
+ 
+diff --git a/crypto_sign/sphincs-haraka-128s-simple/META.yml b/crypto_sign/sphincs-haraka-128s-simple/META.yml
+index 3940379b..80a2c052 100644
+--- a/crypto_sign/sphincs-haraka-128s-simple/META.yml
++++ b/crypto_sign/sphincs-haraka-128s-simple/META.yml
+@@ -3,9 +3,9 @@ type: signature
+ claimed-nist-level: 1
+ length-public-key: 32
+ length-secret-key: 64
+-length-signature: 8080
+-testvectors-sha256: 526b848d03142746354042329e174aedda2acd70269a57017e37edd5b1b8976a
+-nistkat-sha256: a83a6512c773b1f305f07a383ececf607ecfbd0e5ad49b4ab444faed019f66c8
++length-signature: 7856
++testvectors-sha256: eb437d54cd786aec4b5a9aa9c7459a111a7343b809d553af9a51797963f379ee
++nistkat-sha256: 625422a71b884ecf4d42e21f96091a18635e4862b68d0627e21a4a0033819603
+ principal-submitters:
+   - Andreas Hülsing
+ auxiliary-submitters:
+diff --git a/crypto_sign/sphincs-haraka-128s-simple/aesni/api.h b/crypto_sign/sphincs-haraka-128s-simple/aesni/api.h
+index e9f786a7..32ca77c6 100644
+--- a/crypto_sign/sphincs-haraka-128s-simple/aesni/api.h
++++ b/crypto_sign/sphincs-haraka-128s-simple/aesni/api.h
+@@ -10,7 +10,7 @@
+ 
+ #define PQCLEAN_SPHINCSHARAKA128SSIMPLE_AESNI_CRYPTO_SECRETKEYBYTES 64
+ #define PQCLEAN_SPHINCSHARAKA128SSIMPLE_AESNI_CRYPTO_PUBLICKEYBYTES 32
+-#define PQCLEAN_SPHINCSHARAKA128SSIMPLE_AESNI_CRYPTO_BYTES 8080
++#define PQCLEAN_SPHINCSHARAKA128SSIMPLE_AESNI_CRYPTO_BYTES 7856
+ #define PQCLEAN_SPHINCSHARAKA128SSIMPLE_AESNI_CRYPTO_SEEDBYTES 48
+ 
+ 
+diff --git a/crypto_sign/sphincs-haraka-128s-simple/aesni/params.h b/crypto_sign/sphincs-haraka-128s-simple/aesni/params.h
+index 71f82315..378e1329 100644
+--- a/crypto_sign/sphincs-haraka-128s-simple/aesni/params.h
++++ b/crypto_sign/sphincs-haraka-128s-simple/aesni/params.h
+@@ -4,12 +4,12 @@
+ /* Hash output length in bytes. */
+ #define PQCLEAN_SPHINCSHARAKA128SSIMPLE_AESNI_N 16
+ /* Height of the hypertree. */
+-#define PQCLEAN_SPHINCSHARAKA128SSIMPLE_AESNI_FULL_HEIGHT 64
++#define PQCLEAN_SPHINCSHARAKA128SSIMPLE_AESNI_FULL_HEIGHT 63
+ /* Number of subtree layer. */
+-#define PQCLEAN_SPHINCSHARAKA128SSIMPLE_AESNI_D 8
++#define PQCLEAN_SPHINCSHARAKA128SSIMPLE_AESNI_D 7
+ /* FORS tree dimensions. */
+-#define PQCLEAN_SPHINCSHARAKA128SSIMPLE_AESNI_FORS_HEIGHT 15
+-#define PQCLEAN_SPHINCSHARAKA128SSIMPLE_AESNI_FORS_TREES 10
++#define PQCLEAN_SPHINCSHARAKA128SSIMPLE_AESNI_FORS_HEIGHT 12
++#define PQCLEAN_SPHINCSHARAKA128SSIMPLE_AESNI_FORS_TREES 14
+ /* Winternitz parameter, */
+ #define PQCLEAN_SPHINCSHARAKA128SSIMPLE_AESNI_WOTS_W 16
+ 
+diff --git a/crypto_sign/sphincs-haraka-128s-simple/clean/api.h b/crypto_sign/sphincs-haraka-128s-simple/clean/api.h
+index 4d3a7ece..679b1c28 100644
+--- a/crypto_sign/sphincs-haraka-128s-simple/clean/api.h
++++ b/crypto_sign/sphincs-haraka-128s-simple/clean/api.h
+@@ -10,7 +10,7 @@
+ 
+ #define PQCLEAN_SPHINCSHARAKA128SSIMPLE_CLEAN_CRYPTO_SECRETKEYBYTES 64
+ #define PQCLEAN_SPHINCSHARAKA128SSIMPLE_CLEAN_CRYPTO_PUBLICKEYBYTES 32
+-#define PQCLEAN_SPHINCSHARAKA128SSIMPLE_CLEAN_CRYPTO_BYTES 8080
++#define PQCLEAN_SPHINCSHARAKA128SSIMPLE_CLEAN_CRYPTO_BYTES 7856
+ #define PQCLEAN_SPHINCSHARAKA128SSIMPLE_CLEAN_CRYPTO_SEEDBYTES 48
+ 
+ 
+diff --git a/crypto_sign/sphincs-haraka-128s-simple/clean/params.h b/crypto_sign/sphincs-haraka-128s-simple/clean/params.h
+index eb2f5c3e..7130d0a7 100644
+--- a/crypto_sign/sphincs-haraka-128s-simple/clean/params.h
++++ b/crypto_sign/sphincs-haraka-128s-simple/clean/params.h
+@@ -4,12 +4,12 @@
+ /* Hash output length in bytes. */
+ #define PQCLEAN_SPHINCSHARAKA128SSIMPLE_CLEAN_N 16
+ /* Height of the hypertree. */
+-#define PQCLEAN_SPHINCSHARAKA128SSIMPLE_CLEAN_FULL_HEIGHT 64
++#define PQCLEAN_SPHINCSHARAKA128SSIMPLE_CLEAN_FULL_HEIGHT 63
+ /* Number of subtree layer. */
+-#define PQCLEAN_SPHINCSHARAKA128SSIMPLE_CLEAN_D 8
++#define PQCLEAN_SPHINCSHARAKA128SSIMPLE_CLEAN_D 7
+ /* FORS tree dimensions. */
+-#define PQCLEAN_SPHINCSHARAKA128SSIMPLE_CLEAN_FORS_HEIGHT 15
+-#define PQCLEAN_SPHINCSHARAKA128SSIMPLE_CLEAN_FORS_TREES 10
++#define PQCLEAN_SPHINCSHARAKA128SSIMPLE_CLEAN_FORS_HEIGHT 12
++#define PQCLEAN_SPHINCSHARAKA128SSIMPLE_CLEAN_FORS_TREES 14
+ /* Winternitz parameter, */
+ #define PQCLEAN_SPHINCSHARAKA128SSIMPLE_CLEAN_WOTS_W 16
+ 
+diff --git a/crypto_sign/sphincs-haraka-192s-robust/META.yml b/crypto_sign/sphincs-haraka-192s-robust/META.yml
+index d4639811..4d27fede 100644
+--- a/crypto_sign/sphincs-haraka-192s-robust/META.yml
++++ b/crypto_sign/sphincs-haraka-192s-robust/META.yml
+@@ -3,9 +3,9 @@ type: signature
+ claimed-nist-level: 3
+ length-public-key: 48
+ length-secret-key: 96
+-length-signature: 17064
+-testvectors-sha256: 524edf3f752a7f203fb128d9ca3ad530fba09777527f7d7511477dbaaea185ca
+-nistkat-sha256: 3bb2c0ea5d4b7c39d1c63b424493ab9b739c64adf511abf7e4107ad750a46273
++length-signature: 16224
++testvectors-sha256: 055a2d779e8138ff61da1946bb563054f7528523c2c0e24ef732000423a77c38
++nistkat-sha256: 3d6f746167b234c7e689dff201558ac6ce6883b0c545517fe29c33fd24bfe619
+ principal-submitters:
+   - Andreas Hülsing
+ auxiliary-submitters:
+diff --git a/crypto_sign/sphincs-haraka-192s-robust/aesni/api.h b/crypto_sign/sphincs-haraka-192s-robust/aesni/api.h
+index ff14b0a6..e2b35255 100644
+--- a/crypto_sign/sphincs-haraka-192s-robust/aesni/api.h
++++ b/crypto_sign/sphincs-haraka-192s-robust/aesni/api.h
+@@ -10,7 +10,7 @@
+ 
+ #define PQCLEAN_SPHINCSHARAKA192SROBUST_AESNI_CRYPTO_SECRETKEYBYTES 96
+ #define PQCLEAN_SPHINCSHARAKA192SROBUST_AESNI_CRYPTO_PUBLICKEYBYTES 48
+-#define PQCLEAN_SPHINCSHARAKA192SROBUST_AESNI_CRYPTO_BYTES 17064
++#define PQCLEAN_SPHINCSHARAKA192SROBUST_AESNI_CRYPTO_BYTES 16224
+ #define PQCLEAN_SPHINCSHARAKA192SROBUST_AESNI_CRYPTO_SEEDBYTES 72
+ 
+ 
+diff --git a/crypto_sign/sphincs-haraka-192s-robust/aesni/params.h b/crypto_sign/sphincs-haraka-192s-robust/aesni/params.h
+index 2103a2b6..b33b0c10 100644
+--- a/crypto_sign/sphincs-haraka-192s-robust/aesni/params.h
++++ b/crypto_sign/sphincs-haraka-192s-robust/aesni/params.h
+@@ -4,12 +4,12 @@
+ /* Hash output length in bytes. */
+ #define PQCLEAN_SPHINCSHARAKA192SROBUST_AESNI_N 24
+ /* Height of the hypertree. */
+-#define PQCLEAN_SPHINCSHARAKA192SROBUST_AESNI_FULL_HEIGHT 64
++#define PQCLEAN_SPHINCSHARAKA192SROBUST_AESNI_FULL_HEIGHT 63
+ /* Number of subtree layer. */
+-#define PQCLEAN_SPHINCSHARAKA192SROBUST_AESNI_D 8
++#define PQCLEAN_SPHINCSHARAKA192SROBUST_AESNI_D 7
+ /* FORS tree dimensions. */
+-#define PQCLEAN_SPHINCSHARAKA192SROBUST_AESNI_FORS_HEIGHT 16
+-#define PQCLEAN_SPHINCSHARAKA192SROBUST_AESNI_FORS_TREES 14
++#define PQCLEAN_SPHINCSHARAKA192SROBUST_AESNI_FORS_HEIGHT 14
++#define PQCLEAN_SPHINCSHARAKA192SROBUST_AESNI_FORS_TREES 17
+ /* Winternitz parameter, */
+ #define PQCLEAN_SPHINCSHARAKA192SROBUST_AESNI_WOTS_W 16
+ 
+diff --git a/crypto_sign/sphincs-haraka-192s-robust/clean/api.h b/crypto_sign/sphincs-haraka-192s-robust/clean/api.h
+index d3064370..94aa4e1b 100644
+--- a/crypto_sign/sphincs-haraka-192s-robust/clean/api.h
++++ b/crypto_sign/sphincs-haraka-192s-robust/clean/api.h
+@@ -10,7 +10,7 @@
+ 
+ #define PQCLEAN_SPHINCSHARAKA192SROBUST_CLEAN_CRYPTO_SECRETKEYBYTES 96
+ #define PQCLEAN_SPHINCSHARAKA192SROBUST_CLEAN_CRYPTO_PUBLICKEYBYTES 48
+-#define PQCLEAN_SPHINCSHARAKA192SROBUST_CLEAN_CRYPTO_BYTES 17064
++#define PQCLEAN_SPHINCSHARAKA192SROBUST_CLEAN_CRYPTO_BYTES 16224
+ #define PQCLEAN_SPHINCSHARAKA192SROBUST_CLEAN_CRYPTO_SEEDBYTES 72
+ 
+ 
+diff --git a/crypto_sign/sphincs-haraka-192s-robust/clean/params.h b/crypto_sign/sphincs-haraka-192s-robust/clean/params.h
+index 6d5ad745..92f4fca2 100644
+--- a/crypto_sign/sphincs-haraka-192s-robust/clean/params.h
++++ b/crypto_sign/sphincs-haraka-192s-robust/clean/params.h
+@@ -4,12 +4,12 @@
+ /* Hash output length in bytes. */
+ #define PQCLEAN_SPHINCSHARAKA192SROBUST_CLEAN_N 24
+ /* Height of the hypertree. */
+-#define PQCLEAN_SPHINCSHARAKA192SROBUST_CLEAN_FULL_HEIGHT 64
++#define PQCLEAN_SPHINCSHARAKA192SROBUST_CLEAN_FULL_HEIGHT 63
+ /* Number of subtree layer. */
+-#define PQCLEAN_SPHINCSHARAKA192SROBUST_CLEAN_D 8
++#define PQCLEAN_SPHINCSHARAKA192SROBUST_CLEAN_D 7
+ /* FORS tree dimensions. */
+-#define PQCLEAN_SPHINCSHARAKA192SROBUST_CLEAN_FORS_HEIGHT 16
+-#define PQCLEAN_SPHINCSHARAKA192SROBUST_CLEAN_FORS_TREES 14
++#define PQCLEAN_SPHINCSHARAKA192SROBUST_CLEAN_FORS_HEIGHT 14
++#define PQCLEAN_SPHINCSHARAKA192SROBUST_CLEAN_FORS_TREES 17
+ /* Winternitz parameter, */
+ #define PQCLEAN_SPHINCSHARAKA192SROBUST_CLEAN_WOTS_W 16
+ 
+diff --git a/crypto_sign/sphincs-haraka-192s-simple/META.yml b/crypto_sign/sphincs-haraka-192s-simple/META.yml
+index 1b85510d..6be08461 100644
+--- a/crypto_sign/sphincs-haraka-192s-simple/META.yml
++++ b/crypto_sign/sphincs-haraka-192s-simple/META.yml
+@@ -3,9 +3,9 @@ type: signature
+ claimed-nist-level: 3
+ length-public-key: 48
+ length-secret-key: 96
+-length-signature: 17064
+-testvectors-sha256: 0228f1872256e698360c0b156e7fffc12d234e50acbf05a4e899d4d8105d2796
+-nistkat-sha256: c8e823fe6b03f35a0d9996dea1559e6924b86e2631e945a3ab9bb4e55c22c068
++length-signature: 16224
++testvectors-sha256: 56c59f161dff0ad75388e18431da2bff651312ec1cb57ab6df2243eb4e5fa784
++nistkat-sha256: ce6e8ff33f0264027bfe874c4265dc84de981b5fcb1d8ead2459c85a37f49cbf
+ principal-submitters:
+   - Andreas Hülsing
+ auxiliary-submitters:
+diff --git a/crypto_sign/sphincs-haraka-192s-simple/aesni/api.h b/crypto_sign/sphincs-haraka-192s-simple/aesni/api.h
+index 4f502429..a82f2f27 100644
+--- a/crypto_sign/sphincs-haraka-192s-simple/aesni/api.h
++++ b/crypto_sign/sphincs-haraka-192s-simple/aesni/api.h
+@@ -10,7 +10,7 @@
+ 
+ #define PQCLEAN_SPHINCSHARAKA192SSIMPLE_AESNI_CRYPTO_SECRETKEYBYTES 96
+ #define PQCLEAN_SPHINCSHARAKA192SSIMPLE_AESNI_CRYPTO_PUBLICKEYBYTES 48
+-#define PQCLEAN_SPHINCSHARAKA192SSIMPLE_AESNI_CRYPTO_BYTES 17064
++#define PQCLEAN_SPHINCSHARAKA192SSIMPLE_AESNI_CRYPTO_BYTES 16224
+ #define PQCLEAN_SPHINCSHARAKA192SSIMPLE_AESNI_CRYPTO_SEEDBYTES 72
+ 
+ 
+diff --git a/crypto_sign/sphincs-haraka-192s-simple/aesni/params.h b/crypto_sign/sphincs-haraka-192s-simple/aesni/params.h
+index 0f8d7918..cfea7f49 100644
+--- a/crypto_sign/sphincs-haraka-192s-simple/aesni/params.h
++++ b/crypto_sign/sphincs-haraka-192s-simple/aesni/params.h
+@@ -4,12 +4,12 @@
+ /* Hash output length in bytes. */
+ #define PQCLEAN_SPHINCSHARAKA192SSIMPLE_AESNI_N 24
+ /* Height of the hypertree. */
+-#define PQCLEAN_SPHINCSHARAKA192SSIMPLE_AESNI_FULL_HEIGHT 64
++#define PQCLEAN_SPHINCSHARAKA192SSIMPLE_AESNI_FULL_HEIGHT 63
+ /* Number of subtree layer. */
+-#define PQCLEAN_SPHINCSHARAKA192SSIMPLE_AESNI_D 8
++#define PQCLEAN_SPHINCSHARAKA192SSIMPLE_AESNI_D 7
+ /* FORS tree dimensions. */
+-#define PQCLEAN_SPHINCSHARAKA192SSIMPLE_AESNI_FORS_HEIGHT 16
+-#define PQCLEAN_SPHINCSHARAKA192SSIMPLE_AESNI_FORS_TREES 14
++#define PQCLEAN_SPHINCSHARAKA192SSIMPLE_AESNI_FORS_HEIGHT 14
++#define PQCLEAN_SPHINCSHARAKA192SSIMPLE_AESNI_FORS_TREES 17
+ /* Winternitz parameter, */
+ #define PQCLEAN_SPHINCSHARAKA192SSIMPLE_AESNI_WOTS_W 16
+ 
+diff --git a/crypto_sign/sphincs-haraka-192s-simple/clean/api.h b/crypto_sign/sphincs-haraka-192s-simple/clean/api.h
+index 30b02cd7..a95a4f47 100644
+--- a/crypto_sign/sphincs-haraka-192s-simple/clean/api.h
++++ b/crypto_sign/sphincs-haraka-192s-simple/clean/api.h
+@@ -10,7 +10,7 @@
+ 
+ #define PQCLEAN_SPHINCSHARAKA192SSIMPLE_CLEAN_CRYPTO_SECRETKEYBYTES 96
+ #define PQCLEAN_SPHINCSHARAKA192SSIMPLE_CLEAN_CRYPTO_PUBLICKEYBYTES 48
+-#define PQCLEAN_SPHINCSHARAKA192SSIMPLE_CLEAN_CRYPTO_BYTES 17064
++#define PQCLEAN_SPHINCSHARAKA192SSIMPLE_CLEAN_CRYPTO_BYTES 16224
+ #define PQCLEAN_SPHINCSHARAKA192SSIMPLE_CLEAN_CRYPTO_SEEDBYTES 72
+ 
+ 
+diff --git a/crypto_sign/sphincs-haraka-192s-simple/clean/params.h b/crypto_sign/sphincs-haraka-192s-simple/clean/params.h
+index 73d58e37..7601b7ba 100644
+--- a/crypto_sign/sphincs-haraka-192s-simple/clean/params.h
++++ b/crypto_sign/sphincs-haraka-192s-simple/clean/params.h
+@@ -4,12 +4,12 @@
+ /* Hash output length in bytes. */
+ #define PQCLEAN_SPHINCSHARAKA192SSIMPLE_CLEAN_N 24
+ /* Height of the hypertree. */
+-#define PQCLEAN_SPHINCSHARAKA192SSIMPLE_CLEAN_FULL_HEIGHT 64
++#define PQCLEAN_SPHINCSHARAKA192SSIMPLE_CLEAN_FULL_HEIGHT 63
+ /* Number of subtree layer. */
+-#define PQCLEAN_SPHINCSHARAKA192SSIMPLE_CLEAN_D 8
++#define PQCLEAN_SPHINCSHARAKA192SSIMPLE_CLEAN_D 7
+ /* FORS tree dimensions. */
+-#define PQCLEAN_SPHINCSHARAKA192SSIMPLE_CLEAN_FORS_HEIGHT 16
+-#define PQCLEAN_SPHINCSHARAKA192SSIMPLE_CLEAN_FORS_TREES 14
++#define PQCLEAN_SPHINCSHARAKA192SSIMPLE_CLEAN_FORS_HEIGHT 14
++#define PQCLEAN_SPHINCSHARAKA192SSIMPLE_CLEAN_FORS_TREES 17
+ /* Winternitz parameter, */
+ #define PQCLEAN_SPHINCSHARAKA192SSIMPLE_CLEAN_WOTS_W 16
+ 
+diff --git a/crypto_sign/sphincs-haraka-256f-robust/META.yml b/crypto_sign/sphincs-haraka-256f-robust/META.yml
+index 65bafe76..1435ed57 100644
+--- a/crypto_sign/sphincs-haraka-256f-robust/META.yml
++++ b/crypto_sign/sphincs-haraka-256f-robust/META.yml
+@@ -3,9 +3,9 @@ type: signature
+ claimed-nist-level: 5
+ length-public-key: 64
+ length-secret-key: 128
+-length-signature: 49216
+-testvectors-sha256: 7cc4c9a8720401ed53bc2fa9a0dd9e316dca3a715b3c730d1e0c4822dfdfd0b5
+-nistkat-sha256: b31c6a00604e5f1eed1534c0f8ab29ceb0c831397075ca93c43c5a2a73e2649c
++length-signature: 49856
++testvectors-sha256: 267f7430ac689daf4da146bb98f345611d6e3339f39fc5b3d9e2169d8bcfba96
++nistkat-sha256: 7e346ad1ab94be33b757d833f1a934e23af6251e7aac7072d098ef15dc3264fd
+ principal-submitters:
+   - Andreas Hülsing
+ auxiliary-submitters:
+diff --git a/crypto_sign/sphincs-haraka-256f-robust/aesni/api.h b/crypto_sign/sphincs-haraka-256f-robust/aesni/api.h
+index 64a49ea5..ad341ab6 100644
+--- a/crypto_sign/sphincs-haraka-256f-robust/aesni/api.h
++++ b/crypto_sign/sphincs-haraka-256f-robust/aesni/api.h
+@@ -10,7 +10,7 @@
+ 
+ #define PQCLEAN_SPHINCSHARAKA256FROBUST_AESNI_CRYPTO_SECRETKEYBYTES 128
+ #define PQCLEAN_SPHINCSHARAKA256FROBUST_AESNI_CRYPTO_PUBLICKEYBYTES 64
+-#define PQCLEAN_SPHINCSHARAKA256FROBUST_AESNI_CRYPTO_BYTES 49216
++#define PQCLEAN_SPHINCSHARAKA256FROBUST_AESNI_CRYPTO_BYTES 49856
+ #define PQCLEAN_SPHINCSHARAKA256FROBUST_AESNI_CRYPTO_SEEDBYTES 96
+ 
+ 
+diff --git a/crypto_sign/sphincs-haraka-256f-robust/aesni/params.h b/crypto_sign/sphincs-haraka-256f-robust/aesni/params.h
+index babfe795..f6128642 100644
+--- a/crypto_sign/sphincs-haraka-256f-robust/aesni/params.h
++++ b/crypto_sign/sphincs-haraka-256f-robust/aesni/params.h
+@@ -8,8 +8,8 @@
+ /* Number of subtree layer. */
+ #define PQCLEAN_SPHINCSHARAKA256FROBUST_AESNI_D 17
+ /* FORS tree dimensions. */
+-#define PQCLEAN_SPHINCSHARAKA256FROBUST_AESNI_FORS_HEIGHT 10
+-#define PQCLEAN_SPHINCSHARAKA256FROBUST_AESNI_FORS_TREES 30
++#define PQCLEAN_SPHINCSHARAKA256FROBUST_AESNI_FORS_HEIGHT 9
++#define PQCLEAN_SPHINCSHARAKA256FROBUST_AESNI_FORS_TREES 35
+ /* Winternitz parameter, */
+ #define PQCLEAN_SPHINCSHARAKA256FROBUST_AESNI_WOTS_W 16
+ 
+diff --git a/crypto_sign/sphincs-haraka-256f-robust/clean/api.h b/crypto_sign/sphincs-haraka-256f-robust/clean/api.h
+index 1537adea..dcdb8850 100644
+--- a/crypto_sign/sphincs-haraka-256f-robust/clean/api.h
++++ b/crypto_sign/sphincs-haraka-256f-robust/clean/api.h
+@@ -10,7 +10,7 @@
+ 
+ #define PQCLEAN_SPHINCSHARAKA256FROBUST_CLEAN_CRYPTO_SECRETKEYBYTES 128
+ #define PQCLEAN_SPHINCSHARAKA256FROBUST_CLEAN_CRYPTO_PUBLICKEYBYTES 64
+-#define PQCLEAN_SPHINCSHARAKA256FROBUST_CLEAN_CRYPTO_BYTES 49216
++#define PQCLEAN_SPHINCSHARAKA256FROBUST_CLEAN_CRYPTO_BYTES 49856
+ #define PQCLEAN_SPHINCSHARAKA256FROBUST_CLEAN_CRYPTO_SEEDBYTES 96
+ 
+ 
+diff --git a/crypto_sign/sphincs-haraka-256f-robust/clean/params.h b/crypto_sign/sphincs-haraka-256f-robust/clean/params.h
+index 5870e431..4d457ad8 100644
+--- a/crypto_sign/sphincs-haraka-256f-robust/clean/params.h
++++ b/crypto_sign/sphincs-haraka-256f-robust/clean/params.h
+@@ -8,8 +8,8 @@
+ /* Number of subtree layer. */
+ #define PQCLEAN_SPHINCSHARAKA256FROBUST_CLEAN_D 17
+ /* FORS tree dimensions. */
+-#define PQCLEAN_SPHINCSHARAKA256FROBUST_CLEAN_FORS_HEIGHT 10
+-#define PQCLEAN_SPHINCSHARAKA256FROBUST_CLEAN_FORS_TREES 30
++#define PQCLEAN_SPHINCSHARAKA256FROBUST_CLEAN_FORS_HEIGHT 9
++#define PQCLEAN_SPHINCSHARAKA256FROBUST_CLEAN_FORS_TREES 35
+ /* Winternitz parameter, */
+ #define PQCLEAN_SPHINCSHARAKA256FROBUST_CLEAN_WOTS_W 16
+ 
+diff --git a/crypto_sign/sphincs-haraka-256f-simple/META.yml b/crypto_sign/sphincs-haraka-256f-simple/META.yml
+index 054bd6fb..a7c061c2 100644
+--- a/crypto_sign/sphincs-haraka-256f-simple/META.yml
++++ b/crypto_sign/sphincs-haraka-256f-simple/META.yml
+@@ -3,9 +3,9 @@ type: signature
+ claimed-nist-level: 5
+ length-public-key: 64
+ length-secret-key: 128
+-length-signature: 49216
+-testvectors-sha256: dec0d78c3084540ea5c8a4ced594d07b0110d21d4a5564b80c4ea2638030b44d
+-nistkat-sha256: 73d4172d95d0e668f7ac535a67f6ab26a963a604391053c9a2ce62cba88f2220
++length-signature: 49856
++testvectors-sha256: 8edd7008c1f3251171239876e7e71c6926330e15704c4cb490f41dc6ba5bb7d8
++nistkat-sha256: b7bfc3a28daf35cd4110628c70294d1bcbd2a5da066bdc459891b7684432e037
+ principal-submitters:
+   - Andreas Hülsing
+ auxiliary-submitters:
+diff --git a/crypto_sign/sphincs-haraka-256f-simple/aesni/api.h b/crypto_sign/sphincs-haraka-256f-simple/aesni/api.h
+index c61b6f63..7f3ef8c0 100644
+--- a/crypto_sign/sphincs-haraka-256f-simple/aesni/api.h
++++ b/crypto_sign/sphincs-haraka-256f-simple/aesni/api.h
+@@ -10,7 +10,7 @@
+ 
+ #define PQCLEAN_SPHINCSHARAKA256FSIMPLE_AESNI_CRYPTO_SECRETKEYBYTES 128
+ #define PQCLEAN_SPHINCSHARAKA256FSIMPLE_AESNI_CRYPTO_PUBLICKEYBYTES 64
+-#define PQCLEAN_SPHINCSHARAKA256FSIMPLE_AESNI_CRYPTO_BYTES 49216
++#define PQCLEAN_SPHINCSHARAKA256FSIMPLE_AESNI_CRYPTO_BYTES 49856
+ #define PQCLEAN_SPHINCSHARAKA256FSIMPLE_AESNI_CRYPTO_SEEDBYTES 96
+ 
+ 
+diff --git a/crypto_sign/sphincs-haraka-256f-simple/aesni/params.h b/crypto_sign/sphincs-haraka-256f-simple/aesni/params.h
+index 1e12a268..c64f0330 100644
+--- a/crypto_sign/sphincs-haraka-256f-simple/aesni/params.h
++++ b/crypto_sign/sphincs-haraka-256f-simple/aesni/params.h
+@@ -8,8 +8,8 @@
+ /* Number of subtree layer. */
+ #define PQCLEAN_SPHINCSHARAKA256FSIMPLE_AESNI_D 17
+ /* FORS tree dimensions. */
+-#define PQCLEAN_SPHINCSHARAKA256FSIMPLE_AESNI_FORS_HEIGHT 10
+-#define PQCLEAN_SPHINCSHARAKA256FSIMPLE_AESNI_FORS_TREES 30
++#define PQCLEAN_SPHINCSHARAKA256FSIMPLE_AESNI_FORS_HEIGHT 9
++#define PQCLEAN_SPHINCSHARAKA256FSIMPLE_AESNI_FORS_TREES 35
+ /* Winternitz parameter, */
+ #define PQCLEAN_SPHINCSHARAKA256FSIMPLE_AESNI_WOTS_W 16
+ 
+diff --git a/crypto_sign/sphincs-haraka-256f-simple/clean/api.h b/crypto_sign/sphincs-haraka-256f-simple/clean/api.h
+index bc39e1c7..135cc297 100644
+--- a/crypto_sign/sphincs-haraka-256f-simple/clean/api.h
++++ b/crypto_sign/sphincs-haraka-256f-simple/clean/api.h
+@@ -10,7 +10,7 @@
+ 
+ #define PQCLEAN_SPHINCSHARAKA256FSIMPLE_CLEAN_CRYPTO_SECRETKEYBYTES 128
+ #define PQCLEAN_SPHINCSHARAKA256FSIMPLE_CLEAN_CRYPTO_PUBLICKEYBYTES 64
+-#define PQCLEAN_SPHINCSHARAKA256FSIMPLE_CLEAN_CRYPTO_BYTES 49216
++#define PQCLEAN_SPHINCSHARAKA256FSIMPLE_CLEAN_CRYPTO_BYTES 49856
+ #define PQCLEAN_SPHINCSHARAKA256FSIMPLE_CLEAN_CRYPTO_SEEDBYTES 96
+ 
+ 
+diff --git a/crypto_sign/sphincs-haraka-256f-simple/clean/params.h b/crypto_sign/sphincs-haraka-256f-simple/clean/params.h
+index d14d3d9a..ccd14efd 100644
+--- a/crypto_sign/sphincs-haraka-256f-simple/clean/params.h
++++ b/crypto_sign/sphincs-haraka-256f-simple/clean/params.h
+@@ -8,8 +8,8 @@
+ /* Number of subtree layer. */
+ #define PQCLEAN_SPHINCSHARAKA256FSIMPLE_CLEAN_D 17
+ /* FORS tree dimensions. */
+-#define PQCLEAN_SPHINCSHARAKA256FSIMPLE_CLEAN_FORS_HEIGHT 10
+-#define PQCLEAN_SPHINCSHARAKA256FSIMPLE_CLEAN_FORS_TREES 30
++#define PQCLEAN_SPHINCSHARAKA256FSIMPLE_CLEAN_FORS_HEIGHT 9
++#define PQCLEAN_SPHINCSHARAKA256FSIMPLE_CLEAN_FORS_TREES 35
+ /* Winternitz parameter, */
+ #define PQCLEAN_SPHINCSHARAKA256FSIMPLE_CLEAN_WOTS_W 16
+ 
+diff --git a/crypto_sign/sphincs-sha256-128f-robust/META.yml b/crypto_sign/sphincs-sha256-128f-robust/META.yml
+index e81515cb..41b8c55a 100644
+--- a/crypto_sign/sphincs-sha256-128f-robust/META.yml
++++ b/crypto_sign/sphincs-sha256-128f-robust/META.yml
+@@ -3,9 +3,9 @@ type: signature
+ claimed-nist-level: 1
+ length-public-key: 32
+ length-secret-key: 64
+-length-signature: 16976
+-testvectors-sha256: 3e7c782b25e405940160468c2d777a5ab6eb9b6cfe318efed257f3270cca8c72
+-nistkat-sha256: cf7935fc0277099a7453f6c5dc54e40d5cf34fbe989909940a77a3fbbab6c42e
++length-signature: 17088
++testvectors-sha256: 5188977525e2299dc1823b1017bfd8b14d7e78fcc71e6d4aecd76c9fb3a07af4
++nistkat-sha256: 99c5e790fd3e2afb33b4b7b3666247368b3aa6d8c216c8537626a7fd8a680430
+ principal-submitters:
+   - Andreas Hülsing
+ auxiliary-submitters:
+diff --git a/crypto_sign/sphincs-sha256-128f-robust/avx2/api.h b/crypto_sign/sphincs-sha256-128f-robust/avx2/api.h
+index a62b3a1f..7eee4673 100644
+--- a/crypto_sign/sphincs-sha256-128f-robust/avx2/api.h
++++ b/crypto_sign/sphincs-sha256-128f-robust/avx2/api.h
+@@ -10,7 +10,7 @@
+ 
+ #define PQCLEAN_SPHINCSSHA256128FROBUST_AVX2_CRYPTO_SECRETKEYBYTES 64
+ #define PQCLEAN_SPHINCSSHA256128FROBUST_AVX2_CRYPTO_PUBLICKEYBYTES 32
+-#define PQCLEAN_SPHINCSSHA256128FROBUST_AVX2_CRYPTO_BYTES 16976
++#define PQCLEAN_SPHINCSSHA256128FROBUST_AVX2_CRYPTO_BYTES 17088
+ #define PQCLEAN_SPHINCSSHA256128FROBUST_AVX2_CRYPTO_SEEDBYTES 48
+ 
+ 
+diff --git a/crypto_sign/sphincs-sha256-128f-robust/avx2/params.h b/crypto_sign/sphincs-sha256-128f-robust/avx2/params.h
+index 14a7ed47..69ab9a2e 100644
+--- a/crypto_sign/sphincs-sha256-128f-robust/avx2/params.h
++++ b/crypto_sign/sphincs-sha256-128f-robust/avx2/params.h
+@@ -4,12 +4,12 @@
+ /* Hash output length in bytes. */
+ #define PQCLEAN_SPHINCSSHA256128FROBUST_AVX2_N 16
+ /* Height of the hypertree. */
+-#define PQCLEAN_SPHINCSSHA256128FROBUST_AVX2_FULL_HEIGHT 60
++#define PQCLEAN_SPHINCSSHA256128FROBUST_AVX2_FULL_HEIGHT 66
+ /* Number of subtree layer. */
+-#define PQCLEAN_SPHINCSSHA256128FROBUST_AVX2_D 20
++#define PQCLEAN_SPHINCSSHA256128FROBUST_AVX2_D 22
+ /* FORS tree dimensions. */
+-#define PQCLEAN_SPHINCSSHA256128FROBUST_AVX2_FORS_HEIGHT 9
+-#define PQCLEAN_SPHINCSSHA256128FROBUST_AVX2_FORS_TREES 30
++#define PQCLEAN_SPHINCSSHA256128FROBUST_AVX2_FORS_HEIGHT 6
++#define PQCLEAN_SPHINCSSHA256128FROBUST_AVX2_FORS_TREES 33
+ /* Winternitz parameter, */
+ #define PQCLEAN_SPHINCSSHA256128FROBUST_AVX2_WOTS_W 16
+ 
+diff --git a/crypto_sign/sphincs-sha256-128f-robust/clean/api.h b/crypto_sign/sphincs-sha256-128f-robust/clean/api.h
+index cda169d1..b446d6d2 100644
+--- a/crypto_sign/sphincs-sha256-128f-robust/clean/api.h
++++ b/crypto_sign/sphincs-sha256-128f-robust/clean/api.h
+@@ -10,7 +10,7 @@
+ 
+ #define PQCLEAN_SPHINCSSHA256128FROBUST_CLEAN_CRYPTO_SECRETKEYBYTES 64
+ #define PQCLEAN_SPHINCSSHA256128FROBUST_CLEAN_CRYPTO_PUBLICKEYBYTES 32
+-#define PQCLEAN_SPHINCSSHA256128FROBUST_CLEAN_CRYPTO_BYTES 16976
++#define PQCLEAN_SPHINCSSHA256128FROBUST_CLEAN_CRYPTO_BYTES 17088
+ #define PQCLEAN_SPHINCSSHA256128FROBUST_CLEAN_CRYPTO_SEEDBYTES 48
+ 
+ 
+diff --git a/crypto_sign/sphincs-sha256-128f-robust/clean/params.h b/crypto_sign/sphincs-sha256-128f-robust/clean/params.h
+index e071c6b1..49742881 100644
+--- a/crypto_sign/sphincs-sha256-128f-robust/clean/params.h
++++ b/crypto_sign/sphincs-sha256-128f-robust/clean/params.h
+@@ -4,12 +4,12 @@
+ /* Hash output length in bytes. */
+ #define PQCLEAN_SPHINCSSHA256128FROBUST_CLEAN_N 16
+ /* Height of the hypertree. */
+-#define PQCLEAN_SPHINCSSHA256128FROBUST_CLEAN_FULL_HEIGHT 60
++#define PQCLEAN_SPHINCSSHA256128FROBUST_CLEAN_FULL_HEIGHT 66
+ /* Number of subtree layer. */
+-#define PQCLEAN_SPHINCSSHA256128FROBUST_CLEAN_D 20
++#define PQCLEAN_SPHINCSSHA256128FROBUST_CLEAN_D 22
+ /* FORS tree dimensions. */
+-#define PQCLEAN_SPHINCSSHA256128FROBUST_CLEAN_FORS_HEIGHT 9
+-#define PQCLEAN_SPHINCSSHA256128FROBUST_CLEAN_FORS_TREES 30
++#define PQCLEAN_SPHINCSSHA256128FROBUST_CLEAN_FORS_HEIGHT 6
++#define PQCLEAN_SPHINCSSHA256128FROBUST_CLEAN_FORS_TREES 33
+ /* Winternitz parameter, */
+ #define PQCLEAN_SPHINCSSHA256128FROBUST_CLEAN_WOTS_W 16
+ 
+diff --git a/crypto_sign/sphincs-sha256-128f-simple/META.yml b/crypto_sign/sphincs-sha256-128f-simple/META.yml
+index 2ee7637b..f9b5d826 100644
+--- a/crypto_sign/sphincs-sha256-128f-simple/META.yml
++++ b/crypto_sign/sphincs-sha256-128f-simple/META.yml
+@@ -3,9 +3,9 @@ type: signature
+ claimed-nist-level: 1
+ length-public-key: 32
+ length-secret-key: 64
+-length-signature: 16976
+-testvectors-sha256: 5ce16422e028eb7a6198d0a276a1760a6bbcd4ba9457ddbbfd5e08f34985c0ce
+-nistkat-sha256: 4375bc4276fa44654979db0da886ba5cf754011db268fc63fa7584d50f5dfb63
++length-signature: 17088
++testvectors-sha256: 53d6b5052d922011f0723b7e109cc656ca03cb2be24fd230fc3853be790576ed
++nistkat-sha256: d08e30ae626e0c203cd66f51fb3a6f39f353e26bd1532ce437c1a428383fbc00
+ principal-submitters:
+   - Andreas Hülsing
+ auxiliary-submitters:
+diff --git a/crypto_sign/sphincs-sha256-128f-simple/avx2/api.h b/crypto_sign/sphincs-sha256-128f-simple/avx2/api.h
+index f6deb162..65a84637 100644
+--- a/crypto_sign/sphincs-sha256-128f-simple/avx2/api.h
++++ b/crypto_sign/sphincs-sha256-128f-simple/avx2/api.h
+@@ -10,7 +10,7 @@
+ 
+ #define PQCLEAN_SPHINCSSHA256128FSIMPLE_AVX2_CRYPTO_SECRETKEYBYTES 64
+ #define PQCLEAN_SPHINCSSHA256128FSIMPLE_AVX2_CRYPTO_PUBLICKEYBYTES 32
+-#define PQCLEAN_SPHINCSSHA256128FSIMPLE_AVX2_CRYPTO_BYTES 16976
++#define PQCLEAN_SPHINCSSHA256128FSIMPLE_AVX2_CRYPTO_BYTES 17088
+ #define PQCLEAN_SPHINCSSHA256128FSIMPLE_AVX2_CRYPTO_SEEDBYTES 48
+ 
+ 
+diff --git a/crypto_sign/sphincs-sha256-128f-simple/avx2/params.h b/crypto_sign/sphincs-sha256-128f-simple/avx2/params.h
+index b1c86674..07087e08 100644
+--- a/crypto_sign/sphincs-sha256-128f-simple/avx2/params.h
++++ b/crypto_sign/sphincs-sha256-128f-simple/avx2/params.h
+@@ -4,12 +4,12 @@
+ /* Hash output length in bytes. */
+ #define PQCLEAN_SPHINCSSHA256128FSIMPLE_AVX2_N 16
+ /* Height of the hypertree. */
+-#define PQCLEAN_SPHINCSSHA256128FSIMPLE_AVX2_FULL_HEIGHT 60
++#define PQCLEAN_SPHINCSSHA256128FSIMPLE_AVX2_FULL_HEIGHT 66
+ /* Number of subtree layer. */
+-#define PQCLEAN_SPHINCSSHA256128FSIMPLE_AVX2_D 20
++#define PQCLEAN_SPHINCSSHA256128FSIMPLE_AVX2_D 22
+ /* FORS tree dimensions. */
+-#define PQCLEAN_SPHINCSSHA256128FSIMPLE_AVX2_FORS_HEIGHT 9
+-#define PQCLEAN_SPHINCSSHA256128FSIMPLE_AVX2_FORS_TREES 30
++#define PQCLEAN_SPHINCSSHA256128FSIMPLE_AVX2_FORS_HEIGHT 6
++#define PQCLEAN_SPHINCSSHA256128FSIMPLE_AVX2_FORS_TREES 33
+ /* Winternitz parameter, */
+ #define PQCLEAN_SPHINCSSHA256128FSIMPLE_AVX2_WOTS_W 16
+ 
+diff --git a/crypto_sign/sphincs-sha256-128f-simple/clean/api.h b/crypto_sign/sphincs-sha256-128f-simple/clean/api.h
+index cdd6b60d..c586aa23 100644
+--- a/crypto_sign/sphincs-sha256-128f-simple/clean/api.h
++++ b/crypto_sign/sphincs-sha256-128f-simple/clean/api.h
+@@ -10,7 +10,7 @@
+ 
+ #define PQCLEAN_SPHINCSSHA256128FSIMPLE_CLEAN_CRYPTO_SECRETKEYBYTES 64
+ #define PQCLEAN_SPHINCSSHA256128FSIMPLE_CLEAN_CRYPTO_PUBLICKEYBYTES 32
+-#define PQCLEAN_SPHINCSSHA256128FSIMPLE_CLEAN_CRYPTO_BYTES 16976
++#define PQCLEAN_SPHINCSSHA256128FSIMPLE_CLEAN_CRYPTO_BYTES 17088
+ #define PQCLEAN_SPHINCSSHA256128FSIMPLE_CLEAN_CRYPTO_SEEDBYTES 48
+ 
+ 
+diff --git a/crypto_sign/sphincs-sha256-128f-simple/clean/params.h b/crypto_sign/sphincs-sha256-128f-simple/clean/params.h
+index 2809f0ae..6e61d952 100644
+--- a/crypto_sign/sphincs-sha256-128f-simple/clean/params.h
++++ b/crypto_sign/sphincs-sha256-128f-simple/clean/params.h
+@@ -4,12 +4,12 @@
+ /* Hash output length in bytes. */
+ #define PQCLEAN_SPHINCSSHA256128FSIMPLE_CLEAN_N 16
+ /* Height of the hypertree. */
+-#define PQCLEAN_SPHINCSSHA256128FSIMPLE_CLEAN_FULL_HEIGHT 60
++#define PQCLEAN_SPHINCSSHA256128FSIMPLE_CLEAN_FULL_HEIGHT 66
+ /* Number of subtree layer. */
+-#define PQCLEAN_SPHINCSSHA256128FSIMPLE_CLEAN_D 20
++#define PQCLEAN_SPHINCSSHA256128FSIMPLE_CLEAN_D 22
+ /* FORS tree dimensions. */
+-#define PQCLEAN_SPHINCSSHA256128FSIMPLE_CLEAN_FORS_HEIGHT 9
+-#define PQCLEAN_SPHINCSSHA256128FSIMPLE_CLEAN_FORS_TREES 30
++#define PQCLEAN_SPHINCSSHA256128FSIMPLE_CLEAN_FORS_HEIGHT 6
++#define PQCLEAN_SPHINCSSHA256128FSIMPLE_CLEAN_FORS_TREES 33
+ /* Winternitz parameter, */
+ #define PQCLEAN_SPHINCSSHA256128FSIMPLE_CLEAN_WOTS_W 16
+ 
+diff --git a/crypto_sign/sphincs-sha256-128s-robust/META.yml b/crypto_sign/sphincs-sha256-128s-robust/META.yml
+index 7c66be01..436f328e 100644
+--- a/crypto_sign/sphincs-sha256-128s-robust/META.yml
++++ b/crypto_sign/sphincs-sha256-128s-robust/META.yml
+@@ -3,9 +3,9 @@ type: signature
+ claimed-nist-level: 1
+ length-public-key: 32
+ length-secret-key: 64
+-length-signature: 8080
+-testvectors-sha256: 29d6d0dd732078d177779a61b7654bbe59fcf2ecb9bcd2ade8391791a6570a63
+-nistkat-sha256: 4ddcad5141217340f9f28afdcf25cc236d7975bcfb41b39660e84568a9a461fe
++length-signature: 7856
++testvectors-sha256: 81ea07152576c6ede5b1588477f440037a7c573871a512c5dba86363c7942d56
++nistkat-sha256: 78c5432a5acc8f01ef5aeebc6659f15641b5dbe66ee7327ab86a1541ce1672ae
+ principal-submitters:
+   - Andreas Hülsing
+ auxiliary-submitters:
+diff --git a/crypto_sign/sphincs-sha256-128s-robust/avx2/api.h b/crypto_sign/sphincs-sha256-128s-robust/avx2/api.h
+index 50be23a7..ccb669d5 100644
+--- a/crypto_sign/sphincs-sha256-128s-robust/avx2/api.h
++++ b/crypto_sign/sphincs-sha256-128s-robust/avx2/api.h
+@@ -10,7 +10,7 @@
+ 
+ #define PQCLEAN_SPHINCSSHA256128SROBUST_AVX2_CRYPTO_SECRETKEYBYTES 64
+ #define PQCLEAN_SPHINCSSHA256128SROBUST_AVX2_CRYPTO_PUBLICKEYBYTES 32
+-#define PQCLEAN_SPHINCSSHA256128SROBUST_AVX2_CRYPTO_BYTES 8080
++#define PQCLEAN_SPHINCSSHA256128SROBUST_AVX2_CRYPTO_BYTES 7856
+ #define PQCLEAN_SPHINCSSHA256128SROBUST_AVX2_CRYPTO_SEEDBYTES 48
+ 
+ 
+diff --git a/crypto_sign/sphincs-sha256-128s-robust/avx2/params.h b/crypto_sign/sphincs-sha256-128s-robust/avx2/params.h
+index b12cd741..2a9f0134 100644
+--- a/crypto_sign/sphincs-sha256-128s-robust/avx2/params.h
++++ b/crypto_sign/sphincs-sha256-128s-robust/avx2/params.h
+@@ -4,12 +4,12 @@
+ /* Hash output length in bytes. */
+ #define PQCLEAN_SPHINCSSHA256128SROBUST_AVX2_N 16
+ /* Height of the hypertree. */
+-#define PQCLEAN_SPHINCSSHA256128SROBUST_AVX2_FULL_HEIGHT 64
++#define PQCLEAN_SPHINCSSHA256128SROBUST_AVX2_FULL_HEIGHT 63
+ /* Number of subtree layer. */
+-#define PQCLEAN_SPHINCSSHA256128SROBUST_AVX2_D 8
++#define PQCLEAN_SPHINCSSHA256128SROBUST_AVX2_D 7
+ /* FORS tree dimensions. */
+-#define PQCLEAN_SPHINCSSHA256128SROBUST_AVX2_FORS_HEIGHT 15
+-#define PQCLEAN_SPHINCSSHA256128SROBUST_AVX2_FORS_TREES 10
++#define PQCLEAN_SPHINCSSHA256128SROBUST_AVX2_FORS_HEIGHT 12
++#define PQCLEAN_SPHINCSSHA256128SROBUST_AVX2_FORS_TREES 14
+ /* Winternitz parameter, */
+ #define PQCLEAN_SPHINCSSHA256128SROBUST_AVX2_WOTS_W 16
+ 
+diff --git a/crypto_sign/sphincs-sha256-128s-robust/clean/api.h b/crypto_sign/sphincs-sha256-128s-robust/clean/api.h
+index 9db23cf5..129c42b7 100644
+--- a/crypto_sign/sphincs-sha256-128s-robust/clean/api.h
++++ b/crypto_sign/sphincs-sha256-128s-robust/clean/api.h
+@@ -10,7 +10,7 @@
+ 
+ #define PQCLEAN_SPHINCSSHA256128SROBUST_CLEAN_CRYPTO_SECRETKEYBYTES 64
+ #define PQCLEAN_SPHINCSSHA256128SROBUST_CLEAN_CRYPTO_PUBLICKEYBYTES 32
+-#define PQCLEAN_SPHINCSSHA256128SROBUST_CLEAN_CRYPTO_BYTES 8080
++#define PQCLEAN_SPHINCSSHA256128SROBUST_CLEAN_CRYPTO_BYTES 7856
+ #define PQCLEAN_SPHINCSSHA256128SROBUST_CLEAN_CRYPTO_SEEDBYTES 48
+ 
+ 
+diff --git a/crypto_sign/sphincs-sha256-128s-robust/clean/params.h b/crypto_sign/sphincs-sha256-128s-robust/clean/params.h
+index 8690edb1..27c7c8f3 100644
+--- a/crypto_sign/sphincs-sha256-128s-robust/clean/params.h
++++ b/crypto_sign/sphincs-sha256-128s-robust/clean/params.h
+@@ -4,12 +4,12 @@
+ /* Hash output length in bytes. */
+ #define PQCLEAN_SPHINCSSHA256128SROBUST_CLEAN_N 16
+ /* Height of the hypertree. */
+-#define PQCLEAN_SPHINCSSHA256128SROBUST_CLEAN_FULL_HEIGHT 64
++#define PQCLEAN_SPHINCSSHA256128SROBUST_CLEAN_FULL_HEIGHT 63
+ /* Number of subtree layer. */
+-#define PQCLEAN_SPHINCSSHA256128SROBUST_CLEAN_D 8
++#define PQCLEAN_SPHINCSSHA256128SROBUST_CLEAN_D 7
+ /* FORS tree dimensions. */
+-#define PQCLEAN_SPHINCSSHA256128SROBUST_CLEAN_FORS_HEIGHT 15
+-#define PQCLEAN_SPHINCSSHA256128SROBUST_CLEAN_FORS_TREES 10
++#define PQCLEAN_SPHINCSSHA256128SROBUST_CLEAN_FORS_HEIGHT 12
++#define PQCLEAN_SPHINCSSHA256128SROBUST_CLEAN_FORS_TREES 14
+ /* Winternitz parameter, */
+ #define PQCLEAN_SPHINCSSHA256128SROBUST_CLEAN_WOTS_W 16
+ 
+diff --git a/crypto_sign/sphincs-sha256-128s-simple/META.yml b/crypto_sign/sphincs-sha256-128s-simple/META.yml
+index b05b52b6..9a757889 100644
+--- a/crypto_sign/sphincs-sha256-128s-simple/META.yml
++++ b/crypto_sign/sphincs-sha256-128s-simple/META.yml
+@@ -3,9 +3,9 @@ type: signature
+ claimed-nist-level: 1
+ length-public-key: 32
+ length-secret-key: 64
+-length-signature: 8080
+-testvectors-sha256: edf1b76246ac560558d7938f8ac7bbf820f1e697ef4f5b5e1962f04fadb84a76
+-nistkat-sha256: 8ae7a91b321cd18bd855710eea9d13deea1a53bb7858baee5f77d0237d1897eb
++length-signature: 7856
++testvectors-sha256: 15d8f0ae1cdf882d7b437d23842b46f49d0659e018e0c4de13b6256855cfb544
++nistkat-sha256: f398be19cd856c2fd5c894e9c6b7f872ce5db63b874b7160cb6efb40a9628773
+ principal-submitters:
+   - Andreas Hülsing
+ auxiliary-submitters:
+diff --git a/crypto_sign/sphincs-sha256-128s-simple/avx2/api.h b/crypto_sign/sphincs-sha256-128s-simple/avx2/api.h
+index f676864e..a0e22a4a 100644
+--- a/crypto_sign/sphincs-sha256-128s-simple/avx2/api.h
++++ b/crypto_sign/sphincs-sha256-128s-simple/avx2/api.h
+@@ -10,7 +10,7 @@
+ 
+ #define PQCLEAN_SPHINCSSHA256128SSIMPLE_AVX2_CRYPTO_SECRETKEYBYTES 64
+ #define PQCLEAN_SPHINCSSHA256128SSIMPLE_AVX2_CRYPTO_PUBLICKEYBYTES 32
+-#define PQCLEAN_SPHINCSSHA256128SSIMPLE_AVX2_CRYPTO_BYTES 8080
++#define PQCLEAN_SPHINCSSHA256128SSIMPLE_AVX2_CRYPTO_BYTES 7856
+ #define PQCLEAN_SPHINCSSHA256128SSIMPLE_AVX2_CRYPTO_SEEDBYTES 48
+ 
+ 
+diff --git a/crypto_sign/sphincs-sha256-128s-simple/avx2/params.h b/crypto_sign/sphincs-sha256-128s-simple/avx2/params.h
+index e6b3b5bd..a9b2caf9 100644
+--- a/crypto_sign/sphincs-sha256-128s-simple/avx2/params.h
++++ b/crypto_sign/sphincs-sha256-128s-simple/avx2/params.h
+@@ -4,12 +4,12 @@
+ /* Hash output length in bytes. */
+ #define PQCLEAN_SPHINCSSHA256128SSIMPLE_AVX2_N 16
+ /* Height of the hypertree. */
+-#define PQCLEAN_SPHINCSSHA256128SSIMPLE_AVX2_FULL_HEIGHT 64
++#define PQCLEAN_SPHINCSSHA256128SSIMPLE_AVX2_FULL_HEIGHT 63
+ /* Number of subtree layer. */
+-#define PQCLEAN_SPHINCSSHA256128SSIMPLE_AVX2_D 8
++#define PQCLEAN_SPHINCSSHA256128SSIMPLE_AVX2_D 7
+ /* FORS tree dimensions. */
+-#define PQCLEAN_SPHINCSSHA256128SSIMPLE_AVX2_FORS_HEIGHT 15
+-#define PQCLEAN_SPHINCSSHA256128SSIMPLE_AVX2_FORS_TREES 10
++#define PQCLEAN_SPHINCSSHA256128SSIMPLE_AVX2_FORS_HEIGHT 12
++#define PQCLEAN_SPHINCSSHA256128SSIMPLE_AVX2_FORS_TREES 14
+ /* Winternitz parameter, */
+ #define PQCLEAN_SPHINCSSHA256128SSIMPLE_AVX2_WOTS_W 16
+ 
+diff --git a/crypto_sign/sphincs-sha256-128s-simple/clean/api.h b/crypto_sign/sphincs-sha256-128s-simple/clean/api.h
+index 5f39d55c..126e4fc1 100644
+--- a/crypto_sign/sphincs-sha256-128s-simple/clean/api.h
++++ b/crypto_sign/sphincs-sha256-128s-simple/clean/api.h
+@@ -10,7 +10,7 @@
+ 
+ #define PQCLEAN_SPHINCSSHA256128SSIMPLE_CLEAN_CRYPTO_SECRETKEYBYTES 64
+ #define PQCLEAN_SPHINCSSHA256128SSIMPLE_CLEAN_CRYPTO_PUBLICKEYBYTES 32
+-#define PQCLEAN_SPHINCSSHA256128SSIMPLE_CLEAN_CRYPTO_BYTES 8080
++#define PQCLEAN_SPHINCSSHA256128SSIMPLE_CLEAN_CRYPTO_BYTES 7856
+ #define PQCLEAN_SPHINCSSHA256128SSIMPLE_CLEAN_CRYPTO_SEEDBYTES 48
+ 
+ 
+diff --git a/crypto_sign/sphincs-sha256-128s-simple/clean/params.h b/crypto_sign/sphincs-sha256-128s-simple/clean/params.h
+index d3063ccc..1c922f49 100644
+--- a/crypto_sign/sphincs-sha256-128s-simple/clean/params.h
++++ b/crypto_sign/sphincs-sha256-128s-simple/clean/params.h
+@@ -4,12 +4,12 @@
+ /* Hash output length in bytes. */
+ #define PQCLEAN_SPHINCSSHA256128SSIMPLE_CLEAN_N 16
+ /* Height of the hypertree. */
+-#define PQCLEAN_SPHINCSSHA256128SSIMPLE_CLEAN_FULL_HEIGHT 64
++#define PQCLEAN_SPHINCSSHA256128SSIMPLE_CLEAN_FULL_HEIGHT 63
+ /* Number of subtree layer. */
+-#define PQCLEAN_SPHINCSSHA256128SSIMPLE_CLEAN_D 8
++#define PQCLEAN_SPHINCSSHA256128SSIMPLE_CLEAN_D 7
+ /* FORS tree dimensions. */
+-#define PQCLEAN_SPHINCSSHA256128SSIMPLE_CLEAN_FORS_HEIGHT 15
+-#define PQCLEAN_SPHINCSSHA256128SSIMPLE_CLEAN_FORS_TREES 10
++#define PQCLEAN_SPHINCSSHA256128SSIMPLE_CLEAN_FORS_HEIGHT 12
++#define PQCLEAN_SPHINCSSHA256128SSIMPLE_CLEAN_FORS_TREES 14
+ /* Winternitz parameter, */
+ #define PQCLEAN_SPHINCSSHA256128SSIMPLE_CLEAN_WOTS_W 16
+ 
+diff --git a/crypto_sign/sphincs-sha256-192s-robust/META.yml b/crypto_sign/sphincs-sha256-192s-robust/META.yml
+index 259c864d..bc215ffe 100644
+--- a/crypto_sign/sphincs-sha256-192s-robust/META.yml
++++ b/crypto_sign/sphincs-sha256-192s-robust/META.yml
+@@ -3,9 +3,9 @@ type: signature
+ claimed-nist-level: 3
+ length-public-key: 48
+ length-secret-key: 96
+-length-signature: 17064
+-testvectors-sha256: 1be5c30de6d0b856b1b51f0ff50a2acf9c3a359ee2178004e153bdfc50a68832
+-nistkat-sha256: 23374b2ece45c8ec7272473d70eb424894324702616b8456343dbd79f109b675
++length-signature: 16224
++testvectors-sha256: cf1c94d1e8d1e2ad7ebcf2f61b82e8679d557f531f1e42d196cc362a75be4e42
++nistkat-sha256: 37cb7031fbd4436d3b4724fe4147af3a23e2e8240174a2eef99ec17dd3e5a5c9
+ principal-submitters:
+   - Andreas Hülsing
+ auxiliary-submitters:
+diff --git a/crypto_sign/sphincs-sha256-192s-robust/avx2/api.h b/crypto_sign/sphincs-sha256-192s-robust/avx2/api.h
+index a49c3ad1..6d3e8e67 100644
+--- a/crypto_sign/sphincs-sha256-192s-robust/avx2/api.h
++++ b/crypto_sign/sphincs-sha256-192s-robust/avx2/api.h
+@@ -10,7 +10,7 @@
+ 
+ #define PQCLEAN_SPHINCSSHA256192SROBUST_AVX2_CRYPTO_SECRETKEYBYTES 96
+ #define PQCLEAN_SPHINCSSHA256192SROBUST_AVX2_CRYPTO_PUBLICKEYBYTES 48
+-#define PQCLEAN_SPHINCSSHA256192SROBUST_AVX2_CRYPTO_BYTES 17064
++#define PQCLEAN_SPHINCSSHA256192SROBUST_AVX2_CRYPTO_BYTES 16224
+ #define PQCLEAN_SPHINCSSHA256192SROBUST_AVX2_CRYPTO_SEEDBYTES 72
+ 
+ 
+diff --git a/crypto_sign/sphincs-sha256-192s-robust/avx2/params.h b/crypto_sign/sphincs-sha256-192s-robust/avx2/params.h
+index c657073f..0be7e4d8 100644
+--- a/crypto_sign/sphincs-sha256-192s-robust/avx2/params.h
++++ b/crypto_sign/sphincs-sha256-192s-robust/avx2/params.h
+@@ -4,12 +4,12 @@
+ /* Hash output length in bytes. */
+ #define PQCLEAN_SPHINCSSHA256192SROBUST_AVX2_N 24
+ /* Height of the hypertree. */
+-#define PQCLEAN_SPHINCSSHA256192SROBUST_AVX2_FULL_HEIGHT 64
++#define PQCLEAN_SPHINCSSHA256192SROBUST_AVX2_FULL_HEIGHT 63
+ /* Number of subtree layer. */
+-#define PQCLEAN_SPHINCSSHA256192SROBUST_AVX2_D 8
++#define PQCLEAN_SPHINCSSHA256192SROBUST_AVX2_D 7
+ /* FORS tree dimensions. */
+-#define PQCLEAN_SPHINCSSHA256192SROBUST_AVX2_FORS_HEIGHT 16
+-#define PQCLEAN_SPHINCSSHA256192SROBUST_AVX2_FORS_TREES 14
++#define PQCLEAN_SPHINCSSHA256192SROBUST_AVX2_FORS_HEIGHT 14
++#define PQCLEAN_SPHINCSSHA256192SROBUST_AVX2_FORS_TREES 17
+ /* Winternitz parameter, */
+ #define PQCLEAN_SPHINCSSHA256192SROBUST_AVX2_WOTS_W 16
+ 
+diff --git a/crypto_sign/sphincs-sha256-192s-robust/clean/api.h b/crypto_sign/sphincs-sha256-192s-robust/clean/api.h
+index cbcbd636..676cf6de 100644
+--- a/crypto_sign/sphincs-sha256-192s-robust/clean/api.h
++++ b/crypto_sign/sphincs-sha256-192s-robust/clean/api.h
+@@ -10,7 +10,7 @@
+ 
+ #define PQCLEAN_SPHINCSSHA256192SROBUST_CLEAN_CRYPTO_SECRETKEYBYTES 96
+ #define PQCLEAN_SPHINCSSHA256192SROBUST_CLEAN_CRYPTO_PUBLICKEYBYTES 48
+-#define PQCLEAN_SPHINCSSHA256192SROBUST_CLEAN_CRYPTO_BYTES 17064
++#define PQCLEAN_SPHINCSSHA256192SROBUST_CLEAN_CRYPTO_BYTES 16224
+ #define PQCLEAN_SPHINCSSHA256192SROBUST_CLEAN_CRYPTO_SEEDBYTES 72
+ 
+ 
+diff --git a/crypto_sign/sphincs-sha256-192s-robust/clean/params.h b/crypto_sign/sphincs-sha256-192s-robust/clean/params.h
+index 1d4451ad..39da7694 100644
+--- a/crypto_sign/sphincs-sha256-192s-robust/clean/params.h
++++ b/crypto_sign/sphincs-sha256-192s-robust/clean/params.h
+@@ -4,12 +4,12 @@
+ /* Hash output length in bytes. */
+ #define PQCLEAN_SPHINCSSHA256192SROBUST_CLEAN_N 24
+ /* Height of the hypertree. */
+-#define PQCLEAN_SPHINCSSHA256192SROBUST_CLEAN_FULL_HEIGHT 64
++#define PQCLEAN_SPHINCSSHA256192SROBUST_CLEAN_FULL_HEIGHT 63
+ /* Number of subtree layer. */
+-#define PQCLEAN_SPHINCSSHA256192SROBUST_CLEAN_D 8
++#define PQCLEAN_SPHINCSSHA256192SROBUST_CLEAN_D 7
+ /* FORS tree dimensions. */
+-#define PQCLEAN_SPHINCSSHA256192SROBUST_CLEAN_FORS_HEIGHT 16
+-#define PQCLEAN_SPHINCSSHA256192SROBUST_CLEAN_FORS_TREES 14
++#define PQCLEAN_SPHINCSSHA256192SROBUST_CLEAN_FORS_HEIGHT 14
++#define PQCLEAN_SPHINCSSHA256192SROBUST_CLEAN_FORS_TREES 17
+ /* Winternitz parameter, */
+ #define PQCLEAN_SPHINCSSHA256192SROBUST_CLEAN_WOTS_W 16
+ 
+diff --git a/crypto_sign/sphincs-sha256-192s-simple/META.yml b/crypto_sign/sphincs-sha256-192s-simple/META.yml
+index 3f84eef1..e7bc1925 100644
+--- a/crypto_sign/sphincs-sha256-192s-simple/META.yml
++++ b/crypto_sign/sphincs-sha256-192s-simple/META.yml
+@@ -3,9 +3,9 @@ type: signature
+ claimed-nist-level: 3
+ length-public-key: 48
+ length-secret-key: 96
+-length-signature: 17064
+-testvectors-sha256: ee413e410a29274a9647b9440d6a554670e0f9587efaaddedf82e4923f68f80e
+-nistkat-sha256: 02b192ff93bc8977a80e9efc8fa6814ae85c2ad939f7185a959b428c1eb77150
++length-signature: 16224
++testvectors-sha256: 68258c1577f2bc45d3eb7af5c961c6bd0aec66cf41fb05c31d7db085c38856b4
++nistkat-sha256: 45c9c28e85bb3f3b90b16f6deb25a32862613f4f3fcd17de9a46d83b7ff27745
+ principal-submitters:
+   - Andreas Hülsing
+ auxiliary-submitters:
+diff --git a/crypto_sign/sphincs-sha256-192s-simple/avx2/api.h b/crypto_sign/sphincs-sha256-192s-simple/avx2/api.h
+index 06c958e0..9a553735 100644
+--- a/crypto_sign/sphincs-sha256-192s-simple/avx2/api.h
++++ b/crypto_sign/sphincs-sha256-192s-simple/avx2/api.h
+@@ -10,7 +10,7 @@
+ 
+ #define PQCLEAN_SPHINCSSHA256192SSIMPLE_AVX2_CRYPTO_SECRETKEYBYTES 96
+ #define PQCLEAN_SPHINCSSHA256192SSIMPLE_AVX2_CRYPTO_PUBLICKEYBYTES 48
+-#define PQCLEAN_SPHINCSSHA256192SSIMPLE_AVX2_CRYPTO_BYTES 17064
++#define PQCLEAN_SPHINCSSHA256192SSIMPLE_AVX2_CRYPTO_BYTES 16224
+ #define PQCLEAN_SPHINCSSHA256192SSIMPLE_AVX2_CRYPTO_SEEDBYTES 72
+ 
+ 
+diff --git a/crypto_sign/sphincs-sha256-192s-simple/avx2/params.h b/crypto_sign/sphincs-sha256-192s-simple/avx2/params.h
+index 7aae9618..9de35fc0 100644
+--- a/crypto_sign/sphincs-sha256-192s-simple/avx2/params.h
++++ b/crypto_sign/sphincs-sha256-192s-simple/avx2/params.h
+@@ -4,12 +4,12 @@
+ /* Hash output length in bytes. */
+ #define PQCLEAN_SPHINCSSHA256192SSIMPLE_AVX2_N 24
+ /* Height of the hypertree. */
+-#define PQCLEAN_SPHINCSSHA256192SSIMPLE_AVX2_FULL_HEIGHT 64
++#define PQCLEAN_SPHINCSSHA256192SSIMPLE_AVX2_FULL_HEIGHT 63
+ /* Number of subtree layer. */
+-#define PQCLEAN_SPHINCSSHA256192SSIMPLE_AVX2_D 8
++#define PQCLEAN_SPHINCSSHA256192SSIMPLE_AVX2_D 7
+ /* FORS tree dimensions. */
+-#define PQCLEAN_SPHINCSSHA256192SSIMPLE_AVX2_FORS_HEIGHT 16
+-#define PQCLEAN_SPHINCSSHA256192SSIMPLE_AVX2_FORS_TREES 14
++#define PQCLEAN_SPHINCSSHA256192SSIMPLE_AVX2_FORS_HEIGHT 14
++#define PQCLEAN_SPHINCSSHA256192SSIMPLE_AVX2_FORS_TREES 17
+ /* Winternitz parameter, */
+ #define PQCLEAN_SPHINCSSHA256192SSIMPLE_AVX2_WOTS_W 16
+ 
+diff --git a/crypto_sign/sphincs-sha256-192s-simple/clean/api.h b/crypto_sign/sphincs-sha256-192s-simple/clean/api.h
+index a55e5c04..6fd0da9b 100644
+--- a/crypto_sign/sphincs-sha256-192s-simple/clean/api.h
++++ b/crypto_sign/sphincs-sha256-192s-simple/clean/api.h
+@@ -10,7 +10,7 @@
+ 
+ #define PQCLEAN_SPHINCSSHA256192SSIMPLE_CLEAN_CRYPTO_SECRETKEYBYTES 96
+ #define PQCLEAN_SPHINCSSHA256192SSIMPLE_CLEAN_CRYPTO_PUBLICKEYBYTES 48
+-#define PQCLEAN_SPHINCSSHA256192SSIMPLE_CLEAN_CRYPTO_BYTES 17064
++#define PQCLEAN_SPHINCSSHA256192SSIMPLE_CLEAN_CRYPTO_BYTES 16224
+ #define PQCLEAN_SPHINCSSHA256192SSIMPLE_CLEAN_CRYPTO_SEEDBYTES 72
+ 
+ 
+diff --git a/crypto_sign/sphincs-sha256-192s-simple/clean/params.h b/crypto_sign/sphincs-sha256-192s-simple/clean/params.h
+index fe1a82c9..2ad30041 100644
+--- a/crypto_sign/sphincs-sha256-192s-simple/clean/params.h
++++ b/crypto_sign/sphincs-sha256-192s-simple/clean/params.h
+@@ -4,12 +4,12 @@
+ /* Hash output length in bytes. */
+ #define PQCLEAN_SPHINCSSHA256192SSIMPLE_CLEAN_N 24
+ /* Height of the hypertree. */
+-#define PQCLEAN_SPHINCSSHA256192SSIMPLE_CLEAN_FULL_HEIGHT 64
++#define PQCLEAN_SPHINCSSHA256192SSIMPLE_CLEAN_FULL_HEIGHT 63
+ /* Number of subtree layer. */
+-#define PQCLEAN_SPHINCSSHA256192SSIMPLE_CLEAN_D 8
++#define PQCLEAN_SPHINCSSHA256192SSIMPLE_CLEAN_D 7
+ /* FORS tree dimensions. */
+-#define PQCLEAN_SPHINCSSHA256192SSIMPLE_CLEAN_FORS_HEIGHT 16
+-#define PQCLEAN_SPHINCSSHA256192SSIMPLE_CLEAN_FORS_TREES 14
++#define PQCLEAN_SPHINCSSHA256192SSIMPLE_CLEAN_FORS_HEIGHT 14
++#define PQCLEAN_SPHINCSSHA256192SSIMPLE_CLEAN_FORS_TREES 17
+ /* Winternitz parameter, */
+ #define PQCLEAN_SPHINCSSHA256192SSIMPLE_CLEAN_WOTS_W 16
+ 
+diff --git a/crypto_sign/sphincs-sha256-256f-robust/META.yml b/crypto_sign/sphincs-sha256-256f-robust/META.yml
+index aa444d0c..36033e89 100644
+--- a/crypto_sign/sphincs-sha256-256f-robust/META.yml
++++ b/crypto_sign/sphincs-sha256-256f-robust/META.yml
+@@ -3,9 +3,9 @@ type: signature
+ claimed-nist-level: 5
+ length-public-key: 64
+ length-secret-key: 128
+-length-signature: 49216
+-testvectors-sha256: 14dd19ba3ff75bad890949050289ab0f178d7baa6dcb8ff6bcd6a873692a5686
+-nistkat-sha256: e6fafb97dc3575d5dcd79183a4d7faad4f2c986745c63e61ddae3648559664f7
++length-signature: 49856
++testvectors-sha256: ae6a0eca221c344d48997bb61df6cb494cc5261b3b0139ef361bad2fd5c29af2
++nistkat-sha256: 8006df7b3bf31e1c8a262d2d7fd2279d2fa4b0edb10bcb36c72ecc8a6ada03f5
+ principal-submitters:
+   - Andreas Hülsing
+ auxiliary-submitters:
+diff --git a/crypto_sign/sphincs-sha256-256f-robust/avx2/api.h b/crypto_sign/sphincs-sha256-256f-robust/avx2/api.h
+index 8d570365..2fd0eddf 100644
+--- a/crypto_sign/sphincs-sha256-256f-robust/avx2/api.h
++++ b/crypto_sign/sphincs-sha256-256f-robust/avx2/api.h
+@@ -10,7 +10,7 @@
+ 
+ #define PQCLEAN_SPHINCSSHA256256FROBUST_AVX2_CRYPTO_SECRETKEYBYTES 128
+ #define PQCLEAN_SPHINCSSHA256256FROBUST_AVX2_CRYPTO_PUBLICKEYBYTES 64
+-#define PQCLEAN_SPHINCSSHA256256FROBUST_AVX2_CRYPTO_BYTES 49216
++#define PQCLEAN_SPHINCSSHA256256FROBUST_AVX2_CRYPTO_BYTES 49856
+ #define PQCLEAN_SPHINCSSHA256256FROBUST_AVX2_CRYPTO_SEEDBYTES 96
+ 
+ 
+diff --git a/crypto_sign/sphincs-sha256-256f-robust/avx2/params.h b/crypto_sign/sphincs-sha256-256f-robust/avx2/params.h
+index 80770eb9..b7a31465 100644
+--- a/crypto_sign/sphincs-sha256-256f-robust/avx2/params.h
++++ b/crypto_sign/sphincs-sha256-256f-robust/avx2/params.h
+@@ -8,8 +8,8 @@
+ /* Number of subtree layer. */
+ #define PQCLEAN_SPHINCSSHA256256FROBUST_AVX2_D 17
+ /* FORS tree dimensions. */
+-#define PQCLEAN_SPHINCSSHA256256FROBUST_AVX2_FORS_HEIGHT 10
+-#define PQCLEAN_SPHINCSSHA256256FROBUST_AVX2_FORS_TREES 30
++#define PQCLEAN_SPHINCSSHA256256FROBUST_AVX2_FORS_HEIGHT 9
++#define PQCLEAN_SPHINCSSHA256256FROBUST_AVX2_FORS_TREES 35
+ /* Winternitz parameter, */
+ #define PQCLEAN_SPHINCSSHA256256FROBUST_AVX2_WOTS_W 16
+ 
+diff --git a/crypto_sign/sphincs-sha256-256f-robust/clean/api.h b/crypto_sign/sphincs-sha256-256f-robust/clean/api.h
+index 4380b40d..be2b9e7b 100644
+--- a/crypto_sign/sphincs-sha256-256f-robust/clean/api.h
++++ b/crypto_sign/sphincs-sha256-256f-robust/clean/api.h
+@@ -10,7 +10,7 @@
+ 
+ #define PQCLEAN_SPHINCSSHA256256FROBUST_CLEAN_CRYPTO_SECRETKEYBYTES 128
+ #define PQCLEAN_SPHINCSSHA256256FROBUST_CLEAN_CRYPTO_PUBLICKEYBYTES 64
+-#define PQCLEAN_SPHINCSSHA256256FROBUST_CLEAN_CRYPTO_BYTES 49216
++#define PQCLEAN_SPHINCSSHA256256FROBUST_CLEAN_CRYPTO_BYTES 49856
+ #define PQCLEAN_SPHINCSSHA256256FROBUST_CLEAN_CRYPTO_SEEDBYTES 96
+ 
+ 
+diff --git a/crypto_sign/sphincs-sha256-256f-robust/clean/params.h b/crypto_sign/sphincs-sha256-256f-robust/clean/params.h
+index 0f13fb0c..eed5f2d2 100644
+--- a/crypto_sign/sphincs-sha256-256f-robust/clean/params.h
++++ b/crypto_sign/sphincs-sha256-256f-robust/clean/params.h
+@@ -8,8 +8,8 @@
+ /* Number of subtree layer. */
+ #define PQCLEAN_SPHINCSSHA256256FROBUST_CLEAN_D 17
+ /* FORS tree dimensions. */
+-#define PQCLEAN_SPHINCSSHA256256FROBUST_CLEAN_FORS_HEIGHT 10
+-#define PQCLEAN_SPHINCSSHA256256FROBUST_CLEAN_FORS_TREES 30
++#define PQCLEAN_SPHINCSSHA256256FROBUST_CLEAN_FORS_HEIGHT 9
++#define PQCLEAN_SPHINCSSHA256256FROBUST_CLEAN_FORS_TREES 35
+ /* Winternitz parameter, */
+ #define PQCLEAN_SPHINCSSHA256256FROBUST_CLEAN_WOTS_W 16
+ 
+diff --git a/crypto_sign/sphincs-sha256-256f-simple/META.yml b/crypto_sign/sphincs-sha256-256f-simple/META.yml
+index dada1ee3..eb11cb81 100644
+--- a/crypto_sign/sphincs-sha256-256f-simple/META.yml
++++ b/crypto_sign/sphincs-sha256-256f-simple/META.yml
+@@ -3,9 +3,9 @@ type: signature
+ claimed-nist-level: 5
+ length-public-key: 64
+ length-secret-key: 128
+-length-signature: 49216
+-testvectors-sha256: b4755edf8351c51225921af38a724d2bd9ff9f3afe4ae2abbc3a59763ecc897d
+-nistkat-sha256: 88fa150041ce9c305a971cef8ec444881afc14c4590637fa4b91c1deb15bb215
++length-signature: 49856
++testvectors-sha256: 0d7cc53e2a37c89320ec29ac05b296bf5739183e47b802f54891ac389836304b
++nistkat-sha256: a563c2870fc6cb7c4b84b7cd5cd271ccd7bedf741d35592370fc9aea517f366d
+ principal-submitters:
+   - Andreas Hülsing
+ auxiliary-submitters:
+diff --git a/crypto_sign/sphincs-sha256-256f-simple/avx2/api.h b/crypto_sign/sphincs-sha256-256f-simple/avx2/api.h
+index 1d7945c4..c95d5734 100644
+--- a/crypto_sign/sphincs-sha256-256f-simple/avx2/api.h
++++ b/crypto_sign/sphincs-sha256-256f-simple/avx2/api.h
+@@ -10,7 +10,7 @@
+ 
+ #define PQCLEAN_SPHINCSSHA256256FSIMPLE_AVX2_CRYPTO_SECRETKEYBYTES 128
+ #define PQCLEAN_SPHINCSSHA256256FSIMPLE_AVX2_CRYPTO_PUBLICKEYBYTES 64
+-#define PQCLEAN_SPHINCSSHA256256FSIMPLE_AVX2_CRYPTO_BYTES 49216
++#define PQCLEAN_SPHINCSSHA256256FSIMPLE_AVX2_CRYPTO_BYTES 49856
+ #define PQCLEAN_SPHINCSSHA256256FSIMPLE_AVX2_CRYPTO_SEEDBYTES 96
+ 
+ 
+diff --git a/crypto_sign/sphincs-sha256-256f-simple/avx2/params.h b/crypto_sign/sphincs-sha256-256f-simple/avx2/params.h
+index 68350c37..2e804440 100644
+--- a/crypto_sign/sphincs-sha256-256f-simple/avx2/params.h
++++ b/crypto_sign/sphincs-sha256-256f-simple/avx2/params.h
+@@ -8,8 +8,8 @@
+ /* Number of subtree layer. */
+ #define PQCLEAN_SPHINCSSHA256256FSIMPLE_AVX2_D 17
+ /* FORS tree dimensions. */
+-#define PQCLEAN_SPHINCSSHA256256FSIMPLE_AVX2_FORS_HEIGHT 10
+-#define PQCLEAN_SPHINCSSHA256256FSIMPLE_AVX2_FORS_TREES 30
++#define PQCLEAN_SPHINCSSHA256256FSIMPLE_AVX2_FORS_HEIGHT 9
++#define PQCLEAN_SPHINCSSHA256256FSIMPLE_AVX2_FORS_TREES 35
+ /* Winternitz parameter, */
+ #define PQCLEAN_SPHINCSSHA256256FSIMPLE_AVX2_WOTS_W 16
+ 
+diff --git a/crypto_sign/sphincs-sha256-256f-simple/clean/api.h b/crypto_sign/sphincs-sha256-256f-simple/clean/api.h
+index e2c304f3..57585c80 100644
+--- a/crypto_sign/sphincs-sha256-256f-simple/clean/api.h
++++ b/crypto_sign/sphincs-sha256-256f-simple/clean/api.h
+@@ -10,7 +10,7 @@
+ 
+ #define PQCLEAN_SPHINCSSHA256256FSIMPLE_CLEAN_CRYPTO_SECRETKEYBYTES 128
+ #define PQCLEAN_SPHINCSSHA256256FSIMPLE_CLEAN_CRYPTO_PUBLICKEYBYTES 64
+-#define PQCLEAN_SPHINCSSHA256256FSIMPLE_CLEAN_CRYPTO_BYTES 49216
++#define PQCLEAN_SPHINCSSHA256256FSIMPLE_CLEAN_CRYPTO_BYTES 49856
+ #define PQCLEAN_SPHINCSSHA256256FSIMPLE_CLEAN_CRYPTO_SEEDBYTES 96
+ 
+ 
+diff --git a/crypto_sign/sphincs-sha256-256f-simple/clean/params.h b/crypto_sign/sphincs-sha256-256f-simple/clean/params.h
+index ee98a9f4..c4dc2f8e 100644
+--- a/crypto_sign/sphincs-sha256-256f-simple/clean/params.h
++++ b/crypto_sign/sphincs-sha256-256f-simple/clean/params.h
+@@ -8,8 +8,8 @@
+ /* Number of subtree layer. */
+ #define PQCLEAN_SPHINCSSHA256256FSIMPLE_CLEAN_D 17
+ /* FORS tree dimensions. */
+-#define PQCLEAN_SPHINCSSHA256256FSIMPLE_CLEAN_FORS_HEIGHT 10
+-#define PQCLEAN_SPHINCSSHA256256FSIMPLE_CLEAN_FORS_TREES 30
++#define PQCLEAN_SPHINCSSHA256256FSIMPLE_CLEAN_FORS_HEIGHT 9
++#define PQCLEAN_SPHINCSSHA256256FSIMPLE_CLEAN_FORS_TREES 35
+ /* Winternitz parameter, */
+ #define PQCLEAN_SPHINCSSHA256256FSIMPLE_CLEAN_WOTS_W 16
+ 
+diff --git a/crypto_sign/sphincs-shake256-128f-robust/META.yml b/crypto_sign/sphincs-shake256-128f-robust/META.yml
+index c68ce4e6..7636a228 100644
+--- a/crypto_sign/sphincs-shake256-128f-robust/META.yml
++++ b/crypto_sign/sphincs-shake256-128f-robust/META.yml
+@@ -3,9 +3,9 @@ type: signature
+ claimed-nist-level: 1
+ length-public-key: 32
+ length-secret-key: 64
+-length-signature: 16976
+-testvectors-sha256: eea7f59958e732c15110d0d06e3c23005d73df2b15a1e7b4ebc0ca2dcf162bb5
+-nistkat-sha256: e7789df37278d1e147996bd9bf4cda55d5ec5cbe921e64b0766927af4b02decd
++length-signature: 17088
++testvectors-sha256: a1adc3f19ed23376b80df5b94da96bb6dd8121b31efb21add25626459e4d52cf
++nistkat-sha256: 39af7b5cee0e03dfa61070d0ac8dcae358a3d9b9a5d0eebb356cb25051a6b4b7
+ principal-submitters:
+   - Andreas Hülsing
+ auxiliary-submitters:
+diff --git a/crypto_sign/sphincs-shake256-128f-robust/avx2/api.h b/crypto_sign/sphincs-shake256-128f-robust/avx2/api.h
+index 59085730..2a38ede1 100644
+--- a/crypto_sign/sphincs-shake256-128f-robust/avx2/api.h
++++ b/crypto_sign/sphincs-shake256-128f-robust/avx2/api.h
+@@ -10,7 +10,7 @@
+ 
+ #define PQCLEAN_SPHINCSSHAKE256128FROBUST_AVX2_CRYPTO_SECRETKEYBYTES 64
+ #define PQCLEAN_SPHINCSSHAKE256128FROBUST_AVX2_CRYPTO_PUBLICKEYBYTES 32
+-#define PQCLEAN_SPHINCSSHAKE256128FROBUST_AVX2_CRYPTO_BYTES 16976
++#define PQCLEAN_SPHINCSSHAKE256128FROBUST_AVX2_CRYPTO_BYTES 17088
+ #define PQCLEAN_SPHINCSSHAKE256128FROBUST_AVX2_CRYPTO_SEEDBYTES 48
+ 
+ 
+diff --git a/crypto_sign/sphincs-shake256-128f-robust/avx2/params.h b/crypto_sign/sphincs-shake256-128f-robust/avx2/params.h
+index 5cc9a125..fb2f1dc4 100644
+--- a/crypto_sign/sphincs-shake256-128f-robust/avx2/params.h
++++ b/crypto_sign/sphincs-shake256-128f-robust/avx2/params.h
+@@ -4,12 +4,12 @@
+ /* Hash output length in bytes. */
+ #define PQCLEAN_SPHINCSSHAKE256128FROBUST_AVX2_N 16
+ /* Height of the hypertree. */
+-#define PQCLEAN_SPHINCSSHAKE256128FROBUST_AVX2_FULL_HEIGHT 60
++#define PQCLEAN_SPHINCSSHAKE256128FROBUST_AVX2_FULL_HEIGHT 66
+ /* Number of subtree layer. */
+-#define PQCLEAN_SPHINCSSHAKE256128FROBUST_AVX2_D 20
++#define PQCLEAN_SPHINCSSHAKE256128FROBUST_AVX2_D 22
+ /* FORS tree dimensions. */
+-#define PQCLEAN_SPHINCSSHAKE256128FROBUST_AVX2_FORS_HEIGHT 9
+-#define PQCLEAN_SPHINCSSHAKE256128FROBUST_AVX2_FORS_TREES 30
++#define PQCLEAN_SPHINCSSHAKE256128FROBUST_AVX2_FORS_HEIGHT 6
++#define PQCLEAN_SPHINCSSHAKE256128FROBUST_AVX2_FORS_TREES 33
+ /* Winternitz parameter, */
+ #define PQCLEAN_SPHINCSSHAKE256128FROBUST_AVX2_WOTS_W 16
+ 
+diff --git a/crypto_sign/sphincs-shake256-128f-robust/clean/api.h b/crypto_sign/sphincs-shake256-128f-robust/clean/api.h
+index 7e025487..cacddd5f 100644
+--- a/crypto_sign/sphincs-shake256-128f-robust/clean/api.h
++++ b/crypto_sign/sphincs-shake256-128f-robust/clean/api.h
+@@ -10,7 +10,7 @@
+ 
+ #define PQCLEAN_SPHINCSSHAKE256128FROBUST_CLEAN_CRYPTO_SECRETKEYBYTES 64
+ #define PQCLEAN_SPHINCSSHAKE256128FROBUST_CLEAN_CRYPTO_PUBLICKEYBYTES 32
+-#define PQCLEAN_SPHINCSSHAKE256128FROBUST_CLEAN_CRYPTO_BYTES 16976
++#define PQCLEAN_SPHINCSSHAKE256128FROBUST_CLEAN_CRYPTO_BYTES 17088
+ #define PQCLEAN_SPHINCSSHAKE256128FROBUST_CLEAN_CRYPTO_SEEDBYTES 48
+ 
+ 
+diff --git a/crypto_sign/sphincs-shake256-128f-robust/clean/params.h b/crypto_sign/sphincs-shake256-128f-robust/clean/params.h
+index dd72b607..fd502f7c 100644
+--- a/crypto_sign/sphincs-shake256-128f-robust/clean/params.h
++++ b/crypto_sign/sphincs-shake256-128f-robust/clean/params.h
+@@ -4,12 +4,12 @@
+ /* Hash output length in bytes. */
+ #define PQCLEAN_SPHINCSSHAKE256128FROBUST_CLEAN_N 16
+ /* Height of the hypertree. */
+-#define PQCLEAN_SPHINCSSHAKE256128FROBUST_CLEAN_FULL_HEIGHT 60
++#define PQCLEAN_SPHINCSSHAKE256128FROBUST_CLEAN_FULL_HEIGHT 66
+ /* Number of subtree layer. */
+-#define PQCLEAN_SPHINCSSHAKE256128FROBUST_CLEAN_D 20
++#define PQCLEAN_SPHINCSSHAKE256128FROBUST_CLEAN_D 22
+ /* FORS tree dimensions. */
+-#define PQCLEAN_SPHINCSSHAKE256128FROBUST_CLEAN_FORS_HEIGHT 9
+-#define PQCLEAN_SPHINCSSHAKE256128FROBUST_CLEAN_FORS_TREES 30
++#define PQCLEAN_SPHINCSSHAKE256128FROBUST_CLEAN_FORS_HEIGHT 6
++#define PQCLEAN_SPHINCSSHAKE256128FROBUST_CLEAN_FORS_TREES 33
+ /* Winternitz parameter, */
+ #define PQCLEAN_SPHINCSSHAKE256128FROBUST_CLEAN_WOTS_W 16
+ 
+diff --git a/crypto_sign/sphincs-shake256-128f-simple/META.yml b/crypto_sign/sphincs-shake256-128f-simple/META.yml
+index ce797358..5b914e04 100644
+--- a/crypto_sign/sphincs-shake256-128f-simple/META.yml
++++ b/crypto_sign/sphincs-shake256-128f-simple/META.yml
+@@ -3,9 +3,9 @@ type: signature
+ claimed-nist-level: 1
+ length-public-key: 32
+ length-secret-key: 64
+-length-signature: 16976
+-testvectors-sha256: a14cb8e4f149493fc5979e465e09ce943e8d669186ff5c7c3d11239fa869def6
+-nistkat-sha256: c99700873ca6914944fcef3b649270c86c056dcd11ce6e8f22580b193a136e6f
++length-signature: 17088
++testvectors-sha256: 062cb248c3069ef33004050a6b821ba32501f36cce4af05d4e96a61e85c572f4
++nistkat-sha256: ebebf1a5da339c6e2073f41d7b499b7e5a456ac91c68ef5d15d18643c89d8e7d
+ principal-submitters:
+   - Andreas Hülsing
+ auxiliary-submitters:
+diff --git a/crypto_sign/sphincs-shake256-128f-simple/avx2/api.h b/crypto_sign/sphincs-shake256-128f-simple/avx2/api.h
+index 1a6555c9..11e99162 100644
+--- a/crypto_sign/sphincs-shake256-128f-simple/avx2/api.h
++++ b/crypto_sign/sphincs-shake256-128f-simple/avx2/api.h
+@@ -10,7 +10,7 @@
+ 
+ #define PQCLEAN_SPHINCSSHAKE256128FSIMPLE_AVX2_CRYPTO_SECRETKEYBYTES 64
+ #define PQCLEAN_SPHINCSSHAKE256128FSIMPLE_AVX2_CRYPTO_PUBLICKEYBYTES 32
+-#define PQCLEAN_SPHINCSSHAKE256128FSIMPLE_AVX2_CRYPTO_BYTES 16976
++#define PQCLEAN_SPHINCSSHAKE256128FSIMPLE_AVX2_CRYPTO_BYTES 17088
+ #define PQCLEAN_SPHINCSSHAKE256128FSIMPLE_AVX2_CRYPTO_SEEDBYTES 48
+ 
+ 
+diff --git a/crypto_sign/sphincs-shake256-128f-simple/avx2/params.h b/crypto_sign/sphincs-shake256-128f-simple/avx2/params.h
+index f105ab18..ff33882a 100644
+--- a/crypto_sign/sphincs-shake256-128f-simple/avx2/params.h
++++ b/crypto_sign/sphincs-shake256-128f-simple/avx2/params.h
+@@ -4,12 +4,12 @@
+ /* Hash output length in bytes. */
+ #define PQCLEAN_SPHINCSSHAKE256128FSIMPLE_AVX2_N 16
+ /* Height of the hypertree. */
+-#define PQCLEAN_SPHINCSSHAKE256128FSIMPLE_AVX2_FULL_HEIGHT 60
++#define PQCLEAN_SPHINCSSHAKE256128FSIMPLE_AVX2_FULL_HEIGHT 66
+ /* Number of subtree layer. */
+-#define PQCLEAN_SPHINCSSHAKE256128FSIMPLE_AVX2_D 20
++#define PQCLEAN_SPHINCSSHAKE256128FSIMPLE_AVX2_D 22
+ /* FORS tree dimensions. */
+-#define PQCLEAN_SPHINCSSHAKE256128FSIMPLE_AVX2_FORS_HEIGHT 9
+-#define PQCLEAN_SPHINCSSHAKE256128FSIMPLE_AVX2_FORS_TREES 30
++#define PQCLEAN_SPHINCSSHAKE256128FSIMPLE_AVX2_FORS_HEIGHT 6
++#define PQCLEAN_SPHINCSSHAKE256128FSIMPLE_AVX2_FORS_TREES 33
+ /* Winternitz parameter, */
+ #define PQCLEAN_SPHINCSSHAKE256128FSIMPLE_AVX2_WOTS_W 16
+ 
+diff --git a/crypto_sign/sphincs-shake256-128f-simple/clean/api.h b/crypto_sign/sphincs-shake256-128f-simple/clean/api.h
+index fce0e50b..512bd9a0 100644
+--- a/crypto_sign/sphincs-shake256-128f-simple/clean/api.h
++++ b/crypto_sign/sphincs-shake256-128f-simple/clean/api.h
+@@ -10,7 +10,7 @@
+ 
+ #define PQCLEAN_SPHINCSSHAKE256128FSIMPLE_CLEAN_CRYPTO_SECRETKEYBYTES 64
+ #define PQCLEAN_SPHINCSSHAKE256128FSIMPLE_CLEAN_CRYPTO_PUBLICKEYBYTES 32
+-#define PQCLEAN_SPHINCSSHAKE256128FSIMPLE_CLEAN_CRYPTO_BYTES 16976
++#define PQCLEAN_SPHINCSSHAKE256128FSIMPLE_CLEAN_CRYPTO_BYTES 17088
+ #define PQCLEAN_SPHINCSSHAKE256128FSIMPLE_CLEAN_CRYPTO_SEEDBYTES 48
+ 
+ 
+diff --git a/crypto_sign/sphincs-shake256-128f-simple/clean/params.h b/crypto_sign/sphincs-shake256-128f-simple/clean/params.h
+index c76018b0..9f0030dd 100644
+--- a/crypto_sign/sphincs-shake256-128f-simple/clean/params.h
++++ b/crypto_sign/sphincs-shake256-128f-simple/clean/params.h
+@@ -4,12 +4,12 @@
+ /* Hash output length in bytes. */
+ #define PQCLEAN_SPHINCSSHAKE256128FSIMPLE_CLEAN_N 16
+ /* Height of the hypertree. */
+-#define PQCLEAN_SPHINCSSHAKE256128FSIMPLE_CLEAN_FULL_HEIGHT 60
++#define PQCLEAN_SPHINCSSHAKE256128FSIMPLE_CLEAN_FULL_HEIGHT 66
+ /* Number of subtree layer. */
+-#define PQCLEAN_SPHINCSSHAKE256128FSIMPLE_CLEAN_D 20
++#define PQCLEAN_SPHINCSSHAKE256128FSIMPLE_CLEAN_D 22
+ /* FORS tree dimensions. */
+-#define PQCLEAN_SPHINCSSHAKE256128FSIMPLE_CLEAN_FORS_HEIGHT 9
+-#define PQCLEAN_SPHINCSSHAKE256128FSIMPLE_CLEAN_FORS_TREES 30
++#define PQCLEAN_SPHINCSSHAKE256128FSIMPLE_CLEAN_FORS_HEIGHT 6
++#define PQCLEAN_SPHINCSSHAKE256128FSIMPLE_CLEAN_FORS_TREES 33
+ /* Winternitz parameter, */
+ #define PQCLEAN_SPHINCSSHAKE256128FSIMPLE_CLEAN_WOTS_W 16
+ 
+diff --git a/crypto_sign/sphincs-shake256-128s-robust/META.yml b/crypto_sign/sphincs-shake256-128s-robust/META.yml
+index ac23d88a..1d7aaa18 100644
+--- a/crypto_sign/sphincs-shake256-128s-robust/META.yml
++++ b/crypto_sign/sphincs-shake256-128s-robust/META.yml
+@@ -3,9 +3,9 @@ type: signature
+ claimed-nist-level: 1
+ length-public-key: 32
+ length-secret-key: 64
+-length-signature: 8080
+-testvectors-sha256: f3f56ddff38a75ee07b44c023b9c9133ffe9538bb4b64f8ec8742b21fcaa6a50
+-nistkat-sha256: e9c31937277677d1cb387ce76408c76b0128938f3af047f60fb5d073a3c788b3
++length-signature: 7856
++testvectors-sha256: cdc7400cfa094b3d10660c0d2f7292a6c8223e87e98b8dae71b67847085b9e0a
++nistkat-sha256: 094df7ed9198f66c0dfa02429d48320dc942f01bc2f90289519c4fbd37085ad6
+ principal-submitters:
+   - Andreas Hülsing
+ auxiliary-submitters:
+diff --git a/crypto_sign/sphincs-shake256-128s-robust/avx2/api.h b/crypto_sign/sphincs-shake256-128s-robust/avx2/api.h
+index c0c03a0a..3a38ae16 100644
+--- a/crypto_sign/sphincs-shake256-128s-robust/avx2/api.h
++++ b/crypto_sign/sphincs-shake256-128s-robust/avx2/api.h
+@@ -10,7 +10,7 @@
+ 
+ #define PQCLEAN_SPHINCSSHAKE256128SROBUST_AVX2_CRYPTO_SECRETKEYBYTES 64
+ #define PQCLEAN_SPHINCSSHAKE256128SROBUST_AVX2_CRYPTO_PUBLICKEYBYTES 32
+-#define PQCLEAN_SPHINCSSHAKE256128SROBUST_AVX2_CRYPTO_BYTES 8080
++#define PQCLEAN_SPHINCSSHAKE256128SROBUST_AVX2_CRYPTO_BYTES 7856
+ #define PQCLEAN_SPHINCSSHAKE256128SROBUST_AVX2_CRYPTO_SEEDBYTES 48
+ 
+ 
+diff --git a/crypto_sign/sphincs-shake256-128s-robust/avx2/params.h b/crypto_sign/sphincs-shake256-128s-robust/avx2/params.h
+index e589170b..2f73d47d 100644
+--- a/crypto_sign/sphincs-shake256-128s-robust/avx2/params.h
++++ b/crypto_sign/sphincs-shake256-128s-robust/avx2/params.h
+@@ -4,12 +4,12 @@
+ /* Hash output length in bytes. */
+ #define PQCLEAN_SPHINCSSHAKE256128SROBUST_AVX2_N 16
+ /* Height of the hypertree. */
+-#define PQCLEAN_SPHINCSSHAKE256128SROBUST_AVX2_FULL_HEIGHT 64
++#define PQCLEAN_SPHINCSSHAKE256128SROBUST_AVX2_FULL_HEIGHT 63
+ /* Number of subtree layer. */
+-#define PQCLEAN_SPHINCSSHAKE256128SROBUST_AVX2_D 8
++#define PQCLEAN_SPHINCSSHAKE256128SROBUST_AVX2_D 7
+ /* FORS tree dimensions. */
+-#define PQCLEAN_SPHINCSSHAKE256128SROBUST_AVX2_FORS_HEIGHT 15
+-#define PQCLEAN_SPHINCSSHAKE256128SROBUST_AVX2_FORS_TREES 10
++#define PQCLEAN_SPHINCSSHAKE256128SROBUST_AVX2_FORS_HEIGHT 12
++#define PQCLEAN_SPHINCSSHAKE256128SROBUST_AVX2_FORS_TREES 14
+ /* Winternitz parameter, */
+ #define PQCLEAN_SPHINCSSHAKE256128SROBUST_AVX2_WOTS_W 16
+ 
+diff --git a/crypto_sign/sphincs-shake256-128s-robust/clean/api.h b/crypto_sign/sphincs-shake256-128s-robust/clean/api.h
+index 0c84a169..a176c44d 100644
+--- a/crypto_sign/sphincs-shake256-128s-robust/clean/api.h
++++ b/crypto_sign/sphincs-shake256-128s-robust/clean/api.h
+@@ -10,7 +10,7 @@
+ 
+ #define PQCLEAN_SPHINCSSHAKE256128SROBUST_CLEAN_CRYPTO_SECRETKEYBYTES 64
+ #define PQCLEAN_SPHINCSSHAKE256128SROBUST_CLEAN_CRYPTO_PUBLICKEYBYTES 32
+-#define PQCLEAN_SPHINCSSHAKE256128SROBUST_CLEAN_CRYPTO_BYTES 8080
++#define PQCLEAN_SPHINCSSHAKE256128SROBUST_CLEAN_CRYPTO_BYTES 7856
+ #define PQCLEAN_SPHINCSSHAKE256128SROBUST_CLEAN_CRYPTO_SEEDBYTES 48
+ 
+ 
+diff --git a/crypto_sign/sphincs-shake256-128s-robust/clean/params.h b/crypto_sign/sphincs-shake256-128s-robust/clean/params.h
+index 52050aa1..17746ed8 100644
+--- a/crypto_sign/sphincs-shake256-128s-robust/clean/params.h
++++ b/crypto_sign/sphincs-shake256-128s-robust/clean/params.h
+@@ -4,12 +4,12 @@
+ /* Hash output length in bytes. */
+ #define PQCLEAN_SPHINCSSHAKE256128SROBUST_CLEAN_N 16
+ /* Height of the hypertree. */
+-#define PQCLEAN_SPHINCSSHAKE256128SROBUST_CLEAN_FULL_HEIGHT 64
++#define PQCLEAN_SPHINCSSHAKE256128SROBUST_CLEAN_FULL_HEIGHT 63
+ /* Number of subtree layer. */
+-#define PQCLEAN_SPHINCSSHAKE256128SROBUST_CLEAN_D 8
++#define PQCLEAN_SPHINCSSHAKE256128SROBUST_CLEAN_D 7
+ /* FORS tree dimensions. */
+-#define PQCLEAN_SPHINCSSHAKE256128SROBUST_CLEAN_FORS_HEIGHT 15
+-#define PQCLEAN_SPHINCSSHAKE256128SROBUST_CLEAN_FORS_TREES 10
++#define PQCLEAN_SPHINCSSHAKE256128SROBUST_CLEAN_FORS_HEIGHT 12
++#define PQCLEAN_SPHINCSSHAKE256128SROBUST_CLEAN_FORS_TREES 14
+ /* Winternitz parameter, */
+ #define PQCLEAN_SPHINCSSHAKE256128SROBUST_CLEAN_WOTS_W 16
+ 
+diff --git a/crypto_sign/sphincs-shake256-128s-simple/META.yml b/crypto_sign/sphincs-shake256-128s-simple/META.yml
+index aaf85862..942662d2 100644
+--- a/crypto_sign/sphincs-shake256-128s-simple/META.yml
++++ b/crypto_sign/sphincs-shake256-128s-simple/META.yml
+@@ -3,9 +3,9 @@ type: signature
+ claimed-nist-level: 1
+ length-public-key: 32
+ length-secret-key: 64
+-length-signature: 8080
+-testvectors-sha256: ee2af38333f6ba705102ab66689c262b07c1fd9ce1d46180796bcb263bf1a654
+-nistkat-sha256: 5d23c9f334e9bd99d5294cf40c6b2c096ee668076e809b44b928ca146d2c5e3a
++length-signature: 7856
++testvectors-sha256: 21cfffdc673fb777b226632bf5a321511bfac10119e10db255b4619180b4aec7
++nistkat-sha256: 260c24c6de710d81f86184fc034d382abe5d705b5352d7329ca662f6def392a4
+ principal-submitters:
+   - Andreas Hülsing
+ auxiliary-submitters:
+diff --git a/crypto_sign/sphincs-shake256-128s-simple/avx2/api.h b/crypto_sign/sphincs-shake256-128s-simple/avx2/api.h
+index 8fccf5d1..4206b294 100644
+--- a/crypto_sign/sphincs-shake256-128s-simple/avx2/api.h
++++ b/crypto_sign/sphincs-shake256-128s-simple/avx2/api.h
+@@ -10,7 +10,7 @@
+ 
+ #define PQCLEAN_SPHINCSSHAKE256128SSIMPLE_AVX2_CRYPTO_SECRETKEYBYTES 64
+ #define PQCLEAN_SPHINCSSHAKE256128SSIMPLE_AVX2_CRYPTO_PUBLICKEYBYTES 32
+-#define PQCLEAN_SPHINCSSHAKE256128SSIMPLE_AVX2_CRYPTO_BYTES 8080
++#define PQCLEAN_SPHINCSSHAKE256128SSIMPLE_AVX2_CRYPTO_BYTES 7856
+ #define PQCLEAN_SPHINCSSHAKE256128SSIMPLE_AVX2_CRYPTO_SEEDBYTES 48
+ 
+ 
+diff --git a/crypto_sign/sphincs-shake256-128s-simple/avx2/params.h b/crypto_sign/sphincs-shake256-128s-simple/avx2/params.h
+index 211e4b92..e5eb8b52 100644
+--- a/crypto_sign/sphincs-shake256-128s-simple/avx2/params.h
++++ b/crypto_sign/sphincs-shake256-128s-simple/avx2/params.h
+@@ -4,12 +4,12 @@
+ /* Hash output length in bytes. */
+ #define PQCLEAN_SPHINCSSHAKE256128SSIMPLE_AVX2_N 16
+ /* Height of the hypertree. */
+-#define PQCLEAN_SPHINCSSHAKE256128SSIMPLE_AVX2_FULL_HEIGHT 64
++#define PQCLEAN_SPHINCSSHAKE256128SSIMPLE_AVX2_FULL_HEIGHT 63
+ /* Number of subtree layer. */
+-#define PQCLEAN_SPHINCSSHAKE256128SSIMPLE_AVX2_D 8
++#define PQCLEAN_SPHINCSSHAKE256128SSIMPLE_AVX2_D 7
+ /* FORS tree dimensions. */
+-#define PQCLEAN_SPHINCSSHAKE256128SSIMPLE_AVX2_FORS_HEIGHT 15
+-#define PQCLEAN_SPHINCSSHAKE256128SSIMPLE_AVX2_FORS_TREES 10
++#define PQCLEAN_SPHINCSSHAKE256128SSIMPLE_AVX2_FORS_HEIGHT 12
++#define PQCLEAN_SPHINCSSHAKE256128SSIMPLE_AVX2_FORS_TREES 14
+ /* Winternitz parameter, */
+ #define PQCLEAN_SPHINCSSHAKE256128SSIMPLE_AVX2_WOTS_W 16
+ 
+diff --git a/crypto_sign/sphincs-shake256-128s-simple/clean/api.h b/crypto_sign/sphincs-shake256-128s-simple/clean/api.h
+index 053f985c..0199d7bc 100644
+--- a/crypto_sign/sphincs-shake256-128s-simple/clean/api.h
++++ b/crypto_sign/sphincs-shake256-128s-simple/clean/api.h
+@@ -10,7 +10,7 @@
+ 
+ #define PQCLEAN_SPHINCSSHAKE256128SSIMPLE_CLEAN_CRYPTO_SECRETKEYBYTES 64
+ #define PQCLEAN_SPHINCSSHAKE256128SSIMPLE_CLEAN_CRYPTO_PUBLICKEYBYTES 32
+-#define PQCLEAN_SPHINCSSHAKE256128SSIMPLE_CLEAN_CRYPTO_BYTES 8080
++#define PQCLEAN_SPHINCSSHAKE256128SSIMPLE_CLEAN_CRYPTO_BYTES 7856
+ #define PQCLEAN_SPHINCSSHAKE256128SSIMPLE_CLEAN_CRYPTO_SEEDBYTES 48
+ 
+ 
+diff --git a/crypto_sign/sphincs-shake256-128s-simple/clean/params.h b/crypto_sign/sphincs-shake256-128s-simple/clean/params.h
+index e4d0ec49..e6b382ff 100644
+--- a/crypto_sign/sphincs-shake256-128s-simple/clean/params.h
++++ b/crypto_sign/sphincs-shake256-128s-simple/clean/params.h
+@@ -4,12 +4,12 @@
+ /* Hash output length in bytes. */
+ #define PQCLEAN_SPHINCSSHAKE256128SSIMPLE_CLEAN_N 16
+ /* Height of the hypertree. */
+-#define PQCLEAN_SPHINCSSHAKE256128SSIMPLE_CLEAN_FULL_HEIGHT 64
++#define PQCLEAN_SPHINCSSHAKE256128SSIMPLE_CLEAN_FULL_HEIGHT 63
+ /* Number of subtree layer. */
+-#define PQCLEAN_SPHINCSSHAKE256128SSIMPLE_CLEAN_D 8
++#define PQCLEAN_SPHINCSSHAKE256128SSIMPLE_CLEAN_D 7
+ /* FORS tree dimensions. */
+-#define PQCLEAN_SPHINCSSHAKE256128SSIMPLE_CLEAN_FORS_HEIGHT 15
+-#define PQCLEAN_SPHINCSSHAKE256128SSIMPLE_CLEAN_FORS_TREES 10
++#define PQCLEAN_SPHINCSSHAKE256128SSIMPLE_CLEAN_FORS_HEIGHT 12
++#define PQCLEAN_SPHINCSSHAKE256128SSIMPLE_CLEAN_FORS_TREES 14
+ /* Winternitz parameter, */
+ #define PQCLEAN_SPHINCSSHAKE256128SSIMPLE_CLEAN_WOTS_W 16
+ 
+diff --git a/crypto_sign/sphincs-shake256-192s-robust/META.yml b/crypto_sign/sphincs-shake256-192s-robust/META.yml
+index b58bbab8..0a1d9037 100644
+--- a/crypto_sign/sphincs-shake256-192s-robust/META.yml
++++ b/crypto_sign/sphincs-shake256-192s-robust/META.yml
+@@ -3,9 +3,9 @@ type: signature
+ claimed-nist-level: 3
+ length-public-key: 48
+ length-secret-key: 96
+-length-signature: 17064
+-testvectors-sha256: 4f80c9cf98c017293c7543f96170f18655e6ef65675300aa302de42562b21f5a
+-nistkat-sha256: 619ce596575f52ed8fd3e5b0501db21985e505c95f0f595faa4d6a6f0a2fd81c
++length-signature: 16224
++testvectors-sha256: 56d771d34a000a0f2a03e0660202bc7cc82f089346c2e0ea5eaf55a792e66a8c
++nistkat-sha256: 92eed523fc2f48b66826929b49a58d44c46aaa2c286a6d0e822a8d1e34555121
+ principal-submitters:
+   - Andreas Hülsing
+ auxiliary-submitters:
+diff --git a/crypto_sign/sphincs-shake256-192s-robust/avx2/api.h b/crypto_sign/sphincs-shake256-192s-robust/avx2/api.h
+index 25a193df..05fca01b 100644
+--- a/crypto_sign/sphincs-shake256-192s-robust/avx2/api.h
++++ b/crypto_sign/sphincs-shake256-192s-robust/avx2/api.h
+@@ -10,7 +10,7 @@
+ 
+ #define PQCLEAN_SPHINCSSHAKE256192SROBUST_AVX2_CRYPTO_SECRETKEYBYTES 96
+ #define PQCLEAN_SPHINCSSHAKE256192SROBUST_AVX2_CRYPTO_PUBLICKEYBYTES 48
+-#define PQCLEAN_SPHINCSSHAKE256192SROBUST_AVX2_CRYPTO_BYTES 17064
++#define PQCLEAN_SPHINCSSHAKE256192SROBUST_AVX2_CRYPTO_BYTES 16224
+ #define PQCLEAN_SPHINCSSHAKE256192SROBUST_AVX2_CRYPTO_SEEDBYTES 72
+ 
+ 
+diff --git a/crypto_sign/sphincs-shake256-192s-robust/avx2/params.h b/crypto_sign/sphincs-shake256-192s-robust/avx2/params.h
+index 3a81fd64..ebfac6eb 100644
+--- a/crypto_sign/sphincs-shake256-192s-robust/avx2/params.h
++++ b/crypto_sign/sphincs-shake256-192s-robust/avx2/params.h
+@@ -4,12 +4,12 @@
+ /* Hash output length in bytes. */
+ #define PQCLEAN_SPHINCSSHAKE256192SROBUST_AVX2_N 24
+ /* Height of the hypertree. */
+-#define PQCLEAN_SPHINCSSHAKE256192SROBUST_AVX2_FULL_HEIGHT 64
++#define PQCLEAN_SPHINCSSHAKE256192SROBUST_AVX2_FULL_HEIGHT 63
+ /* Number of subtree layer. */
+-#define PQCLEAN_SPHINCSSHAKE256192SROBUST_AVX2_D 8
++#define PQCLEAN_SPHINCSSHAKE256192SROBUST_AVX2_D 7
+ /* FORS tree dimensions. */
+-#define PQCLEAN_SPHINCSSHAKE256192SROBUST_AVX2_FORS_HEIGHT 16
+-#define PQCLEAN_SPHINCSSHAKE256192SROBUST_AVX2_FORS_TREES 14
++#define PQCLEAN_SPHINCSSHAKE256192SROBUST_AVX2_FORS_HEIGHT 14
++#define PQCLEAN_SPHINCSSHAKE256192SROBUST_AVX2_FORS_TREES 17
+ /* Winternitz parameter, */
+ #define PQCLEAN_SPHINCSSHAKE256192SROBUST_AVX2_WOTS_W 16
+ 
+diff --git a/crypto_sign/sphincs-shake256-192s-robust/clean/api.h b/crypto_sign/sphincs-shake256-192s-robust/clean/api.h
+index d7b4657b..4b60c940 100644
+--- a/crypto_sign/sphincs-shake256-192s-robust/clean/api.h
++++ b/crypto_sign/sphincs-shake256-192s-robust/clean/api.h
+@@ -10,7 +10,7 @@
+ 
+ #define PQCLEAN_SPHINCSSHAKE256192SROBUST_CLEAN_CRYPTO_SECRETKEYBYTES 96
+ #define PQCLEAN_SPHINCSSHAKE256192SROBUST_CLEAN_CRYPTO_PUBLICKEYBYTES 48
+-#define PQCLEAN_SPHINCSSHAKE256192SROBUST_CLEAN_CRYPTO_BYTES 17064
++#define PQCLEAN_SPHINCSSHAKE256192SROBUST_CLEAN_CRYPTO_BYTES 16224
+ #define PQCLEAN_SPHINCSSHAKE256192SROBUST_CLEAN_CRYPTO_SEEDBYTES 72
+ 
+ 
+diff --git a/crypto_sign/sphincs-shake256-192s-robust/clean/params.h b/crypto_sign/sphincs-shake256-192s-robust/clean/params.h
+index 99ef148c..481b506d 100644
+--- a/crypto_sign/sphincs-shake256-192s-robust/clean/params.h
++++ b/crypto_sign/sphincs-shake256-192s-robust/clean/params.h
+@@ -4,12 +4,12 @@
+ /* Hash output length in bytes. */
+ #define PQCLEAN_SPHINCSSHAKE256192SROBUST_CLEAN_N 24
+ /* Height of the hypertree. */
+-#define PQCLEAN_SPHINCSSHAKE256192SROBUST_CLEAN_FULL_HEIGHT 64
++#define PQCLEAN_SPHINCSSHAKE256192SROBUST_CLEAN_FULL_HEIGHT 63
+ /* Number of subtree layer. */
+-#define PQCLEAN_SPHINCSSHAKE256192SROBUST_CLEAN_D 8
++#define PQCLEAN_SPHINCSSHAKE256192SROBUST_CLEAN_D 7
+ /* FORS tree dimensions. */
+-#define PQCLEAN_SPHINCSSHAKE256192SROBUST_CLEAN_FORS_HEIGHT 16
+-#define PQCLEAN_SPHINCSSHAKE256192SROBUST_CLEAN_FORS_TREES 14
++#define PQCLEAN_SPHINCSSHAKE256192SROBUST_CLEAN_FORS_HEIGHT 14
++#define PQCLEAN_SPHINCSSHAKE256192SROBUST_CLEAN_FORS_TREES 17
+ /* Winternitz parameter, */
+ #define PQCLEAN_SPHINCSSHAKE256192SROBUST_CLEAN_WOTS_W 16
+ 
+diff --git a/crypto_sign/sphincs-shake256-192s-simple/META.yml b/crypto_sign/sphincs-shake256-192s-simple/META.yml
+index 1b65dbdd..90334cc8 100644
+--- a/crypto_sign/sphincs-shake256-192s-simple/META.yml
++++ b/crypto_sign/sphincs-shake256-192s-simple/META.yml
+@@ -3,9 +3,9 @@ type: signature
+ claimed-nist-level: 3
+ length-public-key: 48
+ length-secret-key: 96
+-length-signature: 17064
+-testvectors-sha256: ea1c38dafdeec8bd6b5a844955b1edffbb1d16f392a647fdae8e6dd148c6396c
+-nistkat-sha256: 31b341c25230f8524e123db8a5dc29e8dd952cd11a63a821ac488b97d5106597
++length-signature: 16224
++testvectors-sha256: dcbd436a7d3751c1c6fb10686b65a4540e4a537d7118682f5ad8b1c014ca8c33
++nistkat-sha256: 3cb0a4fccbb8d204aaa5c06e5be66a53e8c4ba1cbf1aefef8fdfaa5c63d60094
+ principal-submitters:
+   - Andreas Hülsing
+ auxiliary-submitters:
+diff --git a/crypto_sign/sphincs-shake256-192s-simple/avx2/api.h b/crypto_sign/sphincs-shake256-192s-simple/avx2/api.h
+index 0f6cfe1c..c15a93cc 100644
+--- a/crypto_sign/sphincs-shake256-192s-simple/avx2/api.h
++++ b/crypto_sign/sphincs-shake256-192s-simple/avx2/api.h
+@@ -10,7 +10,7 @@
+ 
+ #define PQCLEAN_SPHINCSSHAKE256192SSIMPLE_AVX2_CRYPTO_SECRETKEYBYTES 96
+ #define PQCLEAN_SPHINCSSHAKE256192SSIMPLE_AVX2_CRYPTO_PUBLICKEYBYTES 48
+-#define PQCLEAN_SPHINCSSHAKE256192SSIMPLE_AVX2_CRYPTO_BYTES 17064
++#define PQCLEAN_SPHINCSSHAKE256192SSIMPLE_AVX2_CRYPTO_BYTES 16224
+ #define PQCLEAN_SPHINCSSHAKE256192SSIMPLE_AVX2_CRYPTO_SEEDBYTES 72
+ 
+ 
+diff --git a/crypto_sign/sphincs-shake256-192s-simple/avx2/params.h b/crypto_sign/sphincs-shake256-192s-simple/avx2/params.h
+index 3e333766..049322c6 100644
+--- a/crypto_sign/sphincs-shake256-192s-simple/avx2/params.h
++++ b/crypto_sign/sphincs-shake256-192s-simple/avx2/params.h
+@@ -4,12 +4,12 @@
+ /* Hash output length in bytes. */
+ #define PQCLEAN_SPHINCSSHAKE256192SSIMPLE_AVX2_N 24
+ /* Height of the hypertree. */
+-#define PQCLEAN_SPHINCSSHAKE256192SSIMPLE_AVX2_FULL_HEIGHT 64
++#define PQCLEAN_SPHINCSSHAKE256192SSIMPLE_AVX2_FULL_HEIGHT 63
+ /* Number of subtree layer. */
+-#define PQCLEAN_SPHINCSSHAKE256192SSIMPLE_AVX2_D 8
++#define PQCLEAN_SPHINCSSHAKE256192SSIMPLE_AVX2_D 7
+ /* FORS tree dimensions. */
+-#define PQCLEAN_SPHINCSSHAKE256192SSIMPLE_AVX2_FORS_HEIGHT 16
+-#define PQCLEAN_SPHINCSSHAKE256192SSIMPLE_AVX2_FORS_TREES 14
++#define PQCLEAN_SPHINCSSHAKE256192SSIMPLE_AVX2_FORS_HEIGHT 14
++#define PQCLEAN_SPHINCSSHAKE256192SSIMPLE_AVX2_FORS_TREES 17
+ /* Winternitz parameter, */
+ #define PQCLEAN_SPHINCSSHAKE256192SSIMPLE_AVX2_WOTS_W 16
+ 
+diff --git a/crypto_sign/sphincs-shake256-192s-simple/clean/api.h b/crypto_sign/sphincs-shake256-192s-simple/clean/api.h
+index 102f6ae6..69490ec3 100644
+--- a/crypto_sign/sphincs-shake256-192s-simple/clean/api.h
++++ b/crypto_sign/sphincs-shake256-192s-simple/clean/api.h
+@@ -10,7 +10,7 @@
+ 
+ #define PQCLEAN_SPHINCSSHAKE256192SSIMPLE_CLEAN_CRYPTO_SECRETKEYBYTES 96
+ #define PQCLEAN_SPHINCSSHAKE256192SSIMPLE_CLEAN_CRYPTO_PUBLICKEYBYTES 48
+-#define PQCLEAN_SPHINCSSHAKE256192SSIMPLE_CLEAN_CRYPTO_BYTES 17064
++#define PQCLEAN_SPHINCSSHAKE256192SSIMPLE_CLEAN_CRYPTO_BYTES 16224
+ #define PQCLEAN_SPHINCSSHAKE256192SSIMPLE_CLEAN_CRYPTO_SEEDBYTES 72
+ 
+ 
+diff --git a/crypto_sign/sphincs-shake256-192s-simple/clean/params.h b/crypto_sign/sphincs-shake256-192s-simple/clean/params.h
+index bb6f8785..c75842b5 100644
+--- a/crypto_sign/sphincs-shake256-192s-simple/clean/params.h
++++ b/crypto_sign/sphincs-shake256-192s-simple/clean/params.h
+@@ -4,12 +4,12 @@
+ /* Hash output length in bytes. */
+ #define PQCLEAN_SPHINCSSHAKE256192SSIMPLE_CLEAN_N 24
+ /* Height of the hypertree. */
+-#define PQCLEAN_SPHINCSSHAKE256192SSIMPLE_CLEAN_FULL_HEIGHT 64
++#define PQCLEAN_SPHINCSSHAKE256192SSIMPLE_CLEAN_FULL_HEIGHT 63
+ /* Number of subtree layer. */
+-#define PQCLEAN_SPHINCSSHAKE256192SSIMPLE_CLEAN_D 8
++#define PQCLEAN_SPHINCSSHAKE256192SSIMPLE_CLEAN_D 7
+ /* FORS tree dimensions. */
+-#define PQCLEAN_SPHINCSSHAKE256192SSIMPLE_CLEAN_FORS_HEIGHT 16
+-#define PQCLEAN_SPHINCSSHAKE256192SSIMPLE_CLEAN_FORS_TREES 14
++#define PQCLEAN_SPHINCSSHAKE256192SSIMPLE_CLEAN_FORS_HEIGHT 14
++#define PQCLEAN_SPHINCSSHAKE256192SSIMPLE_CLEAN_FORS_TREES 17
+ /* Winternitz parameter, */
+ #define PQCLEAN_SPHINCSSHAKE256192SSIMPLE_CLEAN_WOTS_W 16
+ 
+diff --git a/crypto_sign/sphincs-shake256-256f-robust/META.yml b/crypto_sign/sphincs-shake256-256f-robust/META.yml
+index 75cf7f25..d77ec786 100644
+--- a/crypto_sign/sphincs-shake256-256f-robust/META.yml
++++ b/crypto_sign/sphincs-shake256-256f-robust/META.yml
+@@ -3,9 +3,9 @@ type: signature
+ claimed-nist-level: 5
+ length-public-key: 64
+ length-secret-key: 128
+-length-signature: 49216
+-testvectors-sha256: 4757a2ce7aec6daac4ab894336586949f7919c63d55200ec6325eb395efcf1ef
+-nistkat-sha256: d5410edbaa120cf24f0bcf8cb834fdb08b4b5652809ee17c026d37212f4a4934
++length-signature: 49856
++testvectors-sha256: 4d34d76036148fa8b7fa0babf355e6499ae7b67e40691c01443369001844e1b7
++nistkat-sha256: 4bd4c9610754bb66530f492cf2e98e81b0d525339bae56038034e692f46f7927
+ principal-submitters:
+   - Andreas Hülsing
+ auxiliary-submitters:
+diff --git a/crypto_sign/sphincs-shake256-256f-robust/avx2/api.h b/crypto_sign/sphincs-shake256-256f-robust/avx2/api.h
+index 8689745d..e11cd614 100644
+--- a/crypto_sign/sphincs-shake256-256f-robust/avx2/api.h
++++ b/crypto_sign/sphincs-shake256-256f-robust/avx2/api.h
+@@ -10,7 +10,7 @@
+ 
+ #define PQCLEAN_SPHINCSSHAKE256256FROBUST_AVX2_CRYPTO_SECRETKEYBYTES 128
+ #define PQCLEAN_SPHINCSSHAKE256256FROBUST_AVX2_CRYPTO_PUBLICKEYBYTES 64
+-#define PQCLEAN_SPHINCSSHAKE256256FROBUST_AVX2_CRYPTO_BYTES 49216
++#define PQCLEAN_SPHINCSSHAKE256256FROBUST_AVX2_CRYPTO_BYTES 49856
+ #define PQCLEAN_SPHINCSSHAKE256256FROBUST_AVX2_CRYPTO_SEEDBYTES 96
+ 
+ 
+diff --git a/crypto_sign/sphincs-shake256-256f-robust/avx2/params.h b/crypto_sign/sphincs-shake256-256f-robust/avx2/params.h
+index 534826ca..29811afd 100644
+--- a/crypto_sign/sphincs-shake256-256f-robust/avx2/params.h
++++ b/crypto_sign/sphincs-shake256-256f-robust/avx2/params.h
+@@ -8,8 +8,8 @@
+ /* Number of subtree layer. */
+ #define PQCLEAN_SPHINCSSHAKE256256FROBUST_AVX2_D 17
+ /* FORS tree dimensions. */
+-#define PQCLEAN_SPHINCSSHAKE256256FROBUST_AVX2_FORS_HEIGHT 10
+-#define PQCLEAN_SPHINCSSHAKE256256FROBUST_AVX2_FORS_TREES 30
++#define PQCLEAN_SPHINCSSHAKE256256FROBUST_AVX2_FORS_HEIGHT 9
++#define PQCLEAN_SPHINCSSHAKE256256FROBUST_AVX2_FORS_TREES 35
+ /* Winternitz parameter, */
+ #define PQCLEAN_SPHINCSSHAKE256256FROBUST_AVX2_WOTS_W 16
+ 
+diff --git a/crypto_sign/sphincs-shake256-256f-robust/clean/api.h b/crypto_sign/sphincs-shake256-256f-robust/clean/api.h
+index 6387b054..8c87a6be 100644
+--- a/crypto_sign/sphincs-shake256-256f-robust/clean/api.h
++++ b/crypto_sign/sphincs-shake256-256f-robust/clean/api.h
+@@ -10,7 +10,7 @@
+ 
+ #define PQCLEAN_SPHINCSSHAKE256256FROBUST_CLEAN_CRYPTO_SECRETKEYBYTES 128
+ #define PQCLEAN_SPHINCSSHAKE256256FROBUST_CLEAN_CRYPTO_PUBLICKEYBYTES 64
+-#define PQCLEAN_SPHINCSSHAKE256256FROBUST_CLEAN_CRYPTO_BYTES 49216
++#define PQCLEAN_SPHINCSSHAKE256256FROBUST_CLEAN_CRYPTO_BYTES 49856
+ #define PQCLEAN_SPHINCSSHAKE256256FROBUST_CLEAN_CRYPTO_SEEDBYTES 96
+ 
+ 
+diff --git a/crypto_sign/sphincs-shake256-256f-robust/clean/params.h b/crypto_sign/sphincs-shake256-256f-robust/clean/params.h
+index 15ce3dad..d9275857 100644
+--- a/crypto_sign/sphincs-shake256-256f-robust/clean/params.h
++++ b/crypto_sign/sphincs-shake256-256f-robust/clean/params.h
+@@ -8,8 +8,8 @@
+ /* Number of subtree layer. */
+ #define PQCLEAN_SPHINCSSHAKE256256FROBUST_CLEAN_D 17
+ /* FORS tree dimensions. */
+-#define PQCLEAN_SPHINCSSHAKE256256FROBUST_CLEAN_FORS_HEIGHT 10
+-#define PQCLEAN_SPHINCSSHAKE256256FROBUST_CLEAN_FORS_TREES 30
++#define PQCLEAN_SPHINCSSHAKE256256FROBUST_CLEAN_FORS_HEIGHT 9
++#define PQCLEAN_SPHINCSSHAKE256256FROBUST_CLEAN_FORS_TREES 35
+ /* Winternitz parameter, */
+ #define PQCLEAN_SPHINCSSHAKE256256FROBUST_CLEAN_WOTS_W 16
+ 
+diff --git a/crypto_sign/sphincs-shake256-256f-simple/META.yml b/crypto_sign/sphincs-shake256-256f-simple/META.yml
+index 9280230d..b4877834 100644
+--- a/crypto_sign/sphincs-shake256-256f-simple/META.yml
++++ b/crypto_sign/sphincs-shake256-256f-simple/META.yml
+@@ -3,9 +3,9 @@ type: signature
+ claimed-nist-level: 5
+ length-public-key: 64
+ length-secret-key: 128
+-length-signature: 49216
+-testvectors-sha256: 1b261fc7394dc847349c07bde922ac028aad94c534f51341f8202670558ed27a
+-nistkat-sha256: 5a8959fc0436a66d6d69cc8adb2f24936b763ae324bc97ed139ae92f9f7e03c3
++length-signature: 49856
++testvectors-sha256: 660db83011d050cea1ae3d2d985278c56a1c5c1c3044405f2c7336ea403c1c33
++nistkat-sha256: 1ec2691198f9a5c29c45a2bb72b3e04c9127f8e1df19d6c874d8b5bdfab89ef7
+ principal-submitters:
+   - Andreas Hülsing
+ auxiliary-submitters:
+diff --git a/crypto_sign/sphincs-shake256-256f-simple/avx2/api.h b/crypto_sign/sphincs-shake256-256f-simple/avx2/api.h
+index 007dfef2..1e82f998 100644
+--- a/crypto_sign/sphincs-shake256-256f-simple/avx2/api.h
++++ b/crypto_sign/sphincs-shake256-256f-simple/avx2/api.h
+@@ -10,7 +10,7 @@
+ 
+ #define PQCLEAN_SPHINCSSHAKE256256FSIMPLE_AVX2_CRYPTO_SECRETKEYBYTES 128
+ #define PQCLEAN_SPHINCSSHAKE256256FSIMPLE_AVX2_CRYPTO_PUBLICKEYBYTES 64
+-#define PQCLEAN_SPHINCSSHAKE256256FSIMPLE_AVX2_CRYPTO_BYTES 49216
++#define PQCLEAN_SPHINCSSHAKE256256FSIMPLE_AVX2_CRYPTO_BYTES 49856
+ #define PQCLEAN_SPHINCSSHAKE256256FSIMPLE_AVX2_CRYPTO_SEEDBYTES 96
+ 
+ 
+diff --git a/crypto_sign/sphincs-shake256-256f-simple/avx2/params.h b/crypto_sign/sphincs-shake256-256f-simple/avx2/params.h
+index 9dba4c5d..7aab103a 100644
+--- a/crypto_sign/sphincs-shake256-256f-simple/avx2/params.h
++++ b/crypto_sign/sphincs-shake256-256f-simple/avx2/params.h
+@@ -8,8 +8,8 @@
+ /* Number of subtree layer. */
+ #define PQCLEAN_SPHINCSSHAKE256256FSIMPLE_AVX2_D 17
+ /* FORS tree dimensions. */
+-#define PQCLEAN_SPHINCSSHAKE256256FSIMPLE_AVX2_FORS_HEIGHT 10
+-#define PQCLEAN_SPHINCSSHAKE256256FSIMPLE_AVX2_FORS_TREES 30
++#define PQCLEAN_SPHINCSSHAKE256256FSIMPLE_AVX2_FORS_HEIGHT 9
++#define PQCLEAN_SPHINCSSHAKE256256FSIMPLE_AVX2_FORS_TREES 35
+ /* Winternitz parameter, */
+ #define PQCLEAN_SPHINCSSHAKE256256FSIMPLE_AVX2_WOTS_W 16
+ 
+diff --git a/crypto_sign/sphincs-shake256-256f-simple/clean/api.h b/crypto_sign/sphincs-shake256-256f-simple/clean/api.h
+index fa6dac07..fd59721e 100644
+--- a/crypto_sign/sphincs-shake256-256f-simple/clean/api.h
++++ b/crypto_sign/sphincs-shake256-256f-simple/clean/api.h
+@@ -10,7 +10,7 @@
+ 
+ #define PQCLEAN_SPHINCSSHAKE256256FSIMPLE_CLEAN_CRYPTO_SECRETKEYBYTES 128
+ #define PQCLEAN_SPHINCSSHAKE256256FSIMPLE_CLEAN_CRYPTO_PUBLICKEYBYTES 64
+-#define PQCLEAN_SPHINCSSHAKE256256FSIMPLE_CLEAN_CRYPTO_BYTES 49216
++#define PQCLEAN_SPHINCSSHAKE256256FSIMPLE_CLEAN_CRYPTO_BYTES 49856
+ #define PQCLEAN_SPHINCSSHAKE256256FSIMPLE_CLEAN_CRYPTO_SEEDBYTES 96
+ 
+ 
+diff --git a/crypto_sign/sphincs-shake256-256f-simple/clean/params.h b/crypto_sign/sphincs-shake256-256f-simple/clean/params.h
+index ad979313..dac379d3f 100644
+--- a/crypto_sign/sphincs-shake256-256f-simple/clean/params.h
++++ b/crypto_sign/sphincs-shake256-256f-simple/clean/params.h
+@@ -8,8 +8,8 @@
+ /* Number of subtree layer. */
+ #define PQCLEAN_SPHINCSSHAKE256256FSIMPLE_CLEAN_D 17
+ /* FORS tree dimensions. */
+-#define PQCLEAN_SPHINCSSHAKE256256FSIMPLE_CLEAN_FORS_HEIGHT 10
+-#define PQCLEAN_SPHINCSSHAKE256256FSIMPLE_CLEAN_FORS_TREES 30
++#define PQCLEAN_SPHINCSSHAKE256256FSIMPLE_CLEAN_FORS_HEIGHT 9
++#define PQCLEAN_SPHINCSSHAKE256256FSIMPLE_CLEAN_FORS_TREES 35
+ /* Winternitz parameter, */
+ #define PQCLEAN_SPHINCSSHAKE256256FSIMPLE_CLEAN_WOTS_W 16
+ 
+-- 
+2.30.2
+
