@@ -61,9 +61,9 @@ See test implemetnation in ``test/ut.cpp`` for more details.
 
 Rust bindgings are provided in the ``src/rustapi/pqc-sys`` and can be regenerated automatically by running ``cargo build`` in that directory.
 
-## Testing
+## Testing against Known Answer Tests
 
-Algorithms are tested against KATs, by the Rust-based runner implemented in the ``test/katrunner`` (only verification/decpaulation). The runner uses ``katwalk`` crate for parsing NIST format. To run KAT tests:
+Algorithms are tested against KATs, by the Rust-based runner implemented in the ``test/katrunner`` (only verification/decpaulation). The runner uses ``katwalk`` crate for parsing NIST format. To run it:
 
 ```
     cd test/katrunner
