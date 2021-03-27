@@ -4,27 +4,19 @@ This is a repository of post-quantum schemes copied from the submission to the N
 
 Users shouldn't expect any level of security provided by this code. The library is not meant to be used on live production systems.
 
-## Schemes
+## Schemes support
 
-### Key Encapsulation Mechanisms
-
-**Finalists:**
-* Kyber
-* NTRU
-* SABER
-
-**Alternate candidates:**
-* FrodoKEM
-
-### Signature schemes
-
-**Finalists:**
-* Dilithium
-* Falcon
-* Rainbow
-
-**Alternate candidates:**
-* SPHINCS+
+| Name                     | NIST Round | x86 optimized |
+|--------------------------|------------|---------------|
+| Kyber                    | 3          |  x |
+| NTRU                     | 3          |  x |
+| SABER                    | 3          |  x |
+| FrodoKEM                 | 3          |    |
+| NTRU Prime               | 3          |  x |
+| Dilithium                | 3          |  x |
+| Falcon                   | 2          |    |
+| Rainbow                  | 3          |    |
+| SPHINCS+ SHA256/SHAKE256 | 3          |  x |
 
 ## Building
 
@@ -55,8 +47,8 @@ Library provides simple API, wrapping PQClean. For example to use KEM, one shoul
     pqc_keygen(p, pk.data(), sk.data());
     pqc_kem_encapsulate(p, ct.data(), ss1.data(), pk.data());
     pqc_kem_decapsulate(p, ss2.data(), ct.data(), sk.data());
-    
-    const params_t *p = pqc_sig_alg_by_id(DILITHIUM2);
+
+    params_t *p = pqc_sig_alg_by_id(DILITHIUM2);
     size_t sigsz = sig.capacity();
     pqc_keygen(p, pk.data(), sk.data());
     pqc_sig_create(p, sig.data(), &sigsz, msg.data(), msg.size(), sk.data());
@@ -67,8 +59,16 @@ See test implemetnation in ``test/ut.cpp`` for more details.
 
 ## Rust binding
 
-Rust bindgings are provided in the ``src/rustapi/pqc-sys`` and can be regenerated automatically by running ``cargo build`` in this directory.
+Rust bindgings are provided in the ``src/rustapi/pqc-sys`` and can be regenerated automatically by running ``cargo build`` in that directory.
 
 ## Testing
 
-Algorithms are tested against KATs, by the runner implemented in the ``teste/katrunner``. The runner uses ``katwalk`` crate.
+Algorithms are tested against KATs, by the runner implemented in the ``test/katrunner``. The runner uses ``katwalk`` crate. To run it:
+
+```
+    cd test/katrunner
+    curl http://amongbytes.com/~flowher/permalinks/kat.zip --output kat.zip
+    unzip kat.zip
+    cargo run -- --katdir KAT
+
+```
