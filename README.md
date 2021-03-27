@@ -22,7 +22,7 @@ Users shouldn't expect any level of security provided by this code. The library 
 
 CMake is used to build the library:
 
-```
+```bash
 mkdir build
 cd build
 cmake -DCMAKE_BUILD_TYPE=Release ..
@@ -65,7 +65,7 @@ Rust bindgings are provided in the ``src/rustapi/pqc-sys`` and can be regenerate
 
 Algorithms are tested against KATs, by the Rust-based runner implemented in the ``test/katrunner`` (only verification/decpaulation). The runner uses ``katwalk`` crate for parsing NIST format. To run it:
 
-```
+```bash
     cd test/katrunner
     curl http://amongbytes.com/~flowher/permalinks/kat.zip --output kat.zip
     unzip kat.zip
