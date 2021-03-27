@@ -60,7 +60,10 @@ extern "C" {
     _(NTRULPR857)        \
     _(LIGHTSABER)        \
     _(FIRESABER)         \
-    _(SABER)
+    _(SABER)             \
+    _(HQCRMRS128)        \
+    _(HQCRMRS192)        \
+    _(HQCRMRS256)
 
 // Defines IDs for each algorithm. The
 // PQC_ALG_SIG/KEM_MAX indicates number

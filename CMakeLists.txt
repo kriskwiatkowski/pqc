@@ -141,6 +141,9 @@ add_subdirectory(src/kem/ntru/ntruhps2048677/clean)
 add_subdirectory(src/kem/ntru_prime/ntrulpr761/clean)
 add_subdirectory(src/kem/ntru_prime/ntrulpr653/clean)
 add_subdirectory(src/kem/ntru_prime/ntrulpr857/clean)
+add_subdirectory(src/kem/hqc/hqc-rmrs-128/clean)
+add_subdirectory(src/kem/hqc/hqc-rmrs-192/clean)
+add_subdirectory(src/kem/hqc/hqc-rmrs-256/clean)
 
 # Hardware optimized targets
 if(${ARCH} STREQUAL "ARCH_x86_64")
@@ -196,7 +199,12 @@ add_subdirectory(src/kem/ntru/ntruhps2048677/avx2)
 add_subdirectory(src/kem/ntru_prime/ntrulpr761/avx2)
 add_subdirectory(src/kem/ntru_prime/ntrulpr653/avx2)
 add_subdirectory(src/kem/ntru_prime/ntrulpr857/avx2)
+add_subdirectory(src/kem/hqc/hqc-rmrs-128/avx2)
+add_subdirectory(src/kem/hqc/hqc-rmrs-192/avx2)
+add_subdirectory(src/kem/hqc/hqc-rmrs-256/avx2)
 endif()
+
+
 
 # The rest of the library
 set(SRC_COMMON_GENERIC
@@ -205,6 +213,7 @@ set(SRC_COMMON_GENERIC
   src/common/sp800-185.c
   src/common/randombytes.c
   src/common/sha2.c
+  src/common/nistseedexpander.c
   src/capi/pqapi.c
 )
 

@@ -117,6 +117,10 @@ const KATS: &'static[Register] = &[
     REG_KEM!(LIGHTSABER, "round3/saber/LightSaber/PQCkemKAT_1568.rsp"),
     REG_KEM!(FIRESABER, "round3/saber/FireSaber/PQCkemKAT_3040.rsp"),
     REG_KEM!(SABER, "round3/saber/Saber/PQCkemKAT_2304.rsp"),
+    REG_KEM!(HQCRMRS128, "round3/hqc/hqc-128/hqc-128_kat.rsp"),
+    REG_KEM!(HQCRMRS192, "round3/hqc/hqc-192/hqc-192_kat.rsp"),
+    REG_KEM!(HQCRMRS256, "round3/hqc/hqc-256/hqc-256_kat.rsp"),
+
     // Those are Round2. KATs are very big, so skip testing until it makes sense to do so.
     //REG_SIGN!(RAINBOWVCLASSIC),
     //REG_SIGN!(RAINBOWICLASSIC),

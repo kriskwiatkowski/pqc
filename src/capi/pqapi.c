@@ -113,6 +113,12 @@
 #include "kem/saber/firesaber/avx2/api.h"
 #include "kem/saber/saber/clean/api.h"
 #include "kem/saber/saber/avx2/api.h"
+#include "kem/hqc/hqc-rmrs-128/clean/api.h"
+#include "kem/hqc/hqc-rmrs-192/clean/api.h"
+#include "kem/hqc/hqc-rmrs-256/clean/api.h"
+#include "kem/hqc/hqc-rmrs-128/avx2/api.h"
+#include "kem/hqc/hqc-rmrs-192/avx2/api.h"
+#include "kem/hqc/hqc-rmrs-256/avx2/api.h"
 
 // not proud of this thingy
 #define OPT_VERSION _CLEAN_
