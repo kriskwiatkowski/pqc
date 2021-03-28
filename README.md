@@ -49,7 +49,7 @@ Library provides simple API, wrapping PQClean. For example to use KEM, one shoul
     pqc_kem_encapsulate(p, ct.data(), ss1.data(), pk.data());
     pqc_kem_decapsulate(p, ss2.data(), ct.data(), sk.data());
 
-    *p = pqc_sig_alg_by_id(DILITHIUM2);
+    p = pqc_sig_alg_by_id(DILITHIUM2);
     size_t sigsz = sig.capacity();
     pqc_keygen(p, pk.data(), sk.data());
     pqc_sig_create(p, sig.data(), &sigsz, msg.data(), msg.size(), sk.data());
