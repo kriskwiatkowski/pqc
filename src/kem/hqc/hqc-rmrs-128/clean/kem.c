@@ -1,7 +1,6 @@
 #include "api.h"
 #include "fips202.h"
 #include "hqc.h"
-#include "nistseedexpander.h"
 #include "parameters.h"
 #include "parsing.h"
 #include "randombytes.h"
