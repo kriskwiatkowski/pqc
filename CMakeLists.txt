@@ -91,6 +91,10 @@ set_property(GLOBAL PROPERTY obj_libs "")
 set(CMAKE_C_FLAGS "${C_CXX_FLAGS} -D${ARCH}")
 set(CMAKE_CXX_FLAGS "${C_CXX_FLAGS} -D${ARCH}")
 
+if(PQC_WEAK_RANDOMBYTES)
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DPQC_WEAK_RANDOMBYTES")
+endif()
+
 # Define sources of the components
 add_subdirectory(src/sign/dilithium/dilithium2/clean)
 add_subdirectory(src/sign/dilithium/dilithium3/clean)

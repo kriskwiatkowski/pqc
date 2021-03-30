@@ -29,8 +29,6 @@ THE SOFTWARE.
 #define _GNU_SOURCE
 #endif /* defined(__linux__) */
 
-#include "randombytes.h"
-
 #if defined(_WIN32)
 /* Windows */
 // NOLINTNEXTLINE(llvm-include-order): Include order required by Windows

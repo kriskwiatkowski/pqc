@@ -512,7 +512,7 @@ impl Default for sig_params_t {
     }
 }
 extern "C" {
-    pub fn pqc_keygen(p: *const params_t, sk: *mut u8, pk: *mut u8) -> bool;
+    pub fn pqc_keygen(p: *const params_t, pk: *mut u8, sk: *mut u8) -> bool;
 }
 extern "C" {
     pub fn pqc_kem_encapsulate(p: *const params_t, ct: *mut u8, ss: *mut u8, pk: *const u8)

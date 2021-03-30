@@ -213,8 +213,8 @@ const params_t *pqc_sig_alg_by_id(uint8_t id) {
 }
 
 bool pqc_keygen(const params_t *p,
-    uint8_t *sk, uint8_t *pk) {
-    return !p->keygen(sk, pk);
+    uint8_t *pk, uint8_t *sk) {
+    return !p->keygen(pk, sk);
 }
 
 bool pqc_kem_encapsulate(const params_t *p,

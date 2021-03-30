@@ -122,7 +122,7 @@ inline uint32_t private_key_bsz(const params_t *p) {
 
 bool pqc_keygen(
     const params_t *p,
-    uint8_t *sk, uint8_t *pk);
+    uint8_t *pk, uint8_t *sk);
 
 bool pqc_kem_encapsulate(
     const params_t *p,

@@ -9,3 +9,4 @@ katwalk = "0.0.3"
 pqc-sys = { path = "../../src/rustapi/pqc-sys" }
 hex = "0.4.2"
 threadpool = "1.8.1"
+rust-crypto = "^0.2"

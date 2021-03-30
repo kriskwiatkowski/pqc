@@ -4,7 +4,7 @@ extern crate bindgen;
 
 fn main() {
 	let dst = Config::new("../../../")
-		.profile("Debug")
+		.profile("Release")
 		.very_verbose(true)
 		.build();
 
@@ -19,6 +19,8 @@ fn main() {
         // The input header we would like to generate
         // bindings for.
         .header("../../../public/pqc/pqc.h")
+        // Don't define randombytes()
+        .clang_arg("-DPQC_WEAK_RANDOMBYTES")
         // Tell cargo to invalidate the built crate whenever any of the
         // included header files changed.
         .parse_callbacks(Box::new(bindgen::CargoCallbacks))

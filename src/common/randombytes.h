@@ -8,6 +8,11 @@
 #include <unistd.h>
 #endif
 
-int randombytes(uint8_t *buf, size_t n);
+int randombytes(uint8_t *buf, size_t n)
+#if defined(__linux__) && defined(PQC_WEAK_RANDOMBYTES)
+// KAT runner defines it's own randombytes, based on DRBG_CTR
+__attribute__((weak))
+#endif
+;
 
 #endif
