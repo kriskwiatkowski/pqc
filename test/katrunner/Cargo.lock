@@ -172,6 +172,7 @@ version = "0.1.0"
 dependencies = [
  "hex",
  "katwalk",
+ "lazy_static",
  "pqc-sys",
  "rust-crypto",
  "threadpool",
