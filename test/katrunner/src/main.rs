@@ -121,7 +121,7 @@ fn test_kem_vector(el: &TestVector) {
     let mut ss = Vec::new();
 
     if let Some(drbg) = DRBGV.lock().unwrap().get_mut(&thread::current().id()) {
-        drbg.init(el.sig.seed.as_slice(), Vec::new());
+        drbg.init(el.kem.seed.as_slice(), Vec::new());
     }
 
     unsafe {
