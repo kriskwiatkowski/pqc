@@ -162,6 +162,7 @@ add_subdirectory(src/kem/ntru_prime/ntrulpr857/clean)
 add_subdirectory(src/kem/hqc/hqc-rmrs-128/clean)
 add_subdirectory(src/kem/hqc/hqc-rmrs-192/clean)
 add_subdirectory(src/kem/hqc/hqc-rmrs-256/clean)
+add_subdirectory(src/kem/sike)
 
 # Hardware optimized targets
 if(${ARCH} STREQUAL "ARCH_x86_64")

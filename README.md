@@ -18,6 +18,7 @@ Users shouldn't expect any level of security provided by this code. The library 
 | Falcon                   | 2          |    |
 | Rainbow                  | 3          |    |
 | SPHINCS+ SHA256/SHAKE256 | 3          |  x |
+| SIKE/p434                | 3          |  x |
 
 ## Building
 
