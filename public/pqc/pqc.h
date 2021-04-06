@@ -63,7 +63,8 @@ extern "C" {
     _(SABER)             \
     _(HQCRMRS128)        \
     _(HQCRMRS192)        \
-    _(HQCRMRS256)
+    _(HQCRMRS256)        \
+    _(SIKE434)
 
 // Defines IDs for each algorithm. The
 // PQC_ALG_SIG/KEM_MAX indicates number

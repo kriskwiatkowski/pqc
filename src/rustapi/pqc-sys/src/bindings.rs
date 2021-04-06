@@ -256,7 +256,8 @@ pub const SABER: ::std::os::raw::c_uint = 15;
 pub const HQCRMRS128: ::std::os::raw::c_uint = 16;
 pub const HQCRMRS192: ::std::os::raw::c_uint = 17;
 pub const HQCRMRS256: ::std::os::raw::c_uint = 18;
-pub const PQC_ALG_KEM_MAX: ::std::os::raw::c_uint = 19;
+pub const SIKE434: ::std::os::raw::c_uint = 19;
+pub const PQC_ALG_KEM_MAX: ::std::os::raw::c_uint = 20;
 pub type _bindgen_ty_2 = ::std::os::raw::c_uint;
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
