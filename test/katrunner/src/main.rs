@@ -5,13 +5,11 @@ use std::env;
 use std::path::Path;
 use threadpool::ThreadPool;
 use std::convert::TryInto;
-use drbg::ctr::DrbgCtx;
+use aes_ctr_drbg::DrbgCtx;
 use std::collections::HashMap;
 use std::thread;
 use std::sync::Mutex;
 use lazy_static::lazy_static;
-
-mod drbg;
 
 // Used for signature algorithm registration
 macro_rules! REG_SIGN {
