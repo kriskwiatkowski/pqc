@@ -6,10 +6,12 @@ fn main() {
 	let dst = Config::new("../../../")
 		.profile("Release")
 		.very_verbose(true)
-		.build();
+        .build();
 
 	println!("cargo:rustc-link-search=native={}/lib", dst.display());
     println!("cargo:rustc-link-lib=static=pqc_s");
+    // For some reason GetX86Info symbol is undefined in the pqc_s. Hence this line
+    println!("cargo:rustc-link-lib=static=cpu_features");
     println!("cargo:rerun-if-changed=../../../capi/*,../../../kem/*,../../../sign/*,../../../../public/pqc/pqc.h");
 
     // The bindgen::Builder is the main entry point

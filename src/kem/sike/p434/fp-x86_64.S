@@ -15,10 +15,10 @@
 .quad	0x6CFC5FD681C52056
 .quad	0x0002341F27177344
 
-.globl	sike_fpadd
-.hidden sike_fpadd
-.type	sike_fpadd,@function
-sike_fpadd:
+.globl	sike_fpadd_asm
+.hidden sike_fpadd_asm
+.type	sike_fpadd_asm,@function
+sike_fpadd_asm:
 .cfi_startproc
 	pushq	%r12
 .cfi_adjust_cfa_offset	8
@@ -107,14 +107,7 @@ sike_fpadd:
 .hidden sike_cswap_asm
 .type	sike_cswap_asm,@function
 sike_cswap_asm:
-
-
 	movq	%rdx,%xmm3
-
-
-
-
-
 	pshufd	$68,%xmm3,%xmm3
 
 	movdqu	0(%rdi),%xmm0
@@ -258,10 +251,10 @@ sike_cswap_asm:
 	movdqu	%xmm1,208(%rsi)
 
 	.byte	0xf3,0xc3
-.globl	sike_fpsub
-.hidden sike_fpsub
-.type	sike_fpsub,@function
-sike_fpsub:
+.globl	sike_fpsub_asm
+.hidden sike_fpsub_asm
+.type	sike_fpsub_asm,@function
+sike_fpsub_asm:
 .cfi_startproc
 	pushq	%r12
 .cfi_adjust_cfa_offset	8
@@ -508,10 +501,10 @@ sike_mpdblsubx2_asm:
 	.byte	0xf3,0xc3
 .cfi_endproc
 
-.globl	sike_fprdc
-.hidden sike_fprdc
-.type	sike_fprdc,@function
-sike_fprdc:
+.globl	sike_fprdc_asm
+.hidden sike_fprdc_asm
+.type	sike_fprdc_asm,@function
+sike_fprdc_asm:
 .cfi_startproc
 	pushq	%r12
 .cfi_adjust_cfa_offset	8
@@ -723,10 +716,10 @@ sike_fprdc:
 .cfi_adjust_cfa_offset	-8
 	.byte	0xf3,0xc3
 .cfi_endproc
-.globl	sike_mpmul
-.hidden sike_mpmul
-.type	sike_mpmul,@function
-sike_mpmul:
+.globl	sike_mpmul_asm
+.hidden sike_mpmul_asm
+.type	sike_mpmul_asm,@function
+sike_mpmul_asm:
 .cfi_startproc
 	pushq	%r12
 .cfi_adjust_cfa_offset	8

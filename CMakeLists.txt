@@ -1,9 +1,12 @@
 cmake_minimum_required(VERSION 3.13)
-project(cryptocore NONE)
+project(cryptocore VERSION 0.0.1 LANGUAGES C)
 
 enable_language(C)
 enable_language(CXX)
 enable_language(ASM)
+
+add_subdirectory(3rd/gtest)
+add_subdirectory(3rd/cpu_features)
 
 set(CMAKE_VERBOSE_MAKEFILE ON)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "~/.cmake/Modules")
@@ -47,7 +50,6 @@ if(NOT CMAKE_BUILD_TYPE_LOWER STREQUAL "debug")
   set(BENCHMARK_ENABLE_INSTALL OFF CACHE BOOL "" FORCE)
   add_subdirectory(${CMAKE_SOURCE_DIR}/3rd/gbench)
 endif()
-
 
 # Arch settings
 
@@ -96,6 +98,7 @@ include_directories(
   public
   src/common/
   src
+  3rd/cpu_features/include
 )
 
 set_property(GLOBAL PROPERTY obj_libs "")
@@ -168,7 +171,7 @@ add_subdirectory(src/kem/sike)
 if(${ARCH} STREQUAL "ARCH_x86_64")
 
 set(CMAKE_C_FLAGS
-  "${CMAKE_C_FLAGS} -march=native -mtune=native")
+  "${CMAKE_C_FLAGS} -march=haswell")
 set(SRC_COMMON_AVX2
   src/common/keccak4x/KeccakP-1600-times4-SIMD256.c
 )
@@ -256,12 +259,16 @@ get_property(OBJ_LIBS GLOBAL PROPERTY obj_libs)
 
 target_link_libraries(
   pqc
-  common
+
   ${OBJ_LIBS}
+  cpu_features
+  common
 )
 
 target_link_libraries(
   pqc_s
+
+  cpu_features
   common
   ${OBJ_LIBS}
 )

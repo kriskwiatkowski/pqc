@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <pqc/pqc.h>
+#include <cpuinfo_x86.h>
 
 #include "schemes.h"
 
@@ -76,6 +77,13 @@ const sig_params_t sigs[] = {
     PQC_SUPPORTED_SIGS(REG_SIG)
 };
 
+// Contains capabilities on x86 CPU on which implementation is running
+X86Features CPU_CAPS;
+
+const X86Features * const get_cpu_caps(void) {
+    return &CPU_CAPS;
+}
+
 const params_t *pqc_kem_alg_by_id(uint8_t id) {
     int i;
     for(i=0; i<PQC_ALG_KEM_MAX; i++) {
@@ -125,4 +133,9 @@ bool pqc_sig_verify(const params_t *p,
     const uint8_t *m, uint64_t mlen,
     const uint8_t *pk) {
     return !((sig_params_t *)p)->verify(sig, siglen, m, mlen, pk);
+}
+
+void static_initialization(void) __attribute__((constructor));
+void static_initialization(void) {
+    CPU_CAPS = GetX86Info().features;
 }
