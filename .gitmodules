@@ -7,3 +7,6 @@
 [submodule "3rd/gbench"]
 	path = 3rd/gbench
 	url = https://github.com/henrydcase/benchmark.git
+[submodule "3rd/cpu_features"]
+	path = 3rd/cpu_features
+	url = https://github.com/henrydcase/cpu_features.git

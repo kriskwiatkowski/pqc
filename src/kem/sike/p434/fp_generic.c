@@ -3,14 +3,17 @@
 *
 * Abstract: portable modular arithmetic for P503
 *********************************************************************************************/
+#include "common/utils.h"
+
 #include "utils.h"
 #include "fpx.h"
 
 // Global constants
 extern const struct params_t params;
 
+// Digit multiplication, digit * digit -> 2-digit result
 static void digit_x_digit(const crypto_word_t a, const crypto_word_t b, crypto_word_t* c)
-{ // Digit multiplication, digit * digit -> 2-digit result
+{
     crypto_word_t al, ah, bl, bh, temp;
     crypto_word_t albl, albh, ahbl, ahbh, res1, res2, res3, carry;
     crypto_word_t mask_low = (crypto_word_t)(-1) >> (sizeof(crypto_word_t)*4);
@@ -43,10 +46,11 @@ static void digit_x_digit(const crypto_word_t a, const crypto_word_t b, crypto_w
     c[1] ^= (ahbh & mask_high) + carry;             // C11
 }
 
+// Modular addition, c = a+b mod p434.
+// Inputs: a, b in [0, 2*p434-1]
+// Output: c in [0, 2*p434-1]
 void sike_fpadd(const felm_t a, const felm_t b, felm_t c)
-{ // Modular addition, c = a+b mod p434.
-  // Inputs: a, b in [0, 2*p434-1]
-  // Output: c in [0, 2*p434-1]
+{
     unsigned int i, carry = 0;
     crypto_word_t mask;
 
@@ -84,11 +88,19 @@ void sike_fpsub(const felm_t a, const felm_t b, felm_t c)
     }
 }
 
+// Multiprecision comba multiply, c = a*b, where lng(a) = lng(b) = NWORDS_FIELD.
+void sike_mpmul_asm(const felm_t a, const felm_t b, dfelm_t c);
 void sike_mpmul(const felm_t a, const felm_t b, dfelm_t c)
-{ // Multiprecision comba multiply, c = a*b, where lng(a) = lng(b) = NWORDS_FIELD.
+{
     unsigned int i, j;
     crypto_word_t t = 0, u = 0, v = 0, UV[2];
     unsigned int carry = 0;
+
+    // TODO: faster would be to use bitmap
+    if (get_cpu_caps()->bmi2 && get_cpu_caps()->adx) {
+        sike_mpmul_asm(a,b,c);
+        return;
+    }
 
     for (i = 0; i < NWORDS_FIELD; i++) {
         for (j = 0; j <= i; j++) {
@@ -118,11 +130,18 @@ void sike_mpmul(const felm_t a, const felm_t b, dfelm_t c)
     c[2*NWORDS_FIELD-1] = v;
 }
 
+// Efficient Montgomery reduction using comba and exploiting the special form of the prime p434.
+// mc = ma*R^-1 mod p434x2, where R = 2^448.
+// If ma < 2^448*p434, the output mc is in the range [0, 2*p434-1].
+// ma is assumed to be in Montgomery representation.
+void sike_fprdc_asm(const felm_t ma, felm_t mc);
 void sike_fprdc(const felm_t ma, felm_t mc)
-{ // Efficient Montgomery reduction using comba and exploiting the special form of the prime p434.
-  // mc = ma*R^-1 mod p434x2, where R = 2^448.
-  // If ma < 2^448*p434, the output mc is in the range [0, 2*p434-1].
-  // ma is assumed to be in Montgomery representation.
+{
+    if (get_cpu_caps()->bmi2 && get_cpu_caps()->adx) {
+        sike_fprdc_asm(ma, mc);
+        return;
+    }
+
     unsigned int i, j, carry, count = ZERO_WORDS;
     crypto_word_t UV[2], t = 0, u = 0, v = 0;
 

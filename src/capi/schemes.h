@@ -1,3 +1,6 @@
+#ifndef PQC_SCHEMES_
+#define PQC_SCHEMES_
+
 // PQClean include
 #include "sign/rainbow/rainbowV-classic/clean/api.h"
 #include "sign/rainbow/rainbowI-classic/clean/api.h"
@@ -116,3 +119,5 @@
 #include "kem/hqc/hqc-rmrs-192/avx2/api.h"
 #include "kem/hqc/hqc-rmrs-256/avx2/api.h"
 #include "kem/sike/includes/sike/sike.h"
+
+#endif
