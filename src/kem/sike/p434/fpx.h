@@ -31,8 +31,6 @@ void sike_fpneg(felm_t a);
 void sike_fpcopy(const felm_t a, felm_t c);
 // Copy a field element, c = a.
 void sike_fpzero(felm_t a);
-// If option = 0xFF...FF x=y; y=x, otherwise swap doesn't happen. Constant time.
-void sike_cswap_asm(point_proj_t x, point_proj_t y, const crypto_word_t option);
 // Conversion from Montgomery representation to standard representation,
 // c = ma*R^(-1) mod p = a mod p, where ma in [0, p-1].
 void sike_from_mont(const felm_t ma, felm_t c);
