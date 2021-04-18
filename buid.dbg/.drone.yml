@@ -1,0 +1,14 @@
+kind: pipeline
+type: exec
+name: default
+
+steps:
+- name: build
+  commands:
+  - git submodule init
+  - git submodule update --recursive --remote
+  - mkdir build
+  - cd build
+  - cmake ..
+  - make
+  - ./test

@@ -110,7 +110,7 @@ static void fpinv_mont(felm_t a)
 }
 
 // Multiprecision addition, c = a+b, where lng(a) = lng(b) = nwords. Returns the carry bit.
-#if defined(ARCH_GENERIC) || (!defined(ARCH_X86_64) && !defined(ARCH_AARCH64))
+#ifndef PQC_ASM
 inline static unsigned int mp_add(const felm_t a, const felm_t b, felm_t c, const unsigned int nwords) {
     uint8_t carry = 0;
     for (size_t i = 0; i < nwords; i++) {
@@ -132,31 +132,31 @@ inline static unsigned int mp_sub(const felm_t a, const felm_t b, felm_t c, cons
 // Multiprecision addition, c = a+b.
 inline static void mp_addfast(const felm_t a, const felm_t b, felm_t c)
 {
-#if defined(ARCH_GENERIC) || (!defined(ARCH_X86_64) && !defined(ARCH_AARCH64))
-    mp_add(a, b, c, NWORDS_FIELD);
-#else
+#ifdef PQC_ASM
     sike_mpadd_asm(a, b, c);
+#else
+    mp_add(a, b, c, NWORDS_FIELD);
 #endif
 }
 
 // Multiprecision subtraction, c = a-b, where lng(a) = lng(b) = 2*NWORDS_FIELD.
 // If c < 0 then returns mask = 0xFF..F, else mask = 0x00..0
 inline static crypto_word_t mp_subfast(const dfelm_t a, const dfelm_t b, dfelm_t c) {
-#if defined(ARCH_GENERIC) || (!defined(ARCH_X86_64) && !defined(ARCH_AARCH64))
-    return (0 - (crypto_word_t)mp_sub(a, b, c, 2*NWORDS_FIELD));
-#else
+#ifdef PQC_ASM
     return sike_mpsubx2_asm(a, b, c);
+#else
+    return (0 - (crypto_word_t)mp_sub(a, b, c, 2*NWORDS_FIELD));
 #endif
 }
 
 // Multiprecision subtraction, c = c-a-b, where lng(a) = lng(b) = 2*NWORDS_FIELD.
 // Inputs should be s.t. c > a and c > b
 inline static void mp_dblsubfast(const dfelm_t a, const dfelm_t b, dfelm_t c) {
-#if defined(ARCH_GENERIC) || (!defined(ARCH_X86_64) && !defined(ARCH_AARCH64))
+#ifdef PQC_ASM
+    sike_mpdblsubx2_asm(a, b, c);
+#else
     mp_sub(c, a, c, 2*NWORDS_FIELD);
     mp_sub(c, b, c, 2*NWORDS_FIELD);
-#else
-    sike_mpdblsubx2_asm(a, b, c);
 #endif
 }
 
