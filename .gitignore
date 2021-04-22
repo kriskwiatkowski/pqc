@@ -8,6 +8,3 @@ bin/
 # Object and library files on Windows
 *.lib
 *.obj
-
-__pycache__
-testcases/

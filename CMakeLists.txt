@@ -33,7 +33,21 @@ else()
   message(FATAL_ERROR "Unknown processor:" ${CMAKE_SYSTEM_PROCESSOR})
 endif()
 
-add_subdirectory(3rd/gtest)
+add_subdirectory(${CMAKE_SOURCE_DIR}/3rd/gtest)
+if(NOT CMAKE_BUILD_TYPE_LOWER STREQUAL "debug")
+  # settings below are required by benchmark library
+  set(CMAKE_BUILD_TYPE "Release" CACHE STRING "" FORCE)
+  # Target for benchmark - it also builds gtest library
+  set(BENCHMARK_ENABLE_GTEST_TESTS ON CACHE BOOL "Enable testing of the benchmark library." FORCE)
+  set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "Disable benchmark tests" FORCE)
+  set(GOOGLETEST_PATH "${CMAKE_SOURCE_DIR}/3rd/gtest" CACHE PATH "Path to the gtest sources" FORCE)
+  #if (NOT MACOSX)
+  # set(BENCHMARK_ENABLE_LTO ON CACHE BOOL "Enable link time optim" FORCE)
+  #endif()
+  set(BENCHMARK_ENABLE_INSTALL OFF CACHE BOOL "" FORCE)
+  add_subdirectory(${CMAKE_SOURCE_DIR}/3rd/gbench)
+endif()
+
 
 # Arch settings
 
@@ -268,6 +282,9 @@ target_include_directories(
 
   ${CMAKE_SOURCE_DIR})
 
+if(NOT CMAKE_BUILD_TYPE_LOWER STREQUAL "debug")
+add_subdirectory(test/bench)
+endif()
 
 install(TARGETS pqc pqc_s
   PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ GROUP_WRITE WORLD_READ WORLD_WRITE
