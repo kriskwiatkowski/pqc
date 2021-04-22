@@ -2,7 +2,6 @@
 #include <stdint.h>
 #include <utility>
 
-#include <gtest/gtest.h>
 #include <benchmark/benchmark.h>
 #include <benchmark/../../src/statistics.h>
 #include <benchmark/../../src/cycleclock.h>
