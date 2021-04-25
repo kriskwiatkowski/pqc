@@ -34,10 +34,10 @@ static void BenchKyberMatK2(benchmark::State &st) {
 static void BenchKyberRejSampling(benchmark::State &st) {
     int64_t t, total = 0;
     int16_t a[256];
-    uint8_t seed[168*3];
+    uint8_t buf[168*3];
     for (auto _ : st) {
         t = benchmark::cycleclock::Now();
-        PQCLEAN_KYBER512_AVX2_rej_uniform_avx(a, seed);
+        PQCLEAN_KYBER512_AVX2_rej_uniform_avx(a, buf);
         total += benchmark::cycleclock::Now() - t;
         benchmark::DoNotOptimize(a);
     }
