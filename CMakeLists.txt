@@ -36,7 +36,6 @@ else()
   message(FATAL_ERROR "Unknown processor:" ${CMAKE_SYSTEM_PROCESSOR})
 endif()
 
-add_subdirectory(${CMAKE_SOURCE_DIR}/3rd/gtest)
 if(NOT CMAKE_BUILD_TYPE_LOWER STREQUAL "debug")
   # settings below are required by benchmark library
   set(CMAKE_BUILD_TYPE "Release" CACHE STRING "" FORCE)
