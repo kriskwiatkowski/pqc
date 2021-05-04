@@ -39,13 +39,13 @@ Library provides simple API, wrapping PQClean. For example to use KEM, one shoul
 ```c
     #include <pqc/pqc.h>
 
+    const params_t *p = pqc_kem_alg_by_id(KYBER512);
     std::vector<uint8_t> ct(ciphertext_bsz(p));
     std::vector<uint8_t> ss1(shared_secret_bsz(p));
     std::vector<uint8_t> ss2(shared_secret_bsz(p));
     std::vector<uint8_t> sk(private_key_bsz(p));
     std::vector<uint8_t> pk(public_key_bsz(p));
 
-    const params_t *p = pqc_kem_alg_by_id(KYBER512);
     pqc_keygen(p, pk.data(), sk.data());
     pqc_kem_encapsulate(p, ct.data(), ss1.data(), pk.data());
     pqc_kem_decapsulate(p, ss2.data(), ct.data(), sk.data());
