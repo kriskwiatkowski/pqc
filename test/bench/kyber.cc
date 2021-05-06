@@ -11,6 +11,7 @@ extern "C" {
 	#include "kem/kyber/kyber512/avx2/indcpa.h"
     #include "kem/kyber/kyber512/avx2/kem.h"
     #include "kem/kyber/kyber512/avx2/rejsample.h"
+    #include "kem/kyber/kyber512/avx2/ntt.h"
 }
 
 auto cpucycle = [](benchmark::State &st, int64_t cycles) {
@@ -90,8 +91,23 @@ static void BenchKyberDecaps(benchmark::State &st) {
     }
     cpucycle(st, total);
 }
+
+static void BenchBaseMulAVX(benchmark::State &st) {
+    int64_t t, total = 0;
+    __m256i r[32],a[32],b[32],data[32];
+
+    for (auto _ : st) {
+        t = benchmark::cycleclock::Now();
+        PQCLEAN_KYBER512_AVX2_basemul_avx(r,a,b,data);
+        total += benchmark::cycleclock::Now() - t;
+        benchmark::DoNotOptimize(r);
+    }
+    cpucycle(st, total);
+}
+
 BENCHMARK(BenchKyberMatK2);
 BENCHMARK(BenchKyberRejSampling);
 BENCHMARK(BenchKyberKeygen);
 BENCHMARK(BenchKyberEncaps);
 BENCHMARK(BenchKyberDecaps);
+BENCHMARK(BenchBaseMulAVX);
