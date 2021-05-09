@@ -92,7 +92,7 @@ static void BenchKyberDecaps(benchmark::State &st) {
     cpucycle(st, total);
 }
 
-static void BenchBaseMulAVX(benchmark::State &st) {
+static void BenchKyberBaseMulAVX(benchmark::State &st) {
     int64_t t, total = 0;
     __m256i r[32],a[32],b[32],data[32];
 
@@ -105,9 +105,22 @@ static void BenchBaseMulAVX(benchmark::State &st) {
     cpucycle(st, total);
 }
 
+static void BenchKyberNttAVX(benchmark::State &st) {
+    int64_t t, total = 0;
+    __m256i r[32],data[32];
+    for (auto _ : st) {
+        t = benchmark::cycleclock::Now();
+        PQCLEAN_KYBER512_AVX2_ntt_avx(r, data);
+        total += benchmark::cycleclock::Now() - t;
+        benchmark::DoNotOptimize(r);
+    }
+    cpucycle(st, total);
+}
+
 BENCHMARK(BenchKyberMatK2);
 BENCHMARK(BenchKyberRejSampling);
 BENCHMARK(BenchKyberKeygen);
 BENCHMARK(BenchKyberEncaps);
 BENCHMARK(BenchKyberDecaps);
-BENCHMARK(BenchBaseMulAVX);
+BENCHMARK(BenchKyberBaseMulAVX);
+BENCHMARK(BenchKyberNttAVX);
