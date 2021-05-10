@@ -261,7 +261,7 @@ pub const PQC_ALG_KEM_MAX: ::std::os::raw::c_uint = 20;
 pub type _bindgen_ty_2 = ::std::os::raw::c_uint;
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
-pub struct params_t {
+pub struct pqc_ctx_t {
     pub alg_id: u8,
     pub alg_name: *const ::std::os::raw::c_char,
     pub prv_key_bsz: u32,
@@ -272,87 +272,87 @@ pub struct params_t {
     >,
 }
 #[test]
-fn bindgen_test_layout_params_t() {
+fn bindgen_test_layout_pqc_ctx_t() {
     assert_eq!(
-        ::std::mem::size_of::<params_t>(),
+        ::std::mem::size_of::<pqc_ctx_t>(),
         40usize,
-        concat!("Size of: ", stringify!(params_t))
+        concat!("Size of: ", stringify!(pqc_ctx_t))
     );
     assert_eq!(
-        ::std::mem::align_of::<params_t>(),
+        ::std::mem::align_of::<pqc_ctx_t>(),
         8usize,
-        concat!("Alignment of ", stringify!(params_t))
+        concat!("Alignment of ", stringify!(pqc_ctx_t))
     );
     assert_eq!(
-        unsafe { &(*(::std::ptr::null::<params_t>())).alg_id as *const _ as usize },
+        unsafe { &(*(::std::ptr::null::<pqc_ctx_t>())).alg_id as *const _ as usize },
         0usize,
         concat!(
             "Offset of field: ",
-            stringify!(params_t),
+            stringify!(pqc_ctx_t),
             "::",
             stringify!(alg_id)
         )
     );
     assert_eq!(
-        unsafe { &(*(::std::ptr::null::<params_t>())).alg_name as *const _ as usize },
+        unsafe { &(*(::std::ptr::null::<pqc_ctx_t>())).alg_name as *const _ as usize },
         8usize,
         concat!(
             "Offset of field: ",
-            stringify!(params_t),
+            stringify!(pqc_ctx_t),
             "::",
             stringify!(alg_name)
         )
     );
     assert_eq!(
-        unsafe { &(*(::std::ptr::null::<params_t>())).prv_key_bsz as *const _ as usize },
+        unsafe { &(*(::std::ptr::null::<pqc_ctx_t>())).prv_key_bsz as *const _ as usize },
         16usize,
         concat!(
             "Offset of field: ",
-            stringify!(params_t),
+            stringify!(pqc_ctx_t),
             "::",
             stringify!(prv_key_bsz)
         )
     );
     assert_eq!(
-        unsafe { &(*(::std::ptr::null::<params_t>())).pub_key_bsz as *const _ as usize },
+        unsafe { &(*(::std::ptr::null::<pqc_ctx_t>())).pub_key_bsz as *const _ as usize },
         20usize,
         concat!(
             "Offset of field: ",
-            stringify!(params_t),
+            stringify!(pqc_ctx_t),
             "::",
             stringify!(pub_key_bsz)
         )
     );
     assert_eq!(
-        unsafe { &(*(::std::ptr::null::<params_t>())).is_kem as *const _ as usize },
+        unsafe { &(*(::std::ptr::null::<pqc_ctx_t>())).is_kem as *const _ as usize },
         24usize,
         concat!(
             "Offset of field: ",
-            stringify!(params_t),
+            stringify!(pqc_ctx_t),
             "::",
             stringify!(is_kem)
         )
     );
     assert_eq!(
-        unsafe { &(*(::std::ptr::null::<params_t>())).keygen as *const _ as usize },
+        unsafe { &(*(::std::ptr::null::<pqc_ctx_t>())).keygen as *const _ as usize },
         32usize,
         concat!(
             "Offset of field: ",
-            stringify!(params_t),
+            stringify!(pqc_ctx_t),
             "::",
             stringify!(keygen)
         )
     );
 }
-impl Default for params_t {
+impl Default for pqc_ctx_t {
     fn default() -> Self {
         unsafe { ::std::mem::zeroed() }
     }
 }
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
-pub struct kem_params_t {
-    pub p: params_t,
+pub struct pqc_kem_ctx_t {
+    pub p: pqc_ctx_t,
     pub ciphertext_bsz: u32,
     pub secret_bsz: u32,
     pub encapsulate: ::std::option::Option<
@@ -363,77 +363,77 @@ pub struct kem_params_t {
     >,
 }
 #[test]
-fn bindgen_test_layout_kem_params_t() {
+fn bindgen_test_layout_pqc_kem_ctx_t() {
     assert_eq!(
-        ::std::mem::size_of::<kem_params_t>(),
+        ::std::mem::size_of::<pqc_kem_ctx_t>(),
         64usize,
-        concat!("Size of: ", stringify!(kem_params_t))
+        concat!("Size of: ", stringify!(pqc_kem_ctx_t))
     );
     assert_eq!(
-        ::std::mem::align_of::<kem_params_t>(),
+        ::std::mem::align_of::<pqc_kem_ctx_t>(),
         8usize,
-        concat!("Alignment of ", stringify!(kem_params_t))
+        concat!("Alignment of ", stringify!(pqc_kem_ctx_t))
     );
     assert_eq!(
-        unsafe { &(*(::std::ptr::null::<kem_params_t>())).p as *const _ as usize },
+        unsafe { &(*(::std::ptr::null::<pqc_kem_ctx_t>())).p as *const _ as usize },
         0usize,
         concat!(
             "Offset of field: ",
-            stringify!(kem_params_t),
+            stringify!(pqc_kem_ctx_t),
             "::",
             stringify!(p)
         )
     );
     assert_eq!(
-        unsafe { &(*(::std::ptr::null::<kem_params_t>())).ciphertext_bsz as *const _ as usize },
+        unsafe { &(*(::std::ptr::null::<pqc_kem_ctx_t>())).ciphertext_bsz as *const _ as usize },
         40usize,
         concat!(
             "Offset of field: ",
-            stringify!(kem_params_t),
+            stringify!(pqc_kem_ctx_t),
             "::",
             stringify!(ciphertext_bsz)
         )
     );
     assert_eq!(
-        unsafe { &(*(::std::ptr::null::<kem_params_t>())).secret_bsz as *const _ as usize },
+        unsafe { &(*(::std::ptr::null::<pqc_kem_ctx_t>())).secret_bsz as *const _ as usize },
         44usize,
         concat!(
             "Offset of field: ",
-            stringify!(kem_params_t),
+            stringify!(pqc_kem_ctx_t),
             "::",
             stringify!(secret_bsz)
         )
     );
     assert_eq!(
-        unsafe { &(*(::std::ptr::null::<kem_params_t>())).encapsulate as *const _ as usize },
+        unsafe { &(*(::std::ptr::null::<pqc_kem_ctx_t>())).encapsulate as *const _ as usize },
         48usize,
         concat!(
             "Offset of field: ",
-            stringify!(kem_params_t),
+            stringify!(pqc_kem_ctx_t),
             "::",
             stringify!(encapsulate)
         )
     );
     assert_eq!(
-        unsafe { &(*(::std::ptr::null::<kem_params_t>())).decapsulate as *const _ as usize },
+        unsafe { &(*(::std::ptr::null::<pqc_kem_ctx_t>())).decapsulate as *const _ as usize },
         56usize,
         concat!(
             "Offset of field: ",
-            stringify!(kem_params_t),
+            stringify!(pqc_kem_ctx_t),
             "::",
             stringify!(decapsulate)
         )
     );
 }
-impl Default for kem_params_t {
+impl Default for pqc_kem_ctx_t {
     fn default() -> Self {
         unsafe { ::std::mem::zeroed() }
     }
 }
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
-pub struct sig_params_t {
-    pub p: params_t,
+pub struct pqc_sig_ctx_t {
+    pub p: pqc_ctx_t,
     pub sign_bsz: u32,
     pub sign: ::std::option::Option<
         unsafe extern "C" fn(
@@ -455,73 +455,77 @@ pub struct sig_params_t {
     >,
 }
 #[test]
-fn bindgen_test_layout_sig_params_t() {
+fn bindgen_test_layout_pqc_sig_ctx_t() {
     assert_eq!(
-        ::std::mem::size_of::<sig_params_t>(),
+        ::std::mem::size_of::<pqc_sig_ctx_t>(),
         64usize,
-        concat!("Size of: ", stringify!(sig_params_t))
+        concat!("Size of: ", stringify!(pqc_sig_ctx_t))
     );
     assert_eq!(
-        ::std::mem::align_of::<sig_params_t>(),
+        ::std::mem::align_of::<pqc_sig_ctx_t>(),
         8usize,
-        concat!("Alignment of ", stringify!(sig_params_t))
+        concat!("Alignment of ", stringify!(pqc_sig_ctx_t))
     );
     assert_eq!(
-        unsafe { &(*(::std::ptr::null::<sig_params_t>())).p as *const _ as usize },
+        unsafe { &(*(::std::ptr::null::<pqc_sig_ctx_t>())).p as *const _ as usize },
         0usize,
         concat!(
             "Offset of field: ",
-            stringify!(sig_params_t),
+            stringify!(pqc_sig_ctx_t),
             "::",
             stringify!(p)
         )
     );
     assert_eq!(
-        unsafe { &(*(::std::ptr::null::<sig_params_t>())).sign_bsz as *const _ as usize },
+        unsafe { &(*(::std::ptr::null::<pqc_sig_ctx_t>())).sign_bsz as *const _ as usize },
         40usize,
         concat!(
             "Offset of field: ",
-            stringify!(sig_params_t),
+            stringify!(pqc_sig_ctx_t),
             "::",
             stringify!(sign_bsz)
         )
     );
     assert_eq!(
-        unsafe { &(*(::std::ptr::null::<sig_params_t>())).sign as *const _ as usize },
+        unsafe { &(*(::std::ptr::null::<pqc_sig_ctx_t>())).sign as *const _ as usize },
         48usize,
         concat!(
             "Offset of field: ",
-            stringify!(sig_params_t),
+            stringify!(pqc_sig_ctx_t),
             "::",
             stringify!(sign)
         )
     );
     assert_eq!(
-        unsafe { &(*(::std::ptr::null::<sig_params_t>())).verify as *const _ as usize },
+        unsafe { &(*(::std::ptr::null::<pqc_sig_ctx_t>())).verify as *const _ as usize },
         56usize,
         concat!(
             "Offset of field: ",
-            stringify!(sig_params_t),
+            stringify!(pqc_sig_ctx_t),
             "::",
             stringify!(verify)
         )
     );
 }
-impl Default for sig_params_t {
+impl Default for pqc_sig_ctx_t {
     fn default() -> Self {
         unsafe { ::std::mem::zeroed() }
     }
 }
 extern "C" {
-    pub fn pqc_keygen(p: *const params_t, pk: *mut u8, sk: *mut u8) -> bool;
+    pub fn pqc_keygen(p: *const pqc_ctx_t, pk: *mut u8, sk: *mut u8) -> bool;
 }
 extern "C" {
-    pub fn pqc_kem_encapsulate(p: *const params_t, ct: *mut u8, ss: *mut u8, pk: *const u8)
-        -> bool;
+    pub fn pqc_kem_encapsulate(
+        p: *const pqc_ctx_t,
+        ct: *mut u8,
+        ss: *mut u8,
+        pk: *const u8,
+    ) -> bool;
 }
 extern "C" {
     pub fn pqc_kem_decapsulate(
-        p: *const params_t,
+        p: *const pqc_ctx_t,
         ss: *mut u8,
         ct: *const u8,
         sk: *const u8,
@@ -529,7 +533,7 @@ extern "C" {
 }
 extern "C" {
     pub fn pqc_sig_create(
-        p: *const params_t,
+        p: *const pqc_ctx_t,
         sig: *mut u8,
         siglen: *mut u64,
         m: *const u8,
@@ -539,7 +543,7 @@ extern "C" {
 }
 extern "C" {
     pub fn pqc_sig_verify(
-        p: *const params_t,
+        p: *const pqc_ctx_t,
         sig: *const u8,
         siglen: u64,
         m: *const u8,
@@ -548,8 +552,23 @@ extern "C" {
     ) -> bool;
 }
 extern "C" {
-    pub fn pqc_kem_alg_by_id(id: u8) -> *const params_t;
+    pub fn pqc_kem_alg_by_id(id: u8) -> *const pqc_ctx_t;
 }
 extern "C" {
-    pub fn pqc_sig_alg_by_id(id: u8) -> *const params_t;
+    pub fn pqc_sig_alg_by_id(id: u8) -> *const pqc_ctx_t;
+}
+extern "C" {
+    pub fn pqc_ciphertext_bsz(p: *const pqc_ctx_t) -> u32;
+}
+extern "C" {
+    pub fn pqc_shared_secret_bsz(p: *const pqc_ctx_t) -> u32;
+}
+extern "C" {
+    pub fn pqc_signature_bsz(p: *const pqc_ctx_t) -> u32;
+}
+extern "C" {
+    pub fn pqc_public_key_bsz(p: *const pqc_ctx_t) -> u32;
+}
+extern "C" {
+    pub fn pqc_private_key_bsz(p: *const pqc_ctx_t) -> u32;
 }

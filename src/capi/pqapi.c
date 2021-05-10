@@ -68,12 +68,12 @@
 },
 
 // Registers supported KEMs
-const kem_params_t kems[] = {
+const pqc_kem_ctx_t kems[] = {
     PQC_SUPPORTED_KEMS(REG_KEM)
 };
 
 // Registers supported signatures
-const sig_params_t sigs[] = {
+const pqc_sig_ctx_t sigs[] = {
     PQC_SUPPORTED_SIGS(REG_SIG)
 };
 
@@ -84,55 +84,75 @@ const X86Features * const get_cpu_caps(void) {
     return &CPU_CAPS;
 }
 
-const params_t *pqc_kem_alg_by_id(uint8_t id) {
+const pqc_ctx_t *pqc_kem_alg_by_id(uint8_t id) {
     int i;
     for(i=0; i<PQC_ALG_KEM_MAX; i++) {
         if (kems[i].p.alg_id == id) {
-            return (params_t*)&kems[i];
+            return (pqc_ctx_t*)&kems[i];
         }
     }
     return 0;
 }
 
-const params_t *pqc_sig_alg_by_id(uint8_t id) {
+const pqc_ctx_t *pqc_sig_alg_by_id(uint8_t id) {
     int i;
     for(i=0; i<PQC_ALG_SIG_MAX; i++) {
         if (sigs[i].p.alg_id == id) {
-            return (params_t*)&sigs[i];
+            return (pqc_ctx_t*)&sigs[i];
         }
     }
     return 0;
 }
 
-bool pqc_keygen(const params_t *p,
+bool pqc_keygen(const pqc_ctx_t *p,
     uint8_t *pk, uint8_t *sk) {
     return !p->keygen(pk, sk);
 }
 
-bool pqc_kem_encapsulate(const params_t *p,
+bool pqc_kem_encapsulate(const pqc_ctx_t *p,
     uint8_t *ct, uint8_t *ss,
     const uint8_t *pk) {
-    return !((kem_params_t*)p)->encapsulate(ct, ss, pk);
+    return !((pqc_kem_ctx_t*)p)->encapsulate(ct, ss, pk);
 }
 
-bool pqc_kem_decapsulate(const params_t *p,
+bool pqc_kem_decapsulate(const pqc_ctx_t *p,
     uint8_t *ss, const uint8_t *ct,
     const uint8_t *sk) {
-    return !((kem_params_t*)p)->decapsulate(ss, ct, sk);
+    return !((pqc_kem_ctx_t*)p)->decapsulate(ss, ct, sk);
 }
 
-bool pqc_sig_create(const params_t *p,
+bool pqc_sig_create(const pqc_ctx_t *p,
     uint8_t *sig, uint64_t *siglen,
     const uint8_t *m, uint64_t mlen,
     const uint8_t *sk) {
-    return !((sig_params_t *)p)->sign(sig, siglen, m, mlen, sk);
+    return !((pqc_sig_ctx_t *)p)->sign(sig, siglen, m, mlen, sk);
 }
 
-bool pqc_sig_verify(const params_t *p,
+bool pqc_sig_verify(const pqc_ctx_t *p,
     const uint8_t *sig, uint64_t siglen,
     const uint8_t *m, uint64_t mlen,
     const uint8_t *pk) {
-    return !((sig_params_t *)p)->verify(sig, siglen, m, mlen, pk);
+    return !((pqc_sig_ctx_t *)p)->verify(sig, siglen, m, mlen, pk);
+}
+
+uint32_t pqc_ciphertext_bsz(const pqc_ctx_t *p) {
+    return ((pqc_kem_ctx_t *)p)->ciphertext_bsz;
+}
+
+uint32_t pqc_shared_secret_bsz(const pqc_ctx_t *p) {
+    return ((pqc_kem_ctx_t *)p)->secret_bsz;
+}
+
+uint32_t pqc_signature_bsz(const pqc_ctx_t *p) {
+    return ((pqc_sig_ctx_t *)p)->sign_bsz;
+}
+
+uint32_t pqc_public_key_bsz(const pqc_ctx_t *p) {
+    return p->pub_key_bsz;
+}
+
+uint32_t pqc_private_key_bsz(const pqc_ctx_t *p) {
+    return p->prv_key_bsz;
 }
 
 void static_initialization(void) __attribute__((constructor));

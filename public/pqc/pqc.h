@@ -75,7 +75,7 @@ enum { PQC_SUPPORTED_KEMS(DEFNUM) PQC_ALG_KEM_MAX };
 #undef DEFNUM
 
 // Parameters of the scheme
-typedef struct params_t {
+typedef struct pqc_ctx_t {
     const uint8_t alg_id;
     const char* alg_name;
     const uint32_t prv_key_bsz;
@@ -83,73 +83,59 @@ typedef struct params_t {
     const bool is_kem;
 
     int (*keygen)(uint8_t *sk, uint8_t *pk);
-} params_t;
+} pqc_ctx_t;
 
-typedef struct kem_params_t {
-    params_t p;
+typedef struct pqc_kem_ctx_t {
+    pqc_ctx_t p;
     const uint32_t ciphertext_bsz;
     const uint32_t secret_bsz;
 
     int (*encapsulate)(uint8_t *ct, uint8_t *ss, const uint8_t *pk);
     int (*decapsulate)(uint8_t *ss, const uint8_t *ct, const uint8_t *sk);
-} kem_params_t;
+} pqc_kem_ctx_t;
 
-typedef struct sig_params_t {
-    params_t p;
+typedef struct pqc_sig_ctx_t {
+    pqc_ctx_t p;
     const uint32_t sign_bsz;
     int (*sign)(uint8_t *sig, uint64_t *siglen, const uint8_t *m, uint64_t mlen, const uint8_t *sk);
     int (*verify)(const uint8_t *sig, uint64_t siglen, const uint8_t *m, uint64_t mlen, const uint8_t *pk);
-} sig_params_t;
-
-inline uint32_t ciphertext_bsz(const params_t *p) {
-    return ((kem_params_t *)p)->ciphertext_bsz;
-}
-
-inline uint32_t shared_secret_bsz(const params_t *p) {
-    return ((kem_params_t *)p)->secret_bsz;
-}
-
-inline uint32_t signature_bsz(const params_t *p) {
-    return ((sig_params_t *)p)->sign_bsz;
-}
-
-inline uint32_t public_key_bsz(const params_t *p) {
-    return p->pub_key_bsz;
-}
-
-inline uint32_t private_key_bsz(const params_t *p) {
-    return p->prv_key_bsz;
-}
+} pqc_sig_ctx_t;
 
 bool pqc_keygen(
-    const params_t *p,
+    const pqc_ctx_t *p,
     uint8_t *pk, uint8_t *sk);
 
 bool pqc_kem_encapsulate(
-    const params_t *p,
+    const pqc_ctx_t *p,
     uint8_t *ct, uint8_t *ss,
     const uint8_t *pk);
 
 bool pqc_kem_decapsulate(
-    const params_t *p,
+    const pqc_ctx_t *p,
     uint8_t *ss, const uint8_t *ct,
     const uint8_t *sk);
 
 bool pqc_sig_create(
-    const params_t *p,
+    const pqc_ctx_t *p,
     uint8_t *sig, uint64_t *siglen,
     const uint8_t *m, uint64_t mlen,
     const uint8_t *sk);
 
 bool pqc_sig_verify(
-    const params_t *p,
+    const pqc_ctx_t *p,
     const uint8_t *sig, uint64_t siglen,
     const uint8_t *m, uint64_t mlen,
     const uint8_t *pk);
 
 
-const params_t *pqc_kem_alg_by_id(uint8_t id);
-const params_t *pqc_sig_alg_by_id(uint8_t id);
+const pqc_ctx_t *pqc_kem_alg_by_id(uint8_t id);
+const pqc_ctx_t *pqc_sig_alg_by_id(uint8_t id);
+
+uint32_t pqc_ciphertext_bsz(const pqc_ctx_t *p);
+uint32_t pqc_shared_secret_bsz(const pqc_ctx_t *p);
+uint32_t pqc_signature_bsz(const pqc_ctx_t *p);
+uint32_t pqc_public_key_bsz(const pqc_ctx_t *p);
+uint32_t pqc_private_key_bsz(const pqc_ctx_t *p);
 
 #ifdef __cplusplus
 }
