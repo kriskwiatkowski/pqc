@@ -1,6 +1,8 @@
 # PQ Crypto Catalog
 
-This is a repository of post-quantum schemes copied from either the submission to the NIST Post-Quantum Standardization or [PQClean](https://github.com/PQClean/PQClean) project. The goal of the library is to provide easy to use API which enables quick experimentation with some post-quantum cryptographic schemes.
+Implementation of quantum-safe signature and KEM schemes submitted to NIST PQC Standarization Process. 
+
+The goal is to provide an easy-to-use API in C and Rust to enable experimentation. The code is derived from the submission to the NIST Post-Quantum Standardization, either directly or by leveraging [PQClean](https://github.com/PQClean/PQClean) project.
 
 Users shouldn't expect any level of security provided by this code. The library is not meant to be used on live production systems.
 
