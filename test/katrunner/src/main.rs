@@ -42,7 +42,7 @@ lazy_static! {
     static ref DRBGV: Mutex<HashMap<thread::ThreadId, DrbgCtx>> = Mutex::new(HashMap::new());
 }
 
-// We have to provide the implementation for qrs_randombytes
+// We have to provide the implementation for randombytes
 #[no_mangle]
 unsafe extern "C" fn randombytes(
     data: *mut ::std::os::raw::c_uchar,
