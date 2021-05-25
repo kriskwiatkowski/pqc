@@ -115,8 +115,7 @@ endif()
 add_subdirectory(src/sign/dilithium/dilithium2/clean)
 add_subdirectory(src/sign/dilithium/dilithium3/clean)
 add_subdirectory(src/sign/dilithium/dilithium5/clean)
-add_subdirectory(src/sign/falcon/falcon-1024/clean)
-add_subdirectory(src/sign/falcon/falcon-512/clean)
+add_subdirectory(src/sign/falcon)
 add_subdirectory(src/sign/rainbow/rainbowV-classic/clean)
 add_subdirectory(src/sign/rainbow/rainbowI-classic/clean)
 add_subdirectory(src/sign/rainbow/rainbowIII-classic/clean)
@@ -176,8 +175,6 @@ set(SRC_COMMON_AVX2
 )
 
 # Sign
-add_subdirectory(src/sign/falcon/falcon-512/avx2)
-add_subdirectory(src/sign/falcon/falcon-1024/avx2)
 add_subdirectory(src/sign/dilithium/dilithium2/avx2)
 add_subdirectory(src/sign/dilithium/dilithium3/avx2)
 add_subdirectory(src/sign/dilithium/dilithium5/avx2)

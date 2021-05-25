@@ -8,8 +8,9 @@ extern "C" {
 #include <stdint.h>
 #include <stdbool.h>
 
-// defines supported signature algorithm list
-#define PQC_SUPPORTED_SIGS(_)    \
+// Defines supported signature algorithm list. The resulting
+// ID of an algorithm is PQC_ALG_SIG_(NAME_AS_BELOW)
+#define PQC_SUPPORTED_SIGS(_) \
     _(DILITHIUM2)                \
     _(DILITHIUM3)                \
     _(DILITHIUM5)                \
@@ -43,7 +44,8 @@ extern "C" {
     _(SPHINCSSHA256256FROBUST)   \
     _(SPHINCSSHA256256SROBUST)
 
-// defines supported kem algorithm list
+// Defines supported kem algorithm list. The resulting
+// ID of an algorithm is PQC_ALG_KEM_(NAME_AS_BELOW)
 #define PQC_SUPPORTED_KEMS(_)\
     _(FRODOKEM640SHAKE)  \
     _(FRODOKEM976SHAKE)  \
@@ -69,10 +71,12 @@ extern "C" {
 // Defines IDs for each algorithm. The
 // PQC_ALG_SIG/KEM_MAX indicates number
 // of KEM and signature schemes supported.
-#define DEFNUM(N) N,
-enum { PQC_SUPPORTED_SIGS(DEFNUM) PQC_ALG_SIG_MAX };
-enum { PQC_SUPPORTED_KEMS(DEFNUM) PQC_ALG_KEM_MAX };
-#undef DEFNUM
+#define DEFNUM_SIG(N) PQC_ALG_SIG_##N,
+#define DEFNUM_KEM(N) PQC_ALG_KEM_##N,
+enum { PQC_SUPPORTED_SIGS(DEFNUM_SIG) PQC_ALG_SIG_MAX };
+enum { PQC_SUPPORTED_KEMS(DEFNUM_KEM) PQC_ALG_KEM_MAX };
+#undef DEFNUM_SIG
+#undef DEFNUM_KEM
 
 // Parameters of the scheme
 typedef struct pqc_ctx_t {
