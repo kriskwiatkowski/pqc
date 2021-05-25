@@ -29,4 +29,4 @@ jobs:
           cd test/katrunner &&
           curl http://amongbytes.com/~flowher/permalinks/kat.zip --output kat.zip
           unzip kat.zip
-          cargo run -- --katdir KAT
+          cargo run --release -- --katdir KAT
