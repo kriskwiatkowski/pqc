@@ -2,7 +2,7 @@
 #include "ntt.h"
 #include "params.h"
 #include "poly.h"
-#include "reduce.h"
+#include "../../common/reduce.h"
 #include "symmetric.h"
 #include <stdint.h>
 

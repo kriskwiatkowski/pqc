@@ -6,7 +6,6 @@ set(
   ntt.c
   poly.c
   polyvec.c
-  reduce.c
   symmetric-shake.c
   verify.c
 )

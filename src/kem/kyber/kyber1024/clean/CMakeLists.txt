@@ -6,7 +6,7 @@ set(
   ntt.c
   poly.c
   polyvec.c
-  reduce.c
+  ../../common/reduce.c
   symmetric-shake.c
   verify.c
 )
