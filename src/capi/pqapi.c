@@ -2,21 +2,12 @@
 #include <stdbool.h>
 #include <pqc/pqc.h>
 #include <cpuinfo_x86.h>
+#include <common/utils.h>
 
 #include "schemes.h"
 
 // not proud of this thingy
 #define OPT_VERSION _CLEAN_
-
-// Helper to stringify constants
-#define STR(x) STR_(x)
-#define STR_(x) #x
-
-/* Concatenate tokens X and Y. Can be done by the "##" operator in
- * simple cases, but has some side effects in more complicated cases.
- */
-#define GLUE(a, b) GLUE_(a, b)
-#define GLUE_(a, b) a##b
 
 // Returns prefix defined by PQClean, depending
 // on OPT_VERSION setting.
@@ -38,9 +29,9 @@
 #define PQC_FN_SIGN(x) GLUE(A(x), crypto_sign_signature)
 #define PQC_FN_VERIFY(x) GLUE(A(x), crypto_sign_verify)
 
-#define REG_ALG(ID)                     \
+#define REG_ALG(PFX,ID)                 \
 {                                       \
-    .alg_id = ID,                       \
+    .alg_id = GLUE(PFX,ID),             \
     .alg_name = STR(ID),                \
     .prv_key_bsz = PQC_PRV_KEY_BSZ(ID), \
     .pub_key_bsz = PQC_PUB_KEY_BSZ(ID), \
@@ -49,7 +40,7 @@
 // Macro magic needed to initialize parameters for a scheme
 #define REG_KEM(ID)                   \
 {                                     \
-    .p = REG_ALG(ID),                 \
+    .p = REG_ALG(PQC_ALG_KEM_,ID),    \
     .p.keygen = PQC_FN_KEM_KEYGEN(ID),\
     .ciphertext_bsz = PQC_CT_BSZ(ID), \
     .secret_bsz = PQC_KEM_BSZ(ID),    \
@@ -60,7 +51,7 @@
 // Macro magic needed to initialize parameters for a scheme
 #define REG_SIG(ID)                   \
 {                                     \
-    .p = REG_ALG(ID),                 \
+    .p = REG_ALG(PQC_ALG_SIG_,ID),    \
     .p.keygen = PQC_FN_SIG_KEYGEN(ID),\
     .sign_bsz = PQC_SIGN_BSZ(ID),     \
     .sign = PQC_FN_SIGN(ID),          \

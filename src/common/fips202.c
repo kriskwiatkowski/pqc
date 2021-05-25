@@ -542,6 +542,10 @@ void shake128_inc_squeeze(uint8_t *output, size_t outlen, shake128incctx *state)
     keccak_inc_squeeze(output, outlen, state->ctx, SHAKE128_RATE);
 }
 
+void shake128_inc_reset(shake128incctx *state) {
+    keccak_inc_init(state->ctx);
+}
+
 void shake128_inc_ctx_clone(shake128incctx *dest, const shake128incctx *src) {
     dest->ctx = malloc(PQC_SHAKEINCCTX_BYTES);
     if (dest->ctx == NULL) {
@@ -564,6 +568,10 @@ void shake256_inc_init(shake256incctx *state) {
 
 void shake256_inc_absorb(shake256incctx *state, const uint8_t *input, size_t inlen) {
     keccak_inc_absorb(state->ctx, SHAKE256_RATE, input, inlen);
+}
+
+void shake256_inc_reset(shake256incctx *state) {
+    keccak_inc_init(state->ctx);
 }
 
 void shake256_inc_finalize(shake256incctx *state) {

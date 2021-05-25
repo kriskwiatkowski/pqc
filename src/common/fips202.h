@@ -72,6 +72,8 @@ void shake128_inc_init(shake128incctx *state);
  * Can be called multiple times.
  */
 void shake128_inc_absorb(shake128incctx *state, const uint8_t *input, size_t inlen);
+// Reset the state
+void shake128_inc_reset(shake128incctx *state);
 /* Finalize the XOF for squeezing */
 void shake128_inc_finalize(shake128incctx *state);
 /* Squeeze output out of the sponge.
@@ -95,6 +97,8 @@ void shake256_absorb(shake256ctx *state, const uint8_t *input, size_t inlen);
  * Supports being called multiple times
  */
 void shake256_squeezeblocks(uint8_t *output, size_t nblocks, shake256ctx *state);
+// Reset the state
+void shake256_inc_reset(shake256incctx *state);
 /* Free the context held by this XOF */
 void shake256_ctx_release(shake256ctx *state);
 /* Copy the context held by this XOF */

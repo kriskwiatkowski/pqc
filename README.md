@@ -17,7 +17,7 @@ Users shouldn't expect any level of security provided by this code. The library 
 | NTRU Prime               | 3          |  x |
 | HQC-RMRS                 | 3          |  x |
 | Dilithium                | 3          |  x |
-| Falcon                   | 2          |    |
+| Falcon                   | 3          |    |
 | Rainbow                  | 3          |    |
 | SPHINCS+ SHA256/SHAKE256 | 3          |  x |
 | SIKE/p434                | 3          |  x |
