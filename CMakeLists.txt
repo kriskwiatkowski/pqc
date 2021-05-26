@@ -190,7 +190,16 @@ add_subdirectory(src/kem/hqc/hqc-rmrs-128/clean)
 add_subdirectory(src/kem/hqc/hqc-rmrs-192/clean)
 add_subdirectory(src/kem/hqc/hqc-rmrs-256/clean)
 add_subdirectory(src/kem/sike)
-
+add_subdirectory(src/kem/mceliece/mceliece348864/clean)
+add_subdirectory(src/kem/mceliece/mceliece460896/clean)
+add_subdirectory(src/kem/mceliece/mceliece6688128/clean)
+add_subdirectory(src/kem/mceliece/mceliece6960119/clean)
+add_subdirectory(src/kem/mceliece/mceliece8192128/clean)
+add_subdirectory(src/kem/mceliece/mceliece348864f/clean)
+add_subdirectory(src/kem/mceliece/mceliece460896f/clean)
+add_subdirectory(src/kem/mceliece/mceliece6688128f/clean)
+add_subdirectory(src/kem/mceliece/mceliece6960119f/clean)
+add_subdirectory(src/kem/mceliece/mceliece8192128f/clean)
 # Hardware optimized targets
 if(${ARCH} STREQUAL "ARCH_x86_64")
 
