@@ -1,9 +1,35 @@
 cmake_minimum_required(VERSION 3.13)
 project(cryptocore VERSION 0.0.1 LANGUAGES C)
+include(FetchContent)
 
 enable_language(C)
 enable_language(CXX)
 enable_language(ASM)
+
+# Dependencies
+FetchContent_Declare(
+  gtest
+  SOURCE_DIR     ${PROJECT_SOURCE_DIR}/3rd/gtest
+  GIT_REPOSITORY https://github.com/google/googletest.git
+  GIT_TAG        a3460d1aeeaa43fdf137a6adefef10ba0b59fe4b
+)
+FetchContent_Populate(gtest)
+
+FetchContent_Declare(
+  cpu_features
+  SOURCE_DIR     ${PROJECT_SOURCE_DIR}/3rd/cpu_features
+  GIT_REPOSITORY https://github.com/google/cpu_features.git
+  GIT_TAG        bc2846e78faeb26b8a46c17df369d4e5f1f9e2bb
+)
+FetchContent_Populate(cpu_features)
+
+FetchContent_Declare(
+  gbench
+  SOURCE_DIR     ${PROJECT_SOURCE_DIR}/3rd/gbench
+  GIT_REPOSITORY https://github.com/kriskwiatkowski/benchmark.git
+  GIT_TAG        e45fcc64e02489f718df499a162b41f742a1b7e5
+)
+FetchContent_Populate(gbench)
 
 add_subdirectory(3rd/gtest)
 add_subdirectory(3rd/cpu_features)
