@@ -1,6 +1,6 @@
 # PQ Crypto Catalog
 
-Implementation of quantum-safe signature and KEM schemes submitted to NIST PQC Standarization Process. 
+Implementation of quantum-safe signature and KEM schemes submitted to NIST PQC Standardization Process. 
 
 The goal is to provide an easy-to-use API in C and Rust to enable experimentation. The code is derived from the submission to the NIST Post-Quantum Standardization, either directly or by leveraging [PQClean](https://github.com/PQClean/PQClean) project.
 
