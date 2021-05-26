@@ -66,7 +66,17 @@ extern "C" {
     _(HQCRMRS128)        \
     _(HQCRMRS192)        \
     _(HQCRMRS256)        \
-    _(SIKE434)
+    _(SIKE434)           \
+    _(MCELIECE348864)    \
+    _(MCELIECE460896)    \
+    _(MCELIECE6688128)   \
+    _(MCELIECE6960119)   \
+    _(MCELIECE8192128)   \
+    _(MCELIECE348864F)   \
+    _(MCELIECE460896F)   \
+    _(MCELIECE6688128F)  \
+    _(MCELIECE6960119F)  \
+    _(MCELIECE8192128F)
 
 // Defines IDs for each algorithm. The
 // PQC_ALG_SIG/KEM_MAX indicates number
