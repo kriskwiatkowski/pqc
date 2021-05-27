@@ -35,9 +35,8 @@ int16_t kyber_montgomery_reduce(int32_t a) {
 * Returns:     integer in {0,q} congruent to a modulo q.
 **************************************************/
 int16_t kyber_barrett_reduce(int16_t a) {
+    int16_t t;
     static const int32_t v = 20159;
-    int32_t t;
-    t = v*a;
-    t >>= 26;
-    return a - ((int16_t)t)*KYBER_Q;
+    t  = ((v * a) + (1 << 25)) >> 26;
+    return a - (t*KYBER_Q);
 }

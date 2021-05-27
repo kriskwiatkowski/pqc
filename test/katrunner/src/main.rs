@@ -226,11 +226,14 @@ const KATS: &'static[Register] = &[
     //REG_SIGN!(PQC_ALG_SIG_RAINBOWIIICLASSIC),
 ];
 
-fn execute(kat_dir: String, thc: usize) {
+fn execute(kat_dir: String, thc: usize, file_filter: &str) {
     // Can't do multi-threads as DRBG context is global
     let pool = ThreadPool::new(thc);
     for k in KATS.iter() {
         let tmp = kat_dir.clone();
+        if !file_filter.is_empty() && !k.kat.kat_file.contains(file_filter) {
+            continue;
+        }
         pool.execute(move || {
             DRBGV.lock().unwrap()
                 .insert(thread::current().id(), DrbgCtx::new());
@@ -266,8 +269,15 @@ fn main() {
         None => 4 /* by default 4 threads */,
     };
 
+    // Run only selected name of the KAT file
+    let file_filter = match argmap.get(&"--filter".to_string()) {
+        Some(n) => n,
+        None => ""
+    };
+
     match argmap.get(&"--katdir".to_string()) {
-        Some(kat_dir) => execute(kat_dir.to_string(), thread_number),
+        Some(kat_dir) => execute(kat_dir.to_string(), thread_number, file_filter),
         None => panic!("--katdir required")
     };
+
 }

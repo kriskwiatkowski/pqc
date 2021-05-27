@@ -4,7 +4,7 @@ extern crate bindgen;
 
 fn main() {
 	let dst = Config::new("../../../")
-		.profile("Release")
+		.profile("Debug")
 		.very_verbose(true)
         .build();
 

@@ -257,7 +257,17 @@ pub const PQC_ALG_KEM_HQCRMRS128: ::std::os::raw::c_uint = 16;
 pub const PQC_ALG_KEM_HQCRMRS192: ::std::os::raw::c_uint = 17;
 pub const PQC_ALG_KEM_HQCRMRS256: ::std::os::raw::c_uint = 18;
 pub const PQC_ALG_KEM_SIKE434: ::std::os::raw::c_uint = 19;
-pub const PQC_ALG_KEM_MAX: ::std::os::raw::c_uint = 20;
+pub const PQC_ALG_KEM_MCELIECE348864: ::std::os::raw::c_uint = 20;
+pub const PQC_ALG_KEM_MCELIECE460896: ::std::os::raw::c_uint = 21;
+pub const PQC_ALG_KEM_MCELIECE6688128: ::std::os::raw::c_uint = 22;
+pub const PQC_ALG_KEM_MCELIECE6960119: ::std::os::raw::c_uint = 23;
+pub const PQC_ALG_KEM_MCELIECE8192128: ::std::os::raw::c_uint = 24;
+pub const PQC_ALG_KEM_MCELIECE348864F: ::std::os::raw::c_uint = 25;
+pub const PQC_ALG_KEM_MCELIECE460896F: ::std::os::raw::c_uint = 26;
+pub const PQC_ALG_KEM_MCELIECE6688128F: ::std::os::raw::c_uint = 27;
+pub const PQC_ALG_KEM_MCELIECE6960119F: ::std::os::raw::c_uint = 28;
+pub const PQC_ALG_KEM_MCELIECE8192128F: ::std::os::raw::c_uint = 29;
+pub const PQC_ALG_KEM_MAX: ::std::os::raw::c_uint = 30;
 pub type _bindgen_ty_2 = ::std::os::raw::c_uint;
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
