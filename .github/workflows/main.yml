@@ -8,6 +8,48 @@ jobs:
   unit-test:
     name: Unit tests
     runs-on: [ubuntu-20.04]
+    env:
+      CC: ${{ matrix.cc }}
+      CXX: ${{ matrix.cxx }}
+      CMAKE_FLAGS: ${{matrix.flags}}
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        name: [
+          gcc-release-build,
+          clang-release-build,
+          gcc-debug-build,
+          clang-debug-build,
+          clang-debug-asan-build,
+        ]
+
+        include:
+          - name: gcc-release-build
+            cc: gcc
+            cxx: g++
+            flags: -DCMAKE_BUILD_TYPE=Release
+
+          - name: gcc-debug-build
+            cc: gcc
+            cxx: g++
+            flags: -DCMAKE_BUILD_TYPE=Debug
+
+          - name: clang-release-build
+            cc: clang
+            cxx: clang++
+            flags: -DCMAKE_BUILD_TYPE=Release
+            long_tests: 1
+
+          - name: clang-debug-build
+            cc: /usr/bin/clang
+            cxx: /usr/bin/clang++
+            flags: -DCMAKE_BUILD_TYPE=Debug
+
+          - name: clang-debug-asan-build
+            cc: /usr/bin/clang
+            cxx: /usr/bin/clang++
+            flags: -DCMAKE_BUILD_TYPE=Debug -DSANITIZERS=1
     steps:
       - uses: actions/checkout@v1
         with:
@@ -16,7 +58,7 @@ jobs:
         run: |
           mkdir -p build
           cd build
-          cmake -DCMAKE_BUILD_TYPE=Release ..
+          CC=${CC} CXX=${CXX} cmake ${CMAKE_FLAGS} ..
           make
       - name: run tests
         run: |
