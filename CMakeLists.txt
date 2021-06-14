@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 3.13)
 project(cryptocore VERSION 0.0.1 LANGUAGES C)
 include(FetchContent)
 
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_C_STANDARD 99)
+
 enable_language(C)
 enable_language(CXX)
 enable_language(ASM)
@@ -27,7 +30,7 @@ FetchContent_Declare(
   gbench
   SOURCE_DIR     ${PROJECT_SOURCE_DIR}/3rd/gbench
   GIT_REPOSITORY https://github.com/kriskwiatkowski/benchmark.git
-  GIT_TAG        e45fcc64e02489f718df499a162b41f742a1b7e5
+  GIT_TAG        49862ab56b6b7c3afd87b80bd5d787ed78ce3b96
 )
 FetchContent_Populate(gbench)
 
