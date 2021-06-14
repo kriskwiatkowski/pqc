@@ -4,6 +4,7 @@ include(FetchContent)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_C_STANDARD 99)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 enable_language(C)
 enable_language(CXX)
@@ -35,6 +36,7 @@ FetchContent_Declare(
 FetchContent_Populate(gbench)
 
 add_subdirectory(3rd/gtest)
+set(BUILD_PIC ON CACHE BOOL "")
 add_subdirectory(3rd/cpu_features)
 
 set(CMAKE_VERBOSE_MAKEFILE ON)

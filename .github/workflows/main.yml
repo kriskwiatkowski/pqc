@@ -22,6 +22,7 @@ jobs:
           gcc-debug-build,
           clang-debug-build,
           clang-debug-asan-build,
+          clang-debug-msan-build,
         ]
 
         include:
@@ -29,27 +30,26 @@ jobs:
             cc: gcc
             cxx: g++
             flags: -DCMAKE_BUILD_TYPE=Release
-
           - name: gcc-debug-build
             cc: gcc
             cxx: g++
             flags: -DCMAKE_BUILD_TYPE=Debug
-
           - name: clang-release-build
             cc: clang
             cxx: clang++
             flags: -DCMAKE_BUILD_TYPE=Release
-            long_tests: 1
-
           - name: clang-debug-build
             cc: /usr/bin/clang
             cxx: /usr/bin/clang++
             flags: -DCMAKE_BUILD_TYPE=Debug
-
           - name: clang-debug-asan-build
-            cc: /usr/bin/clang
-            cxx: /usr/bin/clang++
-            flags: -DCMAKE_BUILD_TYPE=Debug -DSANITIZERS=1
+            cc: clang
+            cxx: clang++
+            flags: -DCMAKE_BUILD_TYPE=Release -DADDRSAN=1
+          - name: clang-debug-msan-build
+            cc: clang
+            cxx: clang++
+            flags: -DCMAKE_BUILD_TYPE=Release -DMEMSAN=1
     steps:
       - uses: actions/checkout@v1
         with:
