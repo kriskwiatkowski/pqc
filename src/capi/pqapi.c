@@ -71,7 +71,7 @@ const pqc_sig_ctx_t sigs[] = {
 // Contains capabilities on x86 CPU on which implementation is running
 X86Features CPU_CAPS;
 
-const X86Features * const get_cpu_caps(void) {
+const X86Features * get_cpu_caps(void) {
     return &CPU_CAPS;
 }
 

@@ -32,7 +32,6 @@
     (((uint16_t)(x)[0])<<8 |  \
      ((uint16_t)(x)[1])<<0)   \
 
-
-const X86Features * const get_cpu_caps(void);
+const X86Features * get_cpu_caps(void);
 
 #endif
