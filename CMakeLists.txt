@@ -88,7 +88,9 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 endif()
 
 if(CMAKE_C_COMPILER_ID MATCHES "Clang")
-  set(CLANG 1)
+  # Additional flags only useful when compiling with clang
+  set(C_CXX_FLAGS
+    "-Wconditional-uninitialized -Wno-missing-variable-declarations -Wno-unused-command-line-argument")
 endif()
 
 if (MACOSX)
@@ -98,8 +100,7 @@ endif()
 
 # Global configuration
 
-set(C_CXX_FLAGS
-  "-Wno-ignored-qualifiers \
+set(C_CXX_FLAGS "${C_CXX_FLAGS} -Wno-ignored-qualifiers \
   -Wall \
   -Werror \
   -Wextra \
@@ -107,29 +108,26 @@ set(C_CXX_FLAGS
   -Wshadow \
   -Wno-variadic-macros \
   -Wundef \
-  -Wunused-result")
-
-if(CLANG)
-  set(C_CXX_FLAGS
-    "-Wconditional-uninitialized \
-    -Wmissing-variable-declarations")
-endif()
+  -Wunused-result \
+  -Wno-unused-command-line-argument")
 
 # Build with address sanitizer
 if(ADDRSAN)
-  set(CLANG 1)
   set(C_CXX_FLAGS "${C_CXX_FLAGS} -fsanitize=undefined,address,leak -fno-omit-frame-pointer")
   set(LDFLAGS "${LDFLAGS} -fsanitize=undefined,address,leak")
 endif()
 
 # Build with memory sanitizer
 if(MEMSAN)
+  # PQC_MEMSAN enables usage of some internals from clang
+  if (NOT CMAKE_C_COMPILER_ID MATCHES "Clang")
+    message(FATAL_ERROR "Must use clang if compiled with memory sanitizer.")
+  endif()
   if(ADDRSAN)
     message(FATAL_ERROR "Can't use MSAN and ASAN")
   endif()
 
-  set(CLANG 1)
-  set(C_CXX_FLAGS "${C_CXX_FLAGS} -fsanitize=memory -fsanitize-memory-track-origins -fno-omit-frame-pointer")
+  set(C_CXX_FLAGS "${C_CXX_FLAGS} -DPQC_MEMSAN=1 -fsanitize=memory -fsanitize-memory-track-origins=2 -fno-omit-frame-pointer")
 endif()
 
 include(.cmake/common.mk)
@@ -150,13 +148,21 @@ include_directories(
 
 set_property(GLOBAL PROPERTY obj_libs "")
 
-
 # Set CPU architecture
-set(CMAKE_C_FLAGS "${C_CXX_FLAGS} -D${ARCH}")
-set(CMAKE_CXX_FLAGS "${C_CXX_FLAGS} -D${ARCH}")
+set(C_CXX_FLAGS "${C_CXX_FLAGS} -D${ARCH}")
+
+# Build for haswell if on x86_64
+if(${ARCH} STREQUAL "ARCH_x86_64")
+  string(APPEND C_CXX_FLAGS " -march=haswell")
+endif()
+
+set(PQC_CMAKE_C_FLAGS "${C_CXX_FLAGS}")
+set(PQC_CMAKE_CXX_FLAGS "${C_CXX_FLAGS}")
+set(CMAKE_C_FLAGS ${PQC_CMAKE_C_FLAGS})
+set(CMAKE_CXX_FLAGS ${PQC_CMAKE_CXX_FLAGS})
 
 if(PQC_WEAK_RANDOMBYTES)
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DPQC_WEAK_RANDOMBYTES")
+  string(APPEND PQC_CMAKE_C_FLAGS " -DPQC_WEAK_RANDOMBYTES")
 endif()
 
 # Define sources of the components
@@ -223,10 +229,8 @@ add_subdirectory(src/kem/mceliece/mceliece6688128f/clean)
 add_subdirectory(src/kem/mceliece/mceliece6960119f/clean)
 add_subdirectory(src/kem/mceliece/mceliece8192128f/clean)
 # Hardware optimized targets
-if(${ARCH} STREQUAL "ARCH_x86_64")
 
-set(CMAKE_C_FLAGS
-  "${CMAKE_C_FLAGS} -march=haswell")
+if(${ARCH} STREQUAL "ARCH_x86_64")
 set(SRC_COMMON_AVX2
   src/common/keccak4x/KeccakP-1600-times4-SIMD256.c
 )
@@ -279,8 +283,6 @@ add_subdirectory(src/kem/hqc/hqc-rmrs-192/avx2)
 add_subdirectory(src/kem/hqc/hqc-rmrs-256/avx2)
 endif()
 
-
-
 # The rest of the library
 set(SRC_COMMON_GENERIC
   src/common/aes.c
@@ -326,10 +328,14 @@ target_link_libraries(
   ${OBJ_LIBS}
 )
 
+SET(UT_SRC test/ut.cpp)
+if(MEMSAN)
+SET(UT_SRC ${UT_SRC} test/ct.cpp)
+endif()
+
 add_executable(
   ut
-
-  test/ut.cpp
+  ${UT_SRC}
 )
 
 target_link_libraries(
@@ -340,7 +346,6 @@ target_link_libraries(
 
 target_include_directories(
   ut PRIVATE
-
   ${CMAKE_SOURCE_DIR})
 
 if(NOT CMAKE_BUILD_TYPE_LOWER STREQUAL "debug")
