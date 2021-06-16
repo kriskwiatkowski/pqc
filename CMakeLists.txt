@@ -115,6 +115,23 @@ if(CLANG)
     -Wmissing-variable-declarations")
 endif()
 
+# Build with address sanitizer
+if(ADDRSAN)
+  set(CLANG 1)
+  set(C_CXX_FLAGS "${C_CXX_FLAGS} -fsanitize=undefined,address,leak -fno-omit-frame-pointer")
+  set(LDFLAGS "${LDFLAGS} -fsanitize=undefined,address,leak")
+endif()
+
+# Build with memory sanitizer
+if(MEMSAN)
+  if(ADDRSAN)
+    message(FATAL_ERROR "Can't use MSAN and ASAN")
+  endif()
+
+  set(CLANG 1)
+  set(C_CXX_FLAGS "${C_CXX_FLAGS} -fsanitize=memory -fsanitize-memory-track-origins -fno-omit-frame-pointer")
+endif()
+
 include(.cmake/common.mk)
 
 # Control Debug/Release mode
