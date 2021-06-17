@@ -22,7 +22,6 @@ jobs:
           gcc-debug-build,
           clang-debug-build,
           clang-debug-asan-build,
-          clang-debug-msan-build,
         ]
 
         include:
