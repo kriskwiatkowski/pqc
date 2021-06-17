@@ -21,7 +21,8 @@ jobs:
           clang-release-build,
           gcc-debug-build,
           clang-debug-build,
-          clang-debug-asan-build,
+          clang-release-asan-build,
+          clang-release-msan-build,
         ]
 
         include:
@@ -41,10 +42,14 @@ jobs:
             cc: /usr/bin/clang
             cxx: /usr/bin/clang++
             flags: -DCMAKE_BUILD_TYPE=Debug
-          - name: clang-debug-asan-build
+          - name: clang-release-asan-build
             cc: clang
             cxx: clang++
             flags: -DCMAKE_BUILD_TYPE=Release -DADDRSAN=1
+          - name: clang-release-msan-build
+            cc: clang
+            cxx: clang++
+            flags: -DCMAKE_BUILD_TYPE=Release -DMEMSAN=1
     steps:
       - uses: actions/checkout@v1
         with:

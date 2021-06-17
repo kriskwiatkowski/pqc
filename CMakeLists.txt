@@ -24,6 +24,7 @@ FetchContent_Declare(
   SOURCE_DIR     ${PROJECT_SOURCE_DIR}/3rd/cpu_features
   GIT_REPOSITORY https://github.com/google/cpu_features.git
   GIT_TAG        bc2846e78faeb26b8a46c17df369d4e5f1f9e2bb
+  GIT_SHALLOW    TRUE
 )
 FetchContent_Populate(cpu_features)
 
@@ -32,8 +33,21 @@ FetchContent_Declare(
   SOURCE_DIR     ${PROJECT_SOURCE_DIR}/3rd/gbench
   GIT_REPOSITORY https://github.com/kriskwiatkowski/benchmark.git
   GIT_TAG        49862ab56b6b7c3afd87b80bd5d787ed78ce3b96
+  GIT_SHALLOW    TRUE
 )
 FetchContent_Populate(gbench)
+
+if(MEMSAN)
+  # PQC_MEMSAN enables usage of some internals from clang
+  if (NOT CMAKE_C_COMPILER_ID MATCHES "Clang")
+    message(FATAL_ERROR "Must use clang if compiled with memory sanitizer.")
+  endif()
+  if(ADDRSAN)
+    message(FATAL_ERROR "Can't use MSAN and ASAN")
+  endif()
+  include(.cmake/libstd-memcheck.mk)
+  #set(C_CXX_FLAGS "${C_CXX_FLAGS} -DPQC_MEMSAN=1 -fsanitize=memory -fsanitize-memory-track-origins=2 -fno-omit-frame-pointer")
+endif()
 
 add_subdirectory(3rd/gtest)
 set(BUILD_PIC ON CACHE BOOL "")
@@ -115,19 +129,6 @@ set(C_CXX_FLAGS "${C_CXX_FLAGS} -Wno-ignored-qualifiers \
 if(ADDRSAN)
   set(C_CXX_FLAGS "${C_CXX_FLAGS} -fsanitize=undefined,address,leak -fno-omit-frame-pointer")
   set(LDFLAGS "${LDFLAGS} -fsanitize=undefined,address,leak")
-endif()
-
-# Build with memory sanitizer
-if(MEMSAN)
-  # PQC_MEMSAN enables usage of some internals from clang
-  if (NOT CMAKE_C_COMPILER_ID MATCHES "Clang")
-    message(FATAL_ERROR "Must use clang if compiled with memory sanitizer.")
-  endif()
-  if(ADDRSAN)
-    message(FATAL_ERROR "Can't use MSAN and ASAN")
-  endif()
-
-  set(C_CXX_FLAGS "${C_CXX_FLAGS} -DPQC_MEMSAN=1 -fsanitize=memory -fsanitize-memory-track-origins=2 -fno-omit-frame-pointer")
 endif()
 
 include(.cmake/common.mk)
