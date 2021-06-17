@@ -45,10 +45,6 @@ jobs:
             cc: clang
             cxx: clang++
             flags: -DCMAKE_BUILD_TYPE=Release -DADDRSAN=1
-          - name: clang-debug-msan-build
-            cc: clang
-            cxx: clang++
-            flags: -DCMAKE_BUILD_TYPE=Release -DMEMSAN=1
     steps:
       - uses: actions/checkout@v1
         with:
@@ -58,6 +54,25 @@ jobs:
           mkdir -p build
           cd build
           CC=${CC} CXX=${CXX} cmake ${CMAKE_FLAGS} ..
+          make
+      - name: run tests
+        run: |
+          cd build && ./ut
+      - name: Build Rust bindings
+        run: |
+          cd src/rustapi/pqc-sys && cargo build
+  KAT:
+    name: Known Answer Tests
+    runs-on: [ubuntu-20.04]
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          submodules: true
+      - name: build
+        run: |
+          mkdir -p build
+          cd build
+          CC=clang CXX=clang++ cmake -DCMAKE_BUILD_TYPE=Release ..
           make
       - name: run tests
         run: |
