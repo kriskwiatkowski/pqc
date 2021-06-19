@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.13)
 project(cryptocore VERSION 0.0.1 LANGUAGES C)
 include(FetchContent)
+include(ExternalProject)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_C_STANDARD 99)
@@ -9,33 +10,6 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 enable_language(C)
 enable_language(CXX)
 enable_language(ASM)
-
-# Dependencies
-FetchContent_Declare(
-  gtest
-  SOURCE_DIR     ${PROJECT_SOURCE_DIR}/3rd/gtest
-  GIT_REPOSITORY https://github.com/google/googletest.git
-  GIT_TAG        a3460d1aeeaa43fdf137a6adefef10ba0b59fe4b
-)
-FetchContent_Populate(gtest)
-
-FetchContent_Declare(
-  cpu_features
-  SOURCE_DIR     ${PROJECT_SOURCE_DIR}/3rd/cpu_features
-  GIT_REPOSITORY https://github.com/google/cpu_features.git
-  GIT_TAG        bc2846e78faeb26b8a46c17df369d4e5f1f9e2bb
-  GIT_SHALLOW    TRUE
-)
-FetchContent_Populate(cpu_features)
-
-FetchContent_Declare(
-  gbench
-  SOURCE_DIR     ${PROJECT_SOURCE_DIR}/3rd/gbench
-  GIT_REPOSITORY https://github.com/kriskwiatkowski/benchmark.git
-  GIT_TAG        49862ab56b6b7c3afd87b80bd5d787ed78ce3b96
-  GIT_SHALLOW    TRUE
-)
-FetchContent_Populate(gbench)
 
 if(MEMSAN)
   # PQC_MEMSAN enables usage of some internals from clang
@@ -46,10 +20,49 @@ if(MEMSAN)
     message(FATAL_ERROR "Can't use MSAN and ASAN")
   endif()
   include(.cmake/libstd-memcheck.mk)
-  #set(C_CXX_FLAGS "${C_CXX_FLAGS} -DPQC_MEMSAN=1 -fsanitize=memory -fsanitize-memory-track-origins=2 -fno-omit-frame-pointer")
+
+  # LLVM project location
+  set(LLVM_PRJ ${CMAKE_CURRENT_BINARY_DIR}/3rd/llvm-project)
+  set(LLVM_PRJ_LIB ${LLVM_PRJ}/usr/local/lib)
+  set(LLVM_PRJ_INC ${LLVM_PRJ}/usr/local/include)
+
+  # Add memory sanitizer instrumented libraries
+  set(CMAKE_ARGS_MEMCHECK_LIB "-stdlib=libc++ -L${LLVM_PRJ_LIB} -lc++abi -Wl,-rpath,${LLVM_PRJ_LIB}")
+  set(CMAKE_ARGS_MEMCHECK_INC "-isystem -I${LLVM_PRJ_INC} -I${LLVM_PRJ_INC}/c++/v1")
+  set(CMAKE_ARGS_MEMCHECK_FLAGS "-fsanitize=memory -fsanitize-memory-track-origins=2 -fno-omit-frame-pointer -Wno-unused-command-line-argument")
+  set(EXTRA_CXX_FLAGS "${CMAKE_ARGS_MEMCHECK_FLAGS} ${CMAKE_ARGS_MEMCHECK_LIB} ${CMAKE_ARGS_MEMCHECK_INC}")
 endif()
 
-add_subdirectory(3rd/gtest)
+# Dependencies
+ExternalProject_Add(
+  gtest_project
+  SOURCE_DIR     ${PROJECT_SOURCE_DIR}/3rd/gtest
+  GIT_REPOSITORY https://github.com/google/googletest.git
+  GIT_TAG        a3460d1aeeaa43fdf137a6adefef10ba0b59fe4b
+  PREFIX         ${CMAKE_CURRENT_BINARY_DIR}/3rd/gtest
+  INSTALL_DIR    ${CMAKE_CURRENT_BINARY_DIR}/3rd/gtest
+  CMAKE_ARGS     -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/3rd/gtest -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER} -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER} -DCMAKE_CXX_FLAGS=${EXTRA_CXX_FLAGS} -DCMAKE_C_FLAGS=${EXTRA_CXX_FLAGS} -Dgtest_disable_pthreads=ON
+)
+
+FetchContent_Declare(
+  gbench
+  SOURCE_DIR     ${PROJECT_SOURCE_DIR}/3rd/gbench
+  GIT_REPOSITORY https://github.com/kriskwiatkowski/benchmark.git
+  GIT_TAG        49862ab56b6b7c3afd87b80bd5d787ed78ce3b96
+  GIT_SHALLOW    TRUE
+)
+FetchContent_Populate(gbench)
+
+FetchContent_Declare(
+  cpu_features
+  SOURCE_DIR     ${PROJECT_SOURCE_DIR}/3rd/cpu_features
+  GIT_REPOSITORY https://github.com/google/cpu_features.git
+  GIT_TAG        bc2846e78faeb26b8a46c17df369d4e5f1f9e2bb
+  GIT_SHALLOW    TRUE
+)
+FetchContent_Populate(cpu_features)
+
+
 set(BUILD_PIC ON CACHE BOOL "")
 add_subdirectory(3rd/cpu_features)
 
@@ -81,20 +94,6 @@ else()
   message(FATAL_ERROR "Unknown processor:" ${CMAKE_SYSTEM_PROCESSOR})
 endif()
 
-if(NOT CMAKE_BUILD_TYPE_LOWER STREQUAL "debug")
-  # settings below are required by benchmark library
-  set(CMAKE_BUILD_TYPE "Release" CACHE STRING "" FORCE)
-  # Target for benchmark - it also builds gtest library
-  set(BENCHMARK_ENABLE_GTEST_TESTS ON CACHE BOOL "Enable testing of the benchmark library." FORCE)
-  set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "Disable benchmark tests" FORCE)
-  set(GOOGLETEST_PATH "${CMAKE_SOURCE_DIR}/3rd/gtest" CACHE PATH "Path to the gtest sources" FORCE)
-  #if (NOT MACOSX)
-  # set(BENCHMARK_ENABLE_LTO ON CACHE BOOL "Enable link time optim" FORCE)
-  #endif()
-  set(BENCHMARK_ENABLE_INSTALL OFF CACHE BOOL "" FORCE)
-  add_subdirectory(${CMAKE_SOURCE_DIR}/3rd/gbench)
-endif()
-
 # Arch settings
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
@@ -103,8 +102,7 @@ endif()
 
 if(CMAKE_C_COMPILER_ID MATCHES "Clang")
   # Additional flags only useful when compiling with clang
-  set(C_CXX_FLAGS
-    "-Wconditional-uninitialized -Wno-missing-variable-declarations -Wno-unused-command-line-argument")
+  string(APPEND C_CXX_FLAGS " -Wconditional-uninitialized -Wno-missing-variable-declarations -Wno-unused-command-line-argument")
 endif()
 
 if (MACOSX)
@@ -121,9 +119,17 @@ set(C_CXX_FLAGS "${C_CXX_FLAGS} -Wno-ignored-qualifiers \
   -Wpedantic \
   -Wshadow \
   -Wno-variadic-macros \
-  -Wundef \
   -Wunused-result \
-  -Wno-unused-command-line-argument")
+  -Wno-unused-command-line-argument \
+  -Wno-undef \
+  ${EXTRA_CXX_FLAGS}")
+
+if(CMAKE_COMPILER_IS_GNUCC AND CMAKE_C_COMPILER_VERSION VERSION_GREATER 11.0)
+set(C_CXX_FLAGS "${C_CXX_FLAGS} \
+  -Wno-stringop-overread \
+  -Wno-stringop-overflow \
+  -Wno-array-parameter")
+endif()
 
 # Build with address sanitizer
 if(ADDRSAN)
@@ -157,8 +163,8 @@ if(${ARCH} STREQUAL "ARCH_x86_64")
   string(APPEND C_CXX_FLAGS " -march=haswell")
 endif()
 
-set(PQC_CMAKE_C_FLAGS "${C_CXX_FLAGS}")
-set(PQC_CMAKE_CXX_FLAGS "${C_CXX_FLAGS}")
+set(PQC_CMAKE_C_FLAGS "${PQC_CMAKE_C_FLAGS} ${C_CXX_FLAGS}")
+set(PQC_CMAKE_CXX_FLAGS "${PQC_CMAKE_CXX_FLAGS} ${C_CXX_FLAGS}")
 set(CMAKE_C_FLAGS ${PQC_CMAKE_C_FLAGS})
 set(CMAKE_CXX_FLAGS ${PQC_CMAKE_CXX_FLAGS})
 
@@ -341,16 +347,41 @@ add_executable(
 
 target_link_libraries(
   ut
+
   gtest
   gtest_main
   pqc_s)
 
+ExternalProject_Get_Property(gtest_project INSTALL_DIR)
 target_include_directories(
   ut PRIVATE
-  ${CMAKE_SOURCE_DIR})
+
+  ${CMAKE_SOURCE_DIR}
+  ${INSTALL_DIR}/include)
+
+target_link_directories(
+  ut
+  PRIVATE
+  ${INSTALL_DIR}/lib)
+
+# github CI requires that
+add_dependencies(ut gtest_project)
 
 if(NOT CMAKE_BUILD_TYPE_LOWER STREQUAL "debug")
-add_subdirectory(test/bench)
+  # settings below are required by benchmark library
+  set(CMAKE_BUILD_TYPE "Release" CACHE STRING "" FORCE)
+  # Target for benchmark - it also builds gtest library
+  set(BENCHMARK_ENABLE_GTEST_TESTS ON CACHE BOOL "Enable testing of the benchmark library." FORCE)
+  set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "Disable benchmark tests" FORCE)
+  set(GOOGLETEST_PATH "${CMAKE_SOURCE_DIR}/3rd/gtest" CACHE PATH "Path to the gtest sources" FORCE)
+  #if (NOT MACOSX)
+  # set(BENCHMARK_ENABLE_LTO ON CACHE BOOL "Enable link time optim" FORCE)
+  #endif()
+  set(BENCHMARK_ENABLE_INSTALL OFF CACHE BOOL "" FORCE)
+  set(CMAKE_C_FLAGS "${C_CXX_FLAGS} ${EXTRA_CXX_FLAGS}")
+  set(CMAKE_CXX_FLAGS "${C_CXX_FLAGS} ${EXTRA_CXX_FLAGS}")
+  add_subdirectory(${CMAKE_SOURCE_DIR}/3rd/gbench)
+  add_subdirectory(test/bench)
 endif()
 
 install(TARGETS pqc pqc_s

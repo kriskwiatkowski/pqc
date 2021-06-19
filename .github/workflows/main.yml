@@ -22,7 +22,6 @@ jobs:
           gcc-debug-build,
           clang-debug-build,
           clang-release-asan-build,
-          clang-release-msan-build,
         ]
 
         include:
@@ -46,10 +45,6 @@ jobs:
             cc: clang
             cxx: clang++
             flags: -DCMAKE_BUILD_TYPE=Release -DADDRSAN=1
-          - name: clang-release-msan-build
-            cc: clang
-            cxx: clang++
-            flags: -DCMAKE_BUILD_TYPE=Release -DMEMSAN=1
     steps:
       - uses: actions/checkout@v1
         with:
@@ -81,7 +76,7 @@ jobs:
           make
       - name: run tests
         run: |
-          cd build && ./ut
+          cd build && ./ut ${FILTER_TESTS}
       - name: Build Rust bindings
         run: |
           cd src/rustapi/pqc-sys && cargo build
@@ -91,3 +86,19 @@ jobs:
           curl http://amongbytes.com/~flowher/permalinks/kat.zip --output kat.zip
           unzip kat.zip
           cargo run --release -- --katdir KAT
+#  MEMSAN:
+#    name: Memory Sanitizer build
+#    runs-on: [ubuntu-20.04]
+#    steps:
+#      - uses: actions/checkout@v1
+#        with:
+#          submodules: true
+#      - name: build
+#        run: |
+#          mkdir -p build
+#          cd build
+#          CC=clang CXX=clang++ cmake -DCMAKE_BUILD_TYPE=Release -DMEMSAN=1 ..
+#          make
+#      - name: run tests
+#        run: |
+#          cd build && ./ut --gtest_filter="NONE"
