@@ -103,7 +103,7 @@ static inline void sike_init_basis(const crypto_word_t *gen, f2elm_t XP, f2elm_t
 
 // Conversion of GF(p^2) element from Montgomery to standard representation.
 static inline void sike_fp2_encode(const f2elm_t x, uint8_t *enc) {
-    f2elm_t t;
+    f2elm_t t={0};
     sike_from_fp2mont(x, t);
 
     // convert to bytes in little endian form

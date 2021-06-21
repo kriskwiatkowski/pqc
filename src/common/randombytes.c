@@ -301,6 +301,10 @@ static int randombytes_js_randombytes_nodejs(void *buf, size_t n) {
 #endif /* defined(__EMSCRIPTEN__) */
 
 int randombytes(uint8_t *buf, size_t n) {
+#ifdef PQC_MEMSAN_BUILD
+    size_t i;
+    for (i=0; i<n; i++) buf[i]=0;
+#endif
     #if defined(__EMSCRIPTEN__)
     return randombytes_js_randombytes_nodejs(buf, n);
     #elif defined(__linux__)

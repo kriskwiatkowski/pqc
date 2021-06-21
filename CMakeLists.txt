@@ -30,7 +30,7 @@ if(MEMSAN)
   set(CMAKE_ARGS_MEMCHECK_LIB "-stdlib=libc++ -L${LLVM_PRJ_LIB} -lc++abi -Wl,-rpath,${LLVM_PRJ_LIB}")
   set(CMAKE_ARGS_MEMCHECK_INC "-isystem -I${LLVM_PRJ_INC} -I${LLVM_PRJ_INC}/c++/v1")
   set(CMAKE_ARGS_MEMCHECK_FLAGS "-fsanitize=memory -fsanitize-memory-track-origins=2 -fno-omit-frame-pointer -Wno-unused-command-line-argument")
-  set(EXTRA_CXX_FLAGS "${CMAKE_ARGS_MEMCHECK_FLAGS} ${CMAKE_ARGS_MEMCHECK_LIB} ${CMAKE_ARGS_MEMCHECK_INC}")
+  set(EXTRA_CXX_FLAGS "${CMAKE_ARGS_MEMCHECK_FLAGS} ${CMAKE_ARGS_MEMCHECK_LIB} ${CMAKE_ARGS_MEMCHECK_INC} -DPQC_MEMSAN_BUILD")
 endif()
 
 # Dependencies

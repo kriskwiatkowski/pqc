@@ -2,6 +2,7 @@
 #include <vector>
 #include <gtest/gtest.h>
 #include <pqc/pqc.h>
+#include <random>
 
 TEST(Kyber,KEMOneOff) {
 
@@ -27,10 +28,15 @@ TEST(Kyber,KEMOneOff) {
 
 TEST(Kyber,SIGNOneOff) {
 
+    std::random_device rd;
+    std::uniform_int_distribution<uint8_t> dist(0, 0xFF);
+    uint8_t msg[1234] = {0};
+
 	for (int i=0; i<PQC_ALG_SIG_MAX; i++) {
 		const pqc_ctx_t *p = pqc_sig_alg_by_id(i);
+		// generate some random msg
+		for (auto &x : msg) {x = dist(rd);}
 
-		uint8_t msg[1234];
 	    std::vector<uint8_t> sig(pqc_signature_bsz(p));
 	    std::vector<uint8_t> sk(pqc_private_key_bsz(p));
 	    std::vector<uint8_t> pk(pqc_public_key_bsz(p));

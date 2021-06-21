@@ -22,7 +22,7 @@ auto cpucycle = [](benchmark::State &st, int64_t cycles) {
 static void BenchKyberMatK2(benchmark::State &st) {
 	int64_t t, total = 0;
 	polyvec a[KYBER_K];
-	uint8_t seed[32];
+	uint8_t seed[32] = {0};
     for (auto _ : st) {
         t = benchmark::cycleclock::Now();
         PQCLEAN_KYBER512_AVX2_gen_matrix(a, seed, 0);
