@@ -14,7 +14,5 @@ target_link_libraries(
     pqc
     benchmark
     benchmark_main
-    cxx
-    cxxabi
-)
+    ${CXXLIBS_FOR_MEMORY_SANITIZER})
 

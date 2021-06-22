@@ -31,6 +31,7 @@ if(MEMSAN)
   set(CMAKE_ARGS_MEMCHECK_INC "-isystem -I${LLVM_PRJ_INC} -I${LLVM_PRJ_INC}/c++/v1")
   set(CMAKE_ARGS_MEMCHECK_FLAGS "-fsanitize=memory -fsanitize-memory-track-origins=2 -fno-omit-frame-pointer -Wno-unused-command-line-argument")
   set(EXTRA_CXX_FLAGS "${CMAKE_ARGS_MEMCHECK_FLAGS} ${CMAKE_ARGS_MEMCHECK_LIB} ${CMAKE_ARGS_MEMCHECK_INC} -DPQC_MEMSAN_BUILD")
+  set(CXXLIBS_FOR_MEMORY_SANITIZER cxx cxxabi)
 endif()
 
 # Dependencies
@@ -43,7 +44,9 @@ ExternalProject_Add(
   INSTALL_DIR    ${CMAKE_CURRENT_BINARY_DIR}/3rd/gtest
   CMAKE_ARGS     -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/3rd/gtest -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER} -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER} -DCMAKE_CXX_FLAGS=${EXTRA_CXX_FLAGS} -DCMAKE_C_FLAGS=${EXTRA_CXX_FLAGS} -Dgtest_disable_pthreads=ON
 )
-add_dependencies(gtest_project cxx cxxabi)
+if(MEMSAN)
+add_dependencies(gtest_project ${CXXLIBS_FOR_MEMORY_SANITIZER})
+endif()
 
 FetchContent_Declare(
   gbench
@@ -348,11 +351,10 @@ add_executable(
 target_link_libraries(
   ut
 
-  cxx
-  cxxabi
   gtest
   gtest_main
-  pqc_s)
+  pqc_s
+  ${CXXLIBS_FOR_MEMORY_SANITIZER})
 
 ExternalProject_Get_Property(gtest_project INSTALL_DIR)
 target_include_directories(
