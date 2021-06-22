@@ -53,7 +53,6 @@ FetchContent_Declare(
   SOURCE_DIR     ${PROJECT_SOURCE_DIR}/3rd/gbench
   GIT_REPOSITORY https://github.com/kriskwiatkowski/benchmark.git
   GIT_TAG        49862ab56b6b7c3afd87b80bd5d787ed78ce3b96
-  GIT_SHALLOW    TRUE
 )
 FetchContent_Populate(gbench)
 
@@ -62,7 +61,6 @@ FetchContent_Declare(
   SOURCE_DIR     ${PROJECT_SOURCE_DIR}/3rd/cpu_features
   GIT_REPOSITORY https://github.com/google/cpu_features.git
   GIT_TAG        bc2846e78faeb26b8a46c17df369d4e5f1f9e2bb
-  GIT_SHALLOW    TRUE
 )
 FetchContent_Populate(cpu_features)
 
@@ -382,8 +380,16 @@ if(NOT CMAKE_BUILD_TYPE_LOWER STREQUAL "debug")
   # set(BENCHMARK_ENABLE_LTO ON CACHE BOOL "Enable link time optim" FORCE)
   #endif()
   set(BENCHMARK_ENABLE_INSTALL OFF CACHE BOOL "" FORCE)
+  set(BENCHMARK_ENABLE_EXCEPTIONS OFF CACHE BOOL "" FORCE)
   set(CMAKE_C_FLAGS "${C_CXX_FLAGS} ${EXTRA_CXX_FLAGS}")
   set(CMAKE_CXX_FLAGS "${C_CXX_FLAGS} ${EXTRA_CXX_FLAGS}")
+  if (MEMSAN)
+    set(BENCHMARK_USE_LIBCXX ON CACHE BOOL "" FORCE)
+    # Since build requires C++20 it is safe to assume that std::regex is available.
+    # It seems I need to force it as benchmark build doesn't work very well with libc++
+    set(HAVE_STD_REGEX ON CACHE BOOL "OK" FORCE)
+  endif()
+
   add_subdirectory(${CMAKE_SOURCE_DIR}/3rd/gbench)
   add_subdirectory(test/bench)
 endif()
