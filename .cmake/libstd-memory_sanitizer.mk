@@ -13,7 +13,7 @@ ExternalProject_Add(
   GIT_REPOSITORY    https://github.com/llvm/llvm-project.git
   GIT_TAG           llvmorg-12.0.0
   GIT_SHALLOW       TRUE
-  CMAKE_ARGS        -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_PROJECTS=${LLVM_PROJECT_TARGETS} -DLLVM_USE_SANITIZER=MemoryWithOrigins -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ ../llvm-project/llvm
+  CMAKE_ARGS        -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_PROJECTS=${LLVM_PROJECT_TARGETS} -DLLVM_USE_SANITIZER=MemoryWithOrigins -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ ../llvm-project/llvm -DLLVM_INCLUDE_BENCHMARKS=OFF
   BUILD_COMMAND     ${MAKE_PROGRAM} cxx cxxabi
   INSTALL_COMMAND   DESTDIR=${PREFIX} make install-cxx-headers install-cxx install-cxxabi
   COMMENT           "Building memcheck instrumented libc++ and libc++abi"
@@ -37,4 +37,6 @@ set_target_properties(
 set_target_properties(
     cxxabi PROPERTIES IMPORTED_LOCATION ${LLVM_LIB_CXXABI})
 
-set_property(GLOBAL PROPERTY llvmproject_build_install_dir_property ${PREFIX}/usr/local)
+set_property(
+  GLOBAL PROPERTY llvmproject_build_install_dir_property
+  ${PREFIX}/usr/local)

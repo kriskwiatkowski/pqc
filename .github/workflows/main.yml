@@ -86,19 +86,19 @@ jobs:
           curl http://amongbytes.com/~flowher/permalinks/kat.zip --output kat.zip
           unzip kat.zip
           cargo run --release -- --katdir KAT
-#  MEMSAN:
-#    name: Memory Sanitizer build
-#    runs-on: [ubuntu-20.04]
-#    steps:
-#      - uses: actions/checkout@v1
-#        with:
-#          submodules: true
-#      - name: build
-#        run: |
-#          mkdir -p build
-#          cd build
-#          CC=clang CXX=clang++ cmake -DCMAKE_BUILD_TYPE=Release -DMEMSAN=1 ..
-#          make
-#      - name: run tests
-#        run: |
-#          cd build && ./ut --gtest_filter="NONE"
+  MEMSAN:
+    name: Memory Sanitizer build
+    runs-on: [ubuntu-20.04]
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          submodules: true
+      - name: build
+        run: |
+          mkdir -p build
+          cd build
+          CC=clang CXX=clang++ cmake -DCMAKE_BUILD_TYPE=Release -DMEMSAN=1 ..
+          make
+      - name: run tests
+        run: |
+          cd build && ./ut --gtest_filter="NONE"
