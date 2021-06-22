@@ -19,7 +19,7 @@ if(MEMSAN)
   if(ADDRSAN)
     message(FATAL_ERROR "Can't use MSAN and ASAN")
   endif()
-  include(.cmake/libstd-memcheck.mk)
+  include(.cmake/libstd-memory_sanitizer.mk)
 
   # LLVM project location
   set(LLVM_PRJ ${CMAKE_CURRENT_BINARY_DIR}/3rd/llvm-project)
@@ -27,7 +27,7 @@ if(MEMSAN)
   set(LLVM_PRJ_INC ${LLVM_PRJ}/usr/local/include)
 
   # Add memory sanitizer instrumented libraries
-  set(CMAKE_ARGS_MEMCHECK_LIB "-stdlib=libc++ -L${LLVM_PRJ_LIB} -lc++abi -Wl,-rpath,${LLVM_PRJ_LIB}")
+  set(CMAKE_ARGS_MEMCHECK_LIB "-stdlib=libc++")
   set(CMAKE_ARGS_MEMCHECK_INC "-isystem -I${LLVM_PRJ_INC} -I${LLVM_PRJ_INC}/c++/v1")
   set(CMAKE_ARGS_MEMCHECK_FLAGS "-fsanitize=memory -fsanitize-memory-track-origins=2 -fno-omit-frame-pointer -Wno-unused-command-line-argument")
   set(EXTRA_CXX_FLAGS "${CMAKE_ARGS_MEMCHECK_FLAGS} ${CMAKE_ARGS_MEMCHECK_LIB} ${CMAKE_ARGS_MEMCHECK_INC} -DPQC_MEMSAN_BUILD")
@@ -43,6 +43,7 @@ ExternalProject_Add(
   INSTALL_DIR    ${CMAKE_CURRENT_BINARY_DIR}/3rd/gtest
   CMAKE_ARGS     -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/3rd/gtest -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER} -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER} -DCMAKE_CXX_FLAGS=${EXTRA_CXX_FLAGS} -DCMAKE_C_FLAGS=${EXTRA_CXX_FLAGS} -Dgtest_disable_pthreads=ON
 )
+add_dependencies(gtest_project cxx cxxabi)
 
 FetchContent_Declare(
   gbench
@@ -270,7 +271,6 @@ add_subdirectory(src/sign/sphincs/sphincs-sha256-256s-simple/avx2)
 add_subdirectory(src/sign/sphincs/sphincs-sha256-256f-robust/avx2)
 add_subdirectory(src/sign/sphincs/sphincs-sha256-256f-simple/avx2)
 add_subdirectory(src/sign/sphincs/sphincs-sha256-256s-robust/avx2)
-
 # KEMs
 add_subdirectory(src/kem/kyber/kyber512/avx2)
 add_subdirectory(src/kem/kyber/kyber768/avx2)
@@ -348,6 +348,8 @@ add_executable(
 target_link_libraries(
   ut
 
+  cxx
+  cxxabi
   gtest
   gtest_main
   pqc_s)
