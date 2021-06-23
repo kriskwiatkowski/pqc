@@ -11,6 +11,14 @@ enable_language(C)
 enable_language(CXX)
 enable_language(ASM)
 
+set_property(GLOBAL PROPERTY obj_libs "")
+
+# Build with address sanitizer
+if(ADDRSAN)
+  string(APPEND EXTRA_CXX_FLAGS " -fsanitize=undefined,address,leak -fno-omit-frame-pointer")
+  set(EXTRA_LDFLAGS " -fsanitize=undefined,address,leak")
+endif()
+
 if(MEMSAN)
   # PQC_MEMSAN enables usage of some internals from clang
   if (NOT CMAKE_C_COMPILER_ID MATCHES "Clang")
@@ -33,40 +41,6 @@ if(MEMSAN)
   set(EXTRA_CXX_FLAGS "${CMAKE_ARGS_MEMCHECK_FLAGS} ${CMAKE_ARGS_MEMCHECK_LIB} ${CMAKE_ARGS_MEMCHECK_INC} -DPQC_MEMSAN_BUILD")
   set(CXXLIBS_FOR_MEMORY_SANITIZER cxx cxxabi)
 endif()
-
-# Dependencies
-ExternalProject_Add(
-  gtest_project
-  SOURCE_DIR     ${PROJECT_SOURCE_DIR}/3rd/gtest
-  GIT_REPOSITORY https://github.com/google/googletest.git
-  GIT_TAG        a3460d1aeeaa43fdf137a6adefef10ba0b59fe4b
-  PREFIX         ${CMAKE_CURRENT_BINARY_DIR}/3rd/gtest
-  INSTALL_DIR    ${CMAKE_CURRENT_BINARY_DIR}/3rd/gtest
-  CMAKE_ARGS     -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/3rd/gtest -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER} -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER} -DCMAKE_CXX_FLAGS=${EXTRA_CXX_FLAGS} -DCMAKE_C_FLAGS=${EXTRA_CXX_FLAGS} -Dgtest_disable_pthreads=ON
-)
-if(MEMSAN)
-add_dependencies(gtest_project ${CXXLIBS_FOR_MEMORY_SANITIZER})
-endif()
-
-FetchContent_Declare(
-  gbench
-  SOURCE_DIR     ${PROJECT_SOURCE_DIR}/3rd/gbench
-  GIT_REPOSITORY https://github.com/kriskwiatkowski/benchmark.git
-  GIT_TAG        49862ab56b6b7c3afd87b80bd5d787ed78ce3b96
-)
-FetchContent_Populate(gbench)
-
-FetchContent_Declare(
-  cpu_features
-  SOURCE_DIR     ${PROJECT_SOURCE_DIR}/3rd/cpu_features
-  GIT_REPOSITORY https://github.com/google/cpu_features.git
-  GIT_TAG        bc2846e78faeb26b8a46c17df369d4e5f1f9e2bb
-)
-FetchContent_Populate(cpu_features)
-
-
-set(BUILD_PIC ON CACHE BOOL "")
-add_subdirectory(3rd/cpu_features)
 
 set(CMAKE_VERBOSE_MAKEFILE ON)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "~/.cmake/Modules")
@@ -104,7 +78,7 @@ endif()
 
 if(CMAKE_C_COMPILER_ID MATCHES "Clang")
   # Additional flags only useful when compiling with clang
-  string(APPEND C_CXX_FLAGS " -Wconditional-uninitialized -Wno-missing-variable-declarations -Wno-unused-command-line-argument")
+  string(APPEND PQC_CMAKE_C_CXX_FLAGS " -Wconditional-uninitialized -Wno-missing-variable-declarations -Wno-unused-command-line-argument")
 endif()
 
 if (MACOSX)
@@ -114,7 +88,7 @@ endif()
 
 # Global configuration
 
-set(C_CXX_FLAGS "${C_CXX_FLAGS} -Wno-ignored-qualifiers \
+string(APPEND PQC_CMAKE_C_CXX_FLAGS " -Wno-ignored-qualifiers \
   -Wall \
   -Werror \
   -Wextra \
@@ -127,26 +101,74 @@ set(C_CXX_FLAGS "${C_CXX_FLAGS} -Wno-ignored-qualifiers \
   ${EXTRA_CXX_FLAGS}")
 
 if(CMAKE_COMPILER_IS_GNUCC AND CMAKE_C_COMPILER_VERSION VERSION_GREATER 11.0)
-set(C_CXX_FLAGS "${C_CXX_FLAGS} \
-  -Wno-stringop-overread \
+string(APPEND PQC_CMAKE_C_CXX_FLAGS " -Wno-stringop-overread \
   -Wno-stringop-overflow \
   -Wno-array-parameter")
-endif()
-
-# Build with address sanitizer
-if(ADDRSAN)
-  set(C_CXX_FLAGS "${C_CXX_FLAGS} -fsanitize=undefined,address,leak -fno-omit-frame-pointer")
-  set(LDFLAGS "${LDFLAGS} -fsanitize=undefined,address,leak")
 endif()
 
 include(.cmake/common.mk)
 
 # Control Debug/Release mode
 if(CMAKE_BUILD_TYPE_LOWER STREQUAL "debug")
-  set(C_CXX_FLAGS "${C_CXX_FLAGS} -g3 -O0 -Wno-unused")
+  string(APPEND PQC_CMAKE_C_CXX_FLAGS " -g3 -O0 -Wno-unused")
 else()
-  set(C_CXX_FLAGS "${C_CXX_FLAGS} -O3")
+  string(APPEND PQC_CMAKE_C_CXX_FLAGS " -O3")
 endif()
+
+# Set CPU architecture
+string(APPEND PQC_CMAKE_C_CXX_FLAGS " -D${ARCH}")
+
+# Build for haswell if on x86_64
+if(${ARCH} STREQUAL "ARCH_x86_64")
+  add_compile_options("-march=haswell")
+endif()
+
+# Dependencies
+ExternalProject_Add(
+  gtest_project
+  SOURCE_DIR     ${PROJECT_SOURCE_DIR}/3rd/gtest
+  GIT_REPOSITORY https://github.com/google/googletest.git
+  GIT_TAG        a3460d1aeeaa43fdf137a6adefef10ba0b59fe4b
+  PREFIX         ${CMAKE_CURRENT_BINARY_DIR}/3rd/gtest
+  INSTALL_DIR    ${CMAKE_CURRENT_BINARY_DIR}/3rd/gtest
+  CMAKE_ARGS     -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/3rd/gtest -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER} -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER} -DCMAKE_CXX_FLAGS=${EXTRA_CXX_FLAGS} -DCMAKE_C_FLAGS=${EXTRA_CXX_FLAGS} -Dgtest_disable_pthreads=ON
+)
+if(MEMSAN)
+add_dependencies(gtest_project ${CXXLIBS_FOR_MEMORY_SANITIZER})
+endif()
+
+FetchContent_Declare(
+  gbench
+  SOURCE_DIR     ${PROJECT_SOURCE_DIR}/3rd/gbench
+  GIT_REPOSITORY https://github.com/kriskwiatkowski/benchmark.git
+  GIT_TAG        49862ab56b6b7c3afd87b80bd5d787ed78ce3b96
+)
+FetchContent_Populate(gbench)
+
+FetchContent_Declare(
+  cpu_features
+  SOURCE_DIR     ${PROJECT_SOURCE_DIR}/3rd/cpu_features
+  GIT_REPOSITORY https://github.com/kriskwiatkowski/cpu_features.git
+  GIT_TAG        892991f352591e9bca6ec72936836650bde90802
+)
+FetchContent_Populate(cpu_features)
+
+if(PQC_WEAK_RANDOMBYTES)
+  string(APPEND PQC_CMAKE_C_CXX_FLAGS " -DPQC_WEAK_RANDOMBYTES")
+endif()
+
+# Build CPU features
+set(CMAKE_C_FLAGS ${EXTRA_CXX_FLAGS})
+set(CMAKE_CXX_FLAGS ${EXTRA_CXX_FLAGS})
+set(BUILD_PIC ON CACHE BOOL "")
+add_subdirectory(3rd/cpu_features)
+
+# PQC library
+
+# Set C, CXX, and LD flags
+set(CMAKE_C_FLAGS "${PQC_CMAKE_C_CXX_FLAGS} ${EXTRA_CXX_FLAGS}")
+set(CMAKE_CXX_FLAGS "${PQC_CMAKE_C_CXX_FLAGS} ${EXTRA_CXX_FLAGS}")
+string(APPEND LDFLAGS "${EXTRA_LDFLAGS}")
 
 include_directories(
   public
@@ -154,25 +176,6 @@ include_directories(
   src
   3rd/cpu_features/include
 )
-
-set_property(GLOBAL PROPERTY obj_libs "")
-
-# Set CPU architecture
-set(C_CXX_FLAGS "${C_CXX_FLAGS} -D${ARCH}")
-
-# Build for haswell if on x86_64
-if(${ARCH} STREQUAL "ARCH_x86_64")
-  string(APPEND C_CXX_FLAGS " -march=haswell")
-endif()
-
-set(PQC_CMAKE_C_FLAGS "${PQC_CMAKE_C_FLAGS} ${C_CXX_FLAGS}")
-set(PQC_CMAKE_CXX_FLAGS "${PQC_CMAKE_CXX_FLAGS} ${C_CXX_FLAGS}")
-set(CMAKE_C_FLAGS ${PQC_CMAKE_C_FLAGS})
-set(CMAKE_CXX_FLAGS ${PQC_CMAKE_CXX_FLAGS})
-
-if(PQC_WEAK_RANDOMBYTES)
-  string(APPEND PQC_CMAKE_C_FLAGS " -DPQC_WEAK_RANDOMBYTES")
-endif()
 
 # Define sources of the components
 add_subdirectory(src/sign/dilithium/dilithium2/clean)
@@ -240,9 +243,7 @@ add_subdirectory(src/kem/mceliece/mceliece8192128f/clean)
 # Hardware optimized targets
 
 if(${ARCH} STREQUAL "ARCH_x86_64")
-set(SRC_COMMON_AVX2
-  src/common/keccak4x/KeccakP-1600-times4-SIMD256.c
-)
+set(COMMON_EXTRA_SRC "src/common/keccak4x/KeccakP-1600-times4-SIMD256.c")
 
 # Sign
 add_subdirectory(src/sign/dilithium/dilithium2/avx2)
@@ -292,7 +293,10 @@ add_subdirectory(src/kem/hqc/hqc-rmrs-256/avx2)
 endif()
 
 # The rest of the library
-set(SRC_COMMON_GENERIC
+add_library(
+  common
+  OBJECT
+
   src/common/aes.c
   src/common/fips202.c
   src/common/sp800-185.c
@@ -300,14 +304,7 @@ set(SRC_COMMON_GENERIC
   src/common/sha2.c
   src/common/nistseedexpander.c
   src/capi/pqapi.c
-)
-
-add_library(
-  common
-  OBJECT
-  ${SRC_COMMON_GENERIC}
-  ${SRC_COMMON_AVX2}
-)
+  ${COMMON_EXTRA_SRC})
 
 add_library(
   pqc
@@ -381,8 +378,8 @@ if(NOT CMAKE_BUILD_TYPE_LOWER STREQUAL "debug")
   #endif()
   set(BENCHMARK_ENABLE_INSTALL OFF CACHE BOOL "" FORCE)
   set(BENCHMARK_ENABLE_EXCEPTIONS OFF CACHE BOOL "" FORCE)
-  set(CMAKE_C_FLAGS "${C_CXX_FLAGS} ${EXTRA_CXX_FLAGS}")
-  set(CMAKE_CXX_FLAGS "${C_CXX_FLAGS} ${EXTRA_CXX_FLAGS}")
+  set(CMAKE_C_FLAGS "${EXTRA_CXX_FLAGS}")
+  set(CMAKE_CXX_FLAGS "${EXTRA_CXX_FLAGS}")
   if (MEMSAN)
     set(BENCHMARK_USE_LIBCXX ON CACHE BOOL "" FORCE)
     # Since build requires C++20 it is safe to assume that std::regex is available.
