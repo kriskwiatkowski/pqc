@@ -6,21 +6,22 @@ The goal is to provide an easy-to-use API in C and Rust to enable experimentatio
 
 Users shouldn't expect any level of security provided by this code. The library is not meant to be used on live production systems.
 
-## Schemes support
+## Supported schemes
 
 | Name                     | NIST Round | x86 optimized |
 |--------------------------|------------|---------------|
 | Kyber                    | 3          |  x |
-| NTRU                     | 3          |  x |
 | SABER                    | 3          |  x |
 | FrodoKEM                 | 3          |    |
-| NTRU Prime               | 3          |  x |
-| HQC-RMRS                 | 3          |  x |
 | Dilithium                | 3          |  x |
 | Falcon                   | 3          |    |
-| Rainbow                  | 3          |    |
 | SPHINCS+ SHA256/SHAKE256 | 3          |  x |
+| NTRU                     | 3          |  x |
+| NTRU Prime               | 3          |  x |
+| HQC-RMRS                 | 3          |  x |
+| Rainbow                  | 3          |    |
 | SIKE/p434                | 3          |  x |
+| McEliece                 | 3          |    |
 
 ## Building
 
