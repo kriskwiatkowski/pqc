@@ -190,7 +190,7 @@ void sike_from_mont(const felm_t ma, felm_t c)
 // Inputs: a = a0+a1*i, where a0, a1 are in [0, 2*p-1]
 // Output: c = c0+c1*i, where c0, c1 are in [0, 2*p-1]
 void sike_fp2sqr_mont(const f2elm_t a, f2elm_t c) {
-    felm_t t1, t2, t3;
+    felm_t t1 = {0}, t2 = {0}, t3 = {0};
 
     mp_addfast(a->c0, a->c1, t1);                      // t1 = a0+a1
     sike_fpsub(a->c0, a->c1, t2);                      // t2 = a0-a1
@@ -247,7 +247,7 @@ void sike_fpcorrection(felm_t a) {
 // Inputs: a = a0+a1*i and b = b0+b1*i, where a0, a1, b0, b1 are in [0, 2*p-1]
 // Output: c = c0+c1*i, where c0, c1 are in [0, 2*p-1]
 void sike_fp2mul_mont(const f2elm_t a, const f2elm_t b, f2elm_t c) {
-    felm_t t1, t2;
+    felm_t t1 = {0}, t2 = {0};
     dfelm_t tt1, tt2, tt3;
     crypto_word_t mask;
 
@@ -270,7 +270,7 @@ void sike_fp2mul_mont(const f2elm_t a, const f2elm_t b, f2elm_t c) {
 
 // GF(p^2) inversion using Montgomery arithmetic, a = (a0-i*a1)/(a0^2+a1^2).
 void sike_fp2inv_mont(f2elm_t a) {
-    f2elm_t t1;
+    f2elm_t t1 = {0};
 
     fpsqr_mont(a->c0, t1->c0);                         // t10 = a0^2
     fpsqr_mont(a->c1, t1->c1);                         // t11 = a1^2

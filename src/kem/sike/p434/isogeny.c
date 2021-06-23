@@ -13,7 +13,7 @@ static void xDBL(const point_proj_t P, point_proj_t Q, const f2elm_t A24plus, co
 { // Doubling of a Montgomery point in projective coordinates (X:Z).
   // Input: projective Montgomery x-coordinates P = (X1:Z1), where x1=X1/Z1 and Montgomery curve constants A+2C and 4C.
   // Output: projective Montgomery x-coordinates Q = 2*P = (X2:Z2).
-    f2elm_t t0, t1;
+    f2elm_t t0 = {0}, t1 = {0};
 
     sike_fp2sub(P->X, P->Z, t0);                         // t0 = X1-Z1
     sike_fp2add(P->X, P->Z, t1);                         // t1 = X1+Z1
@@ -60,7 +60,7 @@ void eval_4_isog(point_proj_t P, f2elm_t* coeff)
   // by the 3 coefficients in coeff (computed in the function get_4_isog()).
   // Inputs: the coefficients defining the isogeny, and the projective point P = (X:Z).
   // Output: the projective point P = phi(P) = (X:Z) in the codomain.
-    f2elm_t t0, t1;
+    f2elm_t t0 = {0}, t1 = {0};
 
     sike_fp2add(P->X, P->Z, t0);                         // t0 = X+Z
     sike_fp2sub(P->X, P->Z, t1);                         // t1 = X-Z
@@ -123,7 +123,7 @@ void get_3_isog(const point_proj_t P, f2elm_t A24minus, f2elm_t A24plus, f2elm_t
 { // Computes the corresponding 3-isogeny of a projective Montgomery point (X3:Z3) of order 3.
   // Input:  projective point of order three P = (X3:Z3).
   // Output: the 3-isogenous Montgomery curve with projective coefficient A/C.
-    f2elm_t t0, t1, t2, t3, t4;
+    f2elm_t t0 = {0}, t1 = {0}, t2 = {0}, t3 = {0}, t4 = {0};
 
     sike_fp2sub(P->X, P->Z, coeff[0]);                   // coeff0 = X-Z
     sike_fp2sqr_mont(coeff[0], t0);                      // t0 = (X-Z)^2
@@ -189,7 +189,7 @@ void get_A(const f2elm_t xP, const f2elm_t xQ, const f2elm_t xR, f2elm_t A)
 { // Given the x-coordinates of P, Q, and R, returns the value A corresponding to the Montgomery curve E_A: y^2=x^3+A*x^2+x such that R=Q-P on E_A.
   // Input:  the x-coordinates xP, xQ, and xR of the points P, Q and R.
   // Output: the coefficient A corresponding to the curve E_A: y^2=x^3+A*x^2+x.
-    f2elm_t t0, t1, one = F2ELM_INIT;
+    f2elm_t t0 = F2ELM_INIT, t1 = F2ELM_INIT, one = F2ELM_INIT;
 
     extern const struct params_t params;
     sike_fpcopy(params.mont_one, one->c0);
@@ -213,7 +213,7 @@ void j_inv(const f2elm_t A, const f2elm_t C, f2elm_t jinv)
 { // Computes the j-invariant of a Montgomery curve with projective constant.
   // Input: A,C in GF(p^2).
   // Output: j=256*(A^2-3*C^2)^3/(C^4*(A^2-4*C^2)), which is the j-invariant of the Montgomery curve B*y^2=x^3+(A/C)*x^2+x or (equivalently) j-invariant of B'*y^2=C*x^3+A*x^2+C*x.
-    f2elm_t t0, t1;
+    f2elm_t t0 = F2ELM_INIT, t1 = F2ELM_INIT;
 
     sike_fp2sqr_mont(A, jinv);                           // jinv = A^2
     sike_fp2sqr_mont(C, t1);                             // t1 = C^2
@@ -238,7 +238,7 @@ void xDBLADD(point_proj_t P, point_proj_t Q, const f2elm_t xPQ, const f2elm_t A2
 { // Simultaneous doubling and differential addition.
   // Input: projective Montgomery points P=(XP:ZP) and Q=(XQ:ZQ) such that xP=XP/ZP and xQ=XQ/ZQ, affine difference xPQ=x(P-Q) and Montgomery curve constant A24=(A+2)/4.
   // Output: projective Montgomery points P <- 2*P = (X2P:Z2P) such that x(2P)=X2P/Z2P, and Q <- P+Q = (XQP:ZQP) such that = x(Q+P)=XQP/ZQP.
-    f2elm_t t0, t1, t2;
+    f2elm_t t0 = F2ELM_INIT, t1 = F2ELM_INIT, t2 = F2ELM_INIT;
 
     sike_fp2add(P->X, P->Z, t0);                         // t0 = XP+ZP
     sike_fp2sub(P->X, P->Z, t1);                         // t1 = XP-ZP

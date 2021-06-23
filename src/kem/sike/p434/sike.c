@@ -136,11 +136,11 @@ static void gen_iso_A(const uint8_t* skA, uint8_t* pkA)
     point_proj_t phiP = POINT_PROJ_INIT;
     point_proj_t phiQ = POINT_PROJ_INIT;
     point_proj_t phiR = POINT_PROJ_INIT;
-    f2elm_t XPA, XQA, XRA, coeff[3];
+    f2elm_t XPA, XQA, XRA, coeff[3] = {0};
     f2elm_t A24plus = F2ELM_INIT;
     f2elm_t C24 = F2ELM_INIT;
     f2elm_t A = F2ELM_INIT;
-    unsigned int m, index = 0, pts_index[MAX_INT_POINTS_ALICE], npts = 0, ii = 0;
+    unsigned int m, index = 0, pts_index[MAX_INT_POINTS_ALICE] = {0}, npts = 0, ii = 0;
 
     // Initialize basis points
     sike_init_basis(params.A_gen, XPA, XQA, XRA);
@@ -211,11 +211,11 @@ static void gen_iso_B(const uint8_t* skB, uint8_t* pkB)
     point_proj_t phiP = POINT_PROJ_INIT;
     point_proj_t phiQ = POINT_PROJ_INIT;
     point_proj_t phiR = POINT_PROJ_INIT;
-    f2elm_t XPB, XQB, XRB, coeff[3];
+    f2elm_t XPB, XQB, XRB, coeff[3] = {0};
     f2elm_t A24plus = F2ELM_INIT;
     f2elm_t A24minus = F2ELM_INIT;
     f2elm_t A = F2ELM_INIT;
-    unsigned int m, index = 0, pts_index[MAX_INT_POINTS_BOB], npts = 0, ii = 0;
+    unsigned int m, index = 0, pts_index[MAX_INT_POINTS_BOB] = {0}, npts = 0, ii = 0;
 
     // Initialize basis points
     sike_init_basis(params.B_gen, XPB, XQB, XRB);
@@ -342,12 +342,12 @@ static void ex_iso_A(const uint8_t* skA, const uint8_t* pkB, uint8_t* ssA)
 // Output: a shared secret ssB that consists of one element in GF(p503^2) encoded in 126 bytes.
 static void ex_iso_B(const uint8_t* skB, const uint8_t* pkA, uint8_t* ssB)
 {
-    point_proj_t R, pts[MAX_INT_POINTS_BOB];
-    f2elm_t coeff[3], PKB[3], jinv;
+    point_proj_t R, pts[MAX_INT_POINTS_BOB] = {0};
+    f2elm_t coeff[3] = {0}, PKB[3] = {0}, jinv;
     f2elm_t A24plus = F2ELM_INIT;
     f2elm_t A24minus = F2ELM_INIT;
     f2elm_t A = F2ELM_INIT;
-    unsigned int m, index = 0, pts_index[MAX_INT_POINTS_BOB], npts = 0, ii = 0;
+    unsigned int m, index = 0, pts_index[MAX_INT_POINTS_BOB] = {0}, npts = 0, ii = 0;
 
     // Initialize images of Alice's basis
     fp2_decode(pkA, PKB[0]);
@@ -412,7 +412,7 @@ void SIKE_encaps(uint8_t out_shared_key[SIKE_SS_BYTESZ],
   // secret data. It's size must be maximum of 64,
   // SIKE_MSG_BYTESZ and SIDH_PRV_A_BITSZ in bytes.
   uint8_t secret[32]; // OZAPTF, why?
-  uint8_t j[SIDH_JINV_BYTESZ];
+  uint8_t j[SIDH_JINV_BYTESZ] = {0};
   uint8_t temp[SIKE_MSG_BYTESZ + SIKE_CT_BYTESZ];
   shake256incctx ctx;
 
@@ -460,9 +460,9 @@ void SIKE_decaps(uint8_t out_shared_key[SIKE_SS_BYTESZ],
   // secret data. It's size must be maximum of 64,
   // SIKE_MSG_BYTESZ and SIDH_PRV_A_BITSZ in bytes.
   uint8_t secret[32];
-  uint8_t j[SIDH_JINV_BYTESZ];
-  uint8_t c0[SIKE_PUB_BYTESZ];
-  uint8_t temp[SIKE_MSG_BYTESZ];
+  uint8_t j[SIDH_JINV_BYTESZ] = {0};
+  uint8_t c0[SIKE_PUB_BYTESZ] = {0};
+  uint8_t temp[SIKE_MSG_BYTESZ] = {0};
   shake256incctx ctx;
 
   // Recover m
