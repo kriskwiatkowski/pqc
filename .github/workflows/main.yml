@@ -101,4 +101,4 @@ jobs:
           make
       - name: run tests
         run: |
-          cd build && ./ut --gtest_filter="NONE"
+          cd build && ./ut
