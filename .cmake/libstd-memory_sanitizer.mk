@@ -18,6 +18,9 @@ ExternalProject_Add(
   INSTALL_COMMAND   DESTDIR=${PREFIX} make install-cxx-headers install-cxx install-cxxabi
   COMMENT           "Building memcheck instrumented libc++ and libc++abi"
   PREFIX            ${PREFIX}
+  # Don't try updating the source. This prevents running update when calling 'make' (not sure why update step is run during make).
+  # It will also cause not updateing source during calling 'cmake' again. But we use fixed branch, so this shouldn't be needed
+  UPDATE_DISCONNECTED TRUE
 )
 
 add_library(
