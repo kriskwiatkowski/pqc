@@ -51,9 +51,9 @@ int PQCLEAN_KYBER512_AVX2_crypto_kem_keypair(unsigned char pk[KYBER_PUBLICKEYBYT
 int PQCLEAN_KYBER512_AVX2_crypto_kem_enc(unsigned char ct[KYBER_CIPHERTEXTBYTES],
         unsigned char ss[KYBER_SSBYTES],
         const unsigned char pk[KYBER_PUBLICKEYBYTES]) {
-    uint8_t buf[2 * KYBER_SYMBYTES];
+    uint8_t buf[2 * KYBER_SYMBYTES] = {0};
     /* Will contain key, coins */
-    uint8_t kr[2 * KYBER_SYMBYTES];
+    uint8_t kr[2 * KYBER_SYMBYTES] = {0};
 
     randombytes(buf, KYBER_SYMBYTES);
     /* Don't release system RNG output */

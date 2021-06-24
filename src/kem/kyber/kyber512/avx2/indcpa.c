@@ -289,7 +289,7 @@ void PQCLEAN_KYBER512_AVX2_indcpa_enc(uint8_t c[KYBER_INDCPA_BYTES],
                                       const uint8_t coins[KYBER_SYMBYTES]) {
     unsigned int i;
     uint8_t seed[KYBER_SYMBYTES];
-    polyvec sp, pkpv, ep, at[KYBER_K], b;
+    polyvec sp, pkpv, ep, at[KYBER_K], b = {0};
     poly v, k, epp;
 
     unpack_pk(&pkpv, seed, pk);

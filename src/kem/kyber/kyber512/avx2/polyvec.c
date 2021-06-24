@@ -182,7 +182,7 @@ void PQCLEAN_KYBER512_AVX2_polyvec_invntt_tomont(polyvec *r) {
 **************************************************/
 void PQCLEAN_KYBER512_AVX2_polyvec_basemul_acc_montgomery(poly *r, const polyvec *a, const polyvec *b) {
     size_t i;
-    poly tmp;
+    poly tmp = {0};
 
     PQCLEAN_KYBER512_AVX2_poly_basemul_montgomery(r, &a->vec[0], &b->vec[0]);
     for (i = 1; i < KYBER_K; i++) {
