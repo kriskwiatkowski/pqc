@@ -97,7 +97,7 @@ jobs:
         run: |
           mkdir -p build
           cd build
-          CC=clang CXX=clang++ cmake -DCMAKE_BUILD_TYPE=Release -DMEMSAN=1 ..
+          CC=clang CXX=clang++ cmake -DCMAKE_BUILD_TYPE=Release -DMEMSAN=1 -DCTSAN=1 ..
           make
       - name: run tests
         run: |

@@ -38,8 +38,34 @@ if(MEMSAN)
   set(CMAKE_ARGS_MEMCHECK_LIB "-stdlib=libc++")
   set(CMAKE_ARGS_MEMCHECK_INC "-isystem -I${LLVM_PRJ_INC} -I${LLVM_PRJ_INC}/c++/v1")
   set(CMAKE_ARGS_MEMCHECK_FLAGS "-fsanitize=memory -fsanitize-memory-track-origins=2 -fno-omit-frame-pointer -Wno-unused-command-line-argument")
+  # Enablin "keep-going" flag alows two things:
+  # 1. Enables CT_EXPECT_UMR()/CT_REQUIRE_UMR() in tests. For some reason MSan will halt
+  #    on error even if it expects UMR. And hence, CT can't be tested. This is probably a bug.
+  # 2. reports all the errors from the run, not only the first one (don't fail-fast)
+  string(APPEND CMAKE_ARGS_MEMCHECK_FLAGS " -mllvm -msan-keep-going=1")
   set(EXTRA_CXX_FLAGS "${CMAKE_ARGS_MEMCHECK_FLAGS} ${CMAKE_ARGS_MEMCHECK_LIB} ${CMAKE_ARGS_MEMCHECK_INC} -DPQC_MEMSAN_BUILD")
   set(CXXLIBS_FOR_MEMORY_SANITIZER cxx cxxabi)
+endif()
+
+# Contant time memory checks with CTGRIND (requires clang and -DMEMSAN)
+if(CTSAN)
+if (NOT MEMSAN)
+message(FATAL_ERROR "Constant time sanitizer requires -DMEMSAN")
+endif()
+
+if (NOT CMAKE_C_COMPILER_ID MATCHES "Clang")
+message(FATAL_ERROR "Constant time sanitizer requires Clang")
+endif()
+
+string(APPEND EXTRA_CXX_FLAGS " -DPQC_USE_CTSANITIZER")
+endif()
+
+# Contant time memory checks with CTGRIND (requires valgrind)
+if (CTGRIND)
+if (MEMSAN OR CTSAN)
+message(FATAL_ERROR "Can't use memory sanitizer (MEMSAN) and CTGRIND")
+endif()
+string(APPEND EXTRA_CXX_FLAGS " -DPQC_USE_CTGRIND")
 endif()
 
 set(CMAKE_VERBOSE_MAKEFILE ON)
@@ -92,13 +118,11 @@ string(APPEND PQC_CMAKE_C_CXX_FLAGS " -Wno-ignored-qualifiers \
   -Wall \
   -Werror \
   -Wextra \
-  -Wpedantic \
   -Wshadow \
   -Wno-variadic-macros \
   -Wunused-result \
   -Wno-unused-command-line-argument \
-  -Wno-undef \
-  ${EXTRA_CXX_FLAGS}")
+  -Wno-undef")
 
 if(CMAKE_COMPILER_IS_GNUCC AND CMAKE_C_COMPILER_VERSION VERSION_GREATER 11.0)
 string(APPEND PQC_CMAKE_C_CXX_FLAGS " -Wno-stringop-overread \
@@ -149,7 +173,7 @@ FetchContent_Declare(
   cpu_features
   SOURCE_DIR     ${PROJECT_SOURCE_DIR}/3rd/cpu_features
   GIT_REPOSITORY https://github.com/kriskwiatkowski/cpu_features.git
-  GIT_TAG        892991f352591e9bca6ec72936836650bde90802
+  GIT_TAG        38f4324533390b09079a38b524be8b178be8e435
 )
 FetchContent_Populate(cpu_features)
 
@@ -158,14 +182,15 @@ if(PQC_WEAK_RANDOMBYTES)
 endif()
 
 # Build CPU features
-set(CMAKE_C_FLAGS ${EXTRA_CXX_FLAGS})
-set(CMAKE_CXX_FLAGS ${EXTRA_CXX_FLAGS})
+set(CMAKE_C_FLAGS "${PQC_CMAKE_C_CXX_FLAGS} ${EXTRA_CXX_FLAGS}")
+set(CMAKE_CXX_FLAGS "$${PQC_CMAKE_C_CXX_FLAGS} {EXTRA_CXX_FLAGS}")
 set(BUILD_PIC ON CACHE BOOL "")
 add_subdirectory(3rd/cpu_features)
 
 # PQC library
 
 # Set C, CXX, and LD flags
+string(APPEND PQC_CMAKE_C_CXX_FLAGS " -Wpedantic")
 set(CMAKE_C_FLAGS "${PQC_CMAKE_C_CXX_FLAGS} ${EXTRA_CXX_FLAGS}")
 set(CMAKE_CXX_FLAGS "${PQC_CMAKE_C_CXX_FLAGS} ${EXTRA_CXX_FLAGS}")
 string(APPEND LDFLAGS "${EXTRA_LDFLAGS}")
@@ -334,7 +359,7 @@ target_link_libraries(
 )
 
 SET(UT_SRC test/ut.cpp)
-if(MEMSAN)
+if(CTGRIND OR CTSAN)
 SET(UT_SRC ${UT_SRC} test/ct.cpp)
 endif()
 
