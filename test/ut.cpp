@@ -4,7 +4,7 @@
 #include <pqc/pqc.h>
 #include <random>
 
-TEST(Kyber,KEMOneOff) {
+TEST(KEM,OneOff) {
 
 	for (int i=0; i<PQC_ALG_KEM_MAX; i++) {
 		const pqc_ctx_t *p = pqc_kem_alg_by_id(i);
@@ -26,7 +26,7 @@ TEST(Kyber,KEMOneOff) {
 	}
 }
 
-TEST(Kyber,SIGNOneOff) {
+TEST(SIGN,OneOff) {
 
     std::random_device rd;
     std::uniform_int_distribution<uint8_t> dist(0, 0xFF);
