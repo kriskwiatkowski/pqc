@@ -14,6 +14,8 @@
 #include "common.h"
 #include "params.h"
 
+#include "common/utils.h"
+
 int PQCLEAN_FRODOKEM640SHAKE_CLEAN_crypto_kem_keypair(uint8_t *pk, uint8_t *sk) {
     // FrodoKEM's key generation
     // Outputs: public key pk (               BYTES_SEED_A + (PARAMS_LOGQ*PARAMS_N*PARAMS_NBAR)/8 bytes)
@@ -139,7 +141,6 @@ int PQCLEAN_FRODOKEM640SHAKE_CLEAN_crypto_kem_enc(uint8_t *ct, uint8_t *ss, cons
     return 0;
 }
 
-
 int PQCLEAN_FRODOKEM640SHAKE_CLEAN_crypto_kem_dec(uint8_t *ss, const uint8_t *ct, const uint8_t *sk) {
     // FrodoKEM's key decapsulation
     uint16_t B[PARAMS_N * PARAMS_NBAR] = {0};
@@ -193,6 +194,7 @@ int PQCLEAN_FRODOKEM640SHAKE_CLEAN_crypto_kem_dec(uint8_t *ss, const uint8_t *ct
     for (size_t i = 0; i < (2 * PARAMS_N + PARAMS_NBAR) * PARAMS_NBAR; i++) {
         Sp[i] = PQCLEAN_FRODOKEM640SHAKE_CLEAN_LE_TO_UINT16(Sp[i]);
     }
+
     PQCLEAN_FRODOKEM640SHAKE_CLEAN_sample_n(Sp, PARAMS_N * PARAMS_NBAR);
     PQCLEAN_FRODOKEM640SHAKE_CLEAN_sample_n(Ep, PARAMS_N * PARAMS_NBAR);
     PQCLEAN_FRODOKEM640SHAKE_CLEAN_mul_add_sa_plus_e(BBp, Sp, Ep, pk_seedA);
@@ -214,13 +216,27 @@ int PQCLEAN_FRODOKEM640SHAKE_CLEAN_crypto_kem_dec(uint8_t *ss, const uint8_t *ct
         BBp[i] = BBp[i] & ((1 << PARAMS_LOGQ) - 1);
     }
 
+// Enable constant time compare
+#if 0
     // If (Bp == BBp & C == CC) then ss = F(ct || k'), else ss = F(ct || s)
     // Needs to avoid branching on secret data as per:
     //     Qian Guo, Thomas Johansson, Alexander Nilsson. A key-recovery timing attack on post-quantum
     //     primitives using the Fujisaki-Okamoto transformation and its application on FrodoKEM. In CRYPTO 2020.
-    int8_t selector = PQCLEAN_FRODOKEM640SHAKE_CLEAN_ct_verify(Bp, BBp, PARAMS_N * PARAMS_NBAR) | PQCLEAN_FRODOKEM640SHAKE_CLEAN_ct_verify(C, CC, PARAMS_NBAR * PARAMS_NBAR);
+    int8_t selector = ct_memcmp(Bp, BBp, PARAMS_N * PARAMS_NBAR) | ct_memcmp(C, CC, PARAMS_NBAR * PARAMS_NBAR);
     // If (selector == 0) then load k' to do ss = F(ct || k'), else if (selector == -1) load s to do ss = F(ct || s)
     PQCLEAN_FRODOKEM640SHAKE_CLEAN_ct_select((uint8_t *)Fin_k, (uint8_t *)kprime, (uint8_t *)sk_s, CRYPTO_BYTES, selector);
+#else
+    if (memcmp(Bp, BBp, 2*PARAMS_N*PARAMS_NBAR) == 0 && memcmp(C, CC, 2*PARAMS_NBAR*PARAMS_NBAR) == 0) {
+        // Load k' to do ss = F(ct || k')
+        memcpy(Fin_k, kprime, CRYPTO_BYTES);
+    } else {
+        // Load s to do ss = F(ct || s)
+        // This branch is executed when a malicious ciphertext is decapsulated
+        // and is necessary for security. Note that the known answer tests
+        // will not exercise this line of code but it should not be removed.
+        memcpy(Fin_k, sk_s, CRYPTO_BYTES);
+    }
+#endif
     shake(ss, CRYPTO_BYTES, Fin, CRYPTO_CIPHERTEXTBYTES + CRYPTO_BYTES);
 
     // Cleanup:

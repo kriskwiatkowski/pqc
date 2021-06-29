@@ -246,7 +246,6 @@ int8_t PQCLEAN_FRODOKEM640SHAKE_CLEAN_ct_verify(const uint16_t *a, const uint16_
 void PQCLEAN_FRODOKEM640SHAKE_CLEAN_ct_select(uint8_t *r, const uint8_t *a, const uint8_t *b, size_t len, int8_t selector) {
     // Select one of the two input arrays to be moved to r
     // If (selector == 0) then load r with a, else if (selector == -1) load r with b
-
     for (size_t i = 0; i < len; i++) {
         r[i] = (~selector & a[i]) | (selector & b[i]);
     }
