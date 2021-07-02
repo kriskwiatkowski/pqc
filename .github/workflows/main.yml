@@ -103,7 +103,7 @@ jobs:
         run: |
           cd build && ./ut
   SPEED:
-    name: Continues Benchmarking
+    name: Continuous Benchmarking
     runs-on: [ubuntu-20.04]
     steps:
       - uses: actions/checkout@v1
@@ -117,7 +117,7 @@ jobs:
           make
       - name: run benchmarks
         run: |
-          ./test/bench/bench --benchmark_format=json | tee benchmark_result.json
+          ./build/test/bench/bench --benchmark_format=json | tee benchmark_result.json
       - uses: rhysd/github-action-benchmark@v1
         with:
           tool: 'googlecpp'
