@@ -102,3 +102,23 @@ jobs:
       - name: run tests
         run: |
           cd build && ./ut
+  SPEED:
+    name: Continues Benchmarking
+    runs-on: [ubuntu-20.04]
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          submodules: true
+      - uses: rhysd/github-action-benchmark@v1
+        with:
+          tool: 'googlecpp'
+          output-file-path: benchmark_result.json
+      - name: build
+        run: |
+          mkdir -p build
+          cd build
+          CC=clang CXX=clang++ cmake -DCMAKE_BUILD_TYPE=Release ..
+          make
+      - name: run benchmarks
+        run: |
+          ./test/bench/bench --benchmark_format=json | tee benchmark_result.json
