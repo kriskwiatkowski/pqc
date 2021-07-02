@@ -109,10 +109,6 @@ jobs:
       - uses: actions/checkout@v1
         with:
           submodules: true
-      - uses: rhysd/github-action-benchmark@v1
-        with:
-          tool: 'googlecpp'
-          output-file-path: benchmark_result.json
       - name: build
         run: |
           mkdir -p build
@@ -122,3 +118,7 @@ jobs:
       - name: run benchmarks
         run: |
           ./test/bench/bench --benchmark_format=json | tee benchmark_result.json
+      - uses: rhysd/github-action-benchmark@v1
+        with:
+          tool: 'googlecpp'
+          output-file-path: benchmark_result.json
