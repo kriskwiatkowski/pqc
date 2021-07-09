@@ -1,7 +1,13 @@
 #ifndef PQC_COMMON_UTILS_
 #define PQC_COMMON_UTILS_
 
+#include <stdint.h>
+#include <stddef.h>
 #include <cpuinfo_x86.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 // Helper to stringify constants
 #define STR(x) STR_(x)
@@ -32,6 +38,23 @@
     (((uint16_t)(x)[0])<<8 |  \
      ((uint16_t)(x)[1])<<0)   \
 
-const X86Features * get_cpu_caps(void);
+#ifdef __cplusplus
+const cpu_features::X86Features*
+#else
+const X86Features*
+#endif
+get_cpu_caps(void);
 
+/**
+ * \brief Compares two arrays in constant time.
+ * \param [in] a first array
+ * \param [in] b second arrray
+ * \param [in] sz number of bytes to compare
+ * \returns 0 if arrays are equal, otherwise 1.
+ */
+uint8_t ct_memcmp(const void *p, const void *q, size_t n);
+
+#ifdef __cplusplus
+}
+#endif
 #endif

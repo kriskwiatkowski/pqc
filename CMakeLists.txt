@@ -15,7 +15,7 @@ set_property(GLOBAL PROPERTY obj_libs "")
 
 # Build with address sanitizer
 if(ADDRSAN)
-  string(APPEND EXTRA_CXX_FLAGS " -fsanitize=undefined,address,leak -fno-omit-frame-pointer")
+  string(APPEND EXTRA_C_CXX_FLAGS " -fsanitize=undefined,address,leak -fno-omit-frame-pointer")
   set(EXTRA_LDFLAGS " -fsanitize=undefined,address,leak")
 endif()
 
@@ -35,15 +35,15 @@ if(MEMSAN)
   set(LLVM_PRJ_INC ${LLVM_PRJ}/usr/local/include)
 
   # Add memory sanitizer instrumented libraries
-  set(CMAKE_ARGS_MEMCHECK_LIB "-stdlib=libc++")
+  set(CMAKE_ARGS_MEMCHECK_LIB "-stdlib=libc++ -L${LLVM_PRJ_LIB}")
   set(CMAKE_ARGS_MEMCHECK_INC "-isystem -I${LLVM_PRJ_INC} -I${LLVM_PRJ_INC}/c++/v1")
-  set(CMAKE_ARGS_MEMCHECK_FLAGS "-fsanitize=memory -fsanitize-memory-track-origins=2 -fno-omit-frame-pointer -Wno-unused-command-line-argument")
+  set(CMAKE_ARGS_MEMCHECK_FLAGS "-fsanitize=memory -fsanitize-memory-track-origins=2 -fno-omit-frame-pointer -Wno-unused-command-line-argument -fno-optimize-sibling-calls")
   # Enablin "keep-going" flag alows two things:
   # 1. Enables CT_EXPECT_UMR()/CT_REQUIRE_UMR() in tests. For some reason MSan will halt
   #    on error even if it expects UMR. And hence, CT can't be tested. This is probably a bug.
   # 2. reports all the errors from the run, not only the first one (don't fail-fast)
   string(APPEND CMAKE_ARGS_MEMCHECK_FLAGS " -mllvm -msan-keep-going=1")
-  set(EXTRA_CXX_FLAGS "${CMAKE_ARGS_MEMCHECK_FLAGS} ${CMAKE_ARGS_MEMCHECK_LIB} ${CMAKE_ARGS_MEMCHECK_INC} -DPQC_MEMSAN_BUILD")
+  set(EXTRA_C_CXX_FLAGS "${CMAKE_ARGS_MEMCHECK_FLAGS} ${CMAKE_ARGS_MEMCHECK_LIB} ${CMAKE_ARGS_MEMCHECK_INC} -DPQC_MEMSAN_BUILD")
   set(CXXLIBS_FOR_MEMORY_SANITIZER cxx cxxabi)
 endif()
 
@@ -57,7 +57,7 @@ if (NOT CMAKE_C_COMPILER_ID MATCHES "Clang")
 message(FATAL_ERROR "Constant time sanitizer requires Clang")
 endif()
 
-string(APPEND EXTRA_CXX_FLAGS " -DPQC_USE_CTSANITIZER")
+string(APPEND EXTRA_C_CXX_FLAGS " -DPQC_USE_CTSANITIZER")
 endif()
 
 # Contant time memory checks with CTGRIND (requires valgrind)
@@ -65,7 +65,7 @@ if (CTGRIND)
 if (MEMSAN OR CTSAN)
 message(FATAL_ERROR "Can't use memory sanitizer (MEMSAN) and CTGRIND")
 endif()
-string(APPEND EXTRA_CXX_FLAGS " -DPQC_USE_CTGRIND")
+string(APPEND EXTRA_C_CXX_FLAGS " -DPQC_USE_CTGRIND")
 endif()
 
 set(CMAKE_VERBOSE_MAKEFILE ON)
@@ -114,15 +114,15 @@ endif()
 
 # Global configuration
 
-string(APPEND PQC_CMAKE_C_CXX_FLAGS " -Wno-ignored-qualifiers \
-  -Wall \
-  -Werror \
-  -Wextra \
-  -Wshadow \
-  -Wno-variadic-macros \
-  -Wunused-result \
-  -Wno-unused-command-line-argument \
-  -Wno-undef")
+string(APPEND PQC_CMAKE_C_CXX_FLAGS " -Wall")
+string(APPEND PQC_CMAKE_C_CXX_FLAGS " -Werror")
+string(APPEND PQC_CMAKE_C_CXX_FLAGS " -Wextra")
+string(APPEND PQC_CMAKE_C_CXX_FLAGS " -Wshadow")
+string(APPEND PQC_CMAKE_C_CXX_FLAGS " -Wno-variadic-macros")
+string(APPEND PQC_CMAKE_C_CXX_FLAGS " -Wunused-result")
+string(APPEND PQC_CMAKE_C_CXX_FLAGS " -Wno-unused-command-line-argument")
+string(APPEND PQC_CMAKE_C_CXX_FLAGS " -Wno-undef")
+string(APPEND PQC_CMAKE_C_CXX_FLAGS " -Wno-ignored-qualifiers")
 
 if(CMAKE_COMPILER_IS_GNUCC AND CMAKE_C_COMPILER_VERSION VERSION_GREATER 11.0)
 string(APPEND PQC_CMAKE_C_CXX_FLAGS " -Wno-stringop-overread \
@@ -135,8 +135,6 @@ include(.cmake/common.mk)
 # Control Debug/Release mode
 if(CMAKE_BUILD_TYPE_LOWER STREQUAL "debug")
   string(APPEND PQC_CMAKE_C_CXX_FLAGS " -g3 -O0 -Wno-unused")
-else()
-  string(APPEND PQC_CMAKE_C_CXX_FLAGS " -O3")
 endif()
 
 # Set CPU architecture
@@ -155,7 +153,7 @@ ExternalProject_Add(
   GIT_TAG        a3460d1aeeaa43fdf137a6adefef10ba0b59fe4b
   PREFIX         ${CMAKE_CURRENT_BINARY_DIR}/3rd/gtest
   INSTALL_DIR    ${CMAKE_CURRENT_BINARY_DIR}/3rd/gtest
-  CMAKE_ARGS     -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/3rd/gtest -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER} -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER} -DCMAKE_CXX_FLAGS=${EXTRA_CXX_FLAGS} -DCMAKE_C_FLAGS=${EXTRA_CXX_FLAGS} -Dgtest_disable_pthreads=ON
+  CMAKE_ARGS     -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/3rd/gtest -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER} -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER} -DCMAKE_CXX_FLAGS=${EXTRA_C_CXX_FLAGS} -DCMAKE_C_FLAGS=${EXTRA_C_CXX_FLAGS} -Dgtest_disable_pthreads=ON
 )
 if(MEMSAN)
 add_dependencies(gtest_project ${CXXLIBS_FOR_MEMORY_SANITIZER})
@@ -182,8 +180,8 @@ if(PQC_WEAK_RANDOMBYTES)
 endif()
 
 # Build CPU features
-set(CMAKE_C_FLAGS "${PQC_CMAKE_C_CXX_FLAGS} ${EXTRA_CXX_FLAGS}")
-set(CMAKE_CXX_FLAGS "$${PQC_CMAKE_C_CXX_FLAGS} {EXTRA_CXX_FLAGS}")
+set(CMAKE_C_FLAGS "${PQC_CMAKE_C_CXX_FLAGS} ${EXTRA_C_CXX_FLAGS}")
+set(CMAKE_CXX_FLAGS "$${PQC_CMAKE_C_CXX_FLAGS} {EXTRA_C_CXX_FLAGS}")
 set(BUILD_PIC ON CACHE BOOL "")
 add_subdirectory(3rd/cpu_features)
 
@@ -191,8 +189,8 @@ add_subdirectory(3rd/cpu_features)
 
 # Set C, CXX, and LD flags
 string(APPEND PQC_CMAKE_C_CXX_FLAGS " -Wpedantic")
-set(CMAKE_C_FLAGS "${PQC_CMAKE_C_CXX_FLAGS} ${EXTRA_CXX_FLAGS}")
-set(CMAKE_CXX_FLAGS "${PQC_CMAKE_C_CXX_FLAGS} ${EXTRA_CXX_FLAGS}")
+set(CMAKE_C_FLAGS "${PQC_CMAKE_C_CXX_FLAGS} ${EXTRA_C_CXX_FLAGS}")
+set(CMAKE_CXX_FLAGS "${PQC_CMAKE_C_CXX_FLAGS} ${EXTRA_C_CXX_FLAGS}")
 string(APPEND LDFLAGS "${EXTRA_LDFLAGS}")
 
 include_directories(
@@ -328,6 +326,7 @@ add_library(
   src/common/randombytes.c
   src/common/sha2.c
   src/common/nistseedexpander.c
+  src/common/utils.c
   src/capi/pqapi.c
   ${COMMON_EXTRA_SRC})
 
@@ -391,6 +390,7 @@ target_link_directories(
 # github CI requires that
 add_dependencies(ut gtest_project)
 
+
 if(NOT CMAKE_BUILD_TYPE_LOWER STREQUAL "debug")
   # settings below are required by benchmark library
   set(CMAKE_BUILD_TYPE "Release" CACHE STRING "" FORCE)
@@ -403,8 +403,8 @@ if(NOT CMAKE_BUILD_TYPE_LOWER STREQUAL "debug")
   #endif()
   set(BENCHMARK_ENABLE_INSTALL OFF CACHE BOOL "" FORCE)
   set(BENCHMARK_ENABLE_EXCEPTIONS OFF CACHE BOOL "" FORCE)
-  set(CMAKE_C_FLAGS "${EXTRA_CXX_FLAGS}")
-  set(CMAKE_CXX_FLAGS "${EXTRA_CXX_FLAGS}")
+  set(CMAKE_C_FLAGS "${EXTRA_C_CXX_FLAGS}")
+  set(CMAKE_CXX_FLAGS "${EXTRA_C_CXX_FLAGS}")
   if (MEMSAN)
     set(BENCHMARK_USE_LIBCXX ON CACHE BOOL "" FORCE)
     # Since build requires C++20 it is safe to assume that std::regex is available.

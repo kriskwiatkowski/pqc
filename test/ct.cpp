@@ -2,7 +2,7 @@
 
 #include <gtest/gtest.h>
 #include <common/ct_check.h>
-#include <stdio.h>
+#include <common/utils.h>
 
 TEST(ConstantTime, CtGrind_Negative) {
     unsigned char a[16], b[16];
@@ -62,4 +62,54 @@ TEST(ConstantTime, CtGrind_Negative_UseSecretAsIndex) {
     // Ensure variables are not optimized-out
     ct_purify(&result, 1);
     ASSERT_EQ(result, 1);
+}
+
+TEST(ConstantTime, CtCheck_memcmp) {
+    unsigned char a[16], b[16];
+    memset(a, 42, sizeof(a));
+    memset(b, 42, sizeof(b));
+    uint8_t ret;
+
+    ct_poison(a, 16);
+    ret = ct_memcmp(a,b,16);
+    ct_expect_umr();
+    // Doesn't matter what we check. It's just to
+    // enusre UMR is triggered.
+    if (!ret) ASSERT_EQ(ret, 0);
+    ct_require_umr();
+    ct_purify(&ret, 1);
+
+    b[1] = 0;
+    ct_expect_umr();
+    ret = ct_memcmp(a,b,16);
+    if (ret) ASSERT_EQ(ret,1);
+    ct_require_umr();
+    ct_purify(&ret, 1);
+}
+
+TEST(ConstantTime, CtCheck_memcmp_chained) {
+    unsigned char a[16], b[16], c[16], d[16];
+    memset(a, 42, sizeof(a));
+    memset(b, 42, sizeof(b));
+    memset(d, 42, sizeof(b));
+    memset(c, 41, sizeof(c));
+    uint8_t ret;
+
+    ct_poison(a, 16);
+
+    ct_expect_umr();
+    // obviously must generate UMR if first check fails
+    // and second is not done
+    ret = (ct_memcmp(a,c,16)==0) && (ct_memcmp(a,b,16)==0);
+    ct_require_umr();
+    ct_purify(&ret, 1);
+    ASSERT_EQ(ret,0);
+
+    ct_expect_umr();
+    // it's still UMR even if both checks are OK
+    ret = (ct_memcmp(a,d,16)==0) && (ct_memcmp(a,b,16)==0);
+    ct_require_umr();
+
+    ct_purify(&ret, 1);
+    ASSERT_EQ(ret,1);
 }
