@@ -4,7 +4,7 @@
 #include <common/ct_check.h>
 #include <common/utils.h>
 
-TEST(ConstantTime, CtGrind_Negative) {
+TEST(ConstantTime, CtCheck_Negative) {
     unsigned char a[16], b[16];
     unsigned i;
     memset(a, 42, 16);
@@ -24,7 +24,7 @@ TEST(ConstantTime, CtGrind_Negative) {
     ASSERT_EQ(a[0], b[0]);
 }
 
-TEST(ConstantTime, CtGrind_Positive_NoAccess) {
+TEST(ConstantTime, CtCheck_Positive_NoAccess) {
     unsigned i;
     char result = 0;
     unsigned char a[16], b[16];
@@ -45,7 +45,7 @@ TEST(ConstantTime, CtGrind_Positive_NoAccess) {
 }
 
 
-TEST(ConstantTime, CtGrind_Negative_UseSecretAsIndex) {
+TEST(ConstantTime, CtCheck_Negative_UseSecretAsIndex) {
     static const unsigned char tab[2] = {1, 0};
     unsigned char a[16];
     unsigned char result;
