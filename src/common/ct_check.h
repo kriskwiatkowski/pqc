@@ -82,7 +82,7 @@ static inline void ct_purify(const volatile void *p, size_t sz) {
 }
 
 // Function instructs memory sanitizer that code expects to do operation on unintialized memory.
-static inline void ct_expect_umr() {
+static inline void ct_expect_uum() {
 #if defined(PQC_USE_CTSANITIZER) && defined(__clang__) && defined(__has_feature)
 #if __has_feature(memory_sanitizer)
 	__msan_set_expect_umr(1);
@@ -94,7 +94,7 @@ static inline void ct_expect_umr() {
 // then error is reported. It works in tandem with ct_expect_umr(). In current version of
 // MSan, the code needs to be compiled with `-mllvm -msan-keep-going=1` flags in order to work
 // correctly.
-static inline void ct_require_umr() {
+static inline void ct_require_uum() {
 #if defined(PQC_USE_CTSANITIZER) && defined(__clang__) && defined(__has_feature)
 #if __has_feature(memory_sanitizer)
 	__msan_set_expect_umr(0);

@@ -12,11 +12,11 @@ TEST(ConstantTime, CtCheck_Negative) {
 
     ct_poison(a, 16);
     for (i = 0; i < 16; i++) {
-        ct_expect_umr();
+        ct_expect_uum();
         if (a[i] != b[i]) {
             break;
         }
-        ct_require_umr();
+        ct_require_uum();
     }
 
     ct_purify(a, 16);
@@ -53,9 +53,9 @@ TEST(ConstantTime, CtCheck_Negative_UseSecretAsIndex) {
 
     ct_poison(a, 16);
 
-    ct_expect_umr();
+    ct_expect_uum();
     result = tab[a[0] & 1];
-    ct_require_umr();
+    ct_require_uum();
 
     ct_purify(a, 16);
 
@@ -72,18 +72,18 @@ TEST(ConstantTime, CtCheck_memcmp) {
 
     ct_poison(a, 16);
     ret = ct_memcmp(a,b,16);
-    ct_expect_umr();
+    ct_expect_uum();
     // Doesn't matter what we check. It's just to
     // enusre UMR is triggered.
     if (!ret) ASSERT_EQ(ret, 0);
-    ct_require_umr();
+    ct_require_uum();
     ct_purify(&ret, 1);
 
     b[1] = 0;
-    ct_expect_umr();
+    ct_expect_uum();
     ret = ct_memcmp(a,b,16);
     if (ret) ASSERT_EQ(ret,1);
-    ct_require_umr();
+    ct_require_uum();
     ct_purify(&ret, 1);
 }
 
@@ -97,18 +97,18 @@ TEST(ConstantTime, CtCheck_memcmp_chained) {
 
     ct_poison(a, 16);
 
-    ct_expect_umr();
+    ct_expect_uum();
     // obviously must generate UMR if first check fails
     // and second is not done
     ret = (ct_memcmp(a,c,16)==0) && (ct_memcmp(a,b,16)==0);
-    ct_require_umr();
+    ct_require_uum();
     ct_purify(&ret, 1);
     ASSERT_EQ(ret,0);
 
-    ct_expect_umr();
+    ct_expect_uum();
     // it's still UMR even if both checks are OK
     ret = (ct_memcmp(a,d,16)==0) && (ct_memcmp(a,b,16)==0);
-    ct_require_umr();
+    ct_require_uum();
 
     ct_purify(&ret, 1);
     ASSERT_EQ(ret,1);
