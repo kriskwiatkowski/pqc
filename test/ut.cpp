@@ -72,9 +72,9 @@ TEST(Frodo, Decaps) {
         pqc_kem_encapsulate(p, ct.data(), ss1.data(), pk.data()));
 
     // Decapsulate
-    ct_expect_umr();
+    ct_expect_uum();
     res = pqc_kem_decapsulate(p, ss2.data(), ct.data(), sk.data());
-    ct_require_umr();
+    ct_require_uum();
 
     // Purify res to allow non-ct check by ASSERT_TRUE
     ct_purify(&res, 1);
@@ -107,9 +107,9 @@ TEST(Frodo, Decaps_Negative) {
     // Alter C1 of the ciphertext
     ct[2] ^= 1;
 
-    ct_expect_umr();
+    ct_expect_uum();
     res = pqc_kem_decapsulate(p, ss2.data(), ct.data(), sk.data());
-    ct_require_umr();
+    ct_require_uum();
 
     // Purify res to allow non-ct check by ASSERT_TRUE
     ct_purify(&res, 1);
