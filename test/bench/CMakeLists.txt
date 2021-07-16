@@ -10,6 +10,7 @@ endif()
 
 add_executable(
     bench
+    frodo.cc
     kyber.cc)
 
 target_link_libraries(
