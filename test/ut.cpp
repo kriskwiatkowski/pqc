@@ -105,7 +105,7 @@ TEST(Frodo, Decaps_Negative) {
         pqc_kem_encapsulate(p, ct.data(), ss1.data(), pk.data()));
 
     // Alter C1 of the ciphertext
-    ct[2] ^= 1;
+    ct[ct.size()-2] ^= 1;
 
     ct_expect_uum();
     res = pqc_kem_decapsulate(p, ss2.data(), ct.data(), sk.data());
