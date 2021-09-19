@@ -1,0 +1,10 @@
+cff-version: 1.1.0
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: Kwiatkowski
+    given-names: Kris
+    orcid: https://orcid.org/0000-0003-2363-317X
+title: "PQ Crypto Catalog"
+version: v0.0.1
+date-released: 2020-12-18
+url: "https://github.com/kriskwiatkowski/pqc"
