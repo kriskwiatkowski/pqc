@@ -8,6 +8,7 @@ build = "src/build.rs"
 description = "Rust bindings for PQ CryptoCatalog"
 license = "BSD-2-Clause"
 homepage = "github.com/henrydcase/pqc"
+repository = "github.com/henrydcase/pqc"
 
 [build-dependencies]
 cmake = "0.1.31"
