@@ -148,5 +148,7 @@ uint32_t pqc_private_key_bsz(const pqc_ctx_t *p) {
 
 void static_initialization(void) __attribute__((constructor));
 void static_initialization(void) {
+#ifdef PQC_ASM
     CPU_CAPS = GetX86Info().features;
+#endif
 }

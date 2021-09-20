@@ -102,6 +102,10 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     set(MACOSX TRUE)
 endif()
 
+if (${PQC_NO_ASM})
+  set(NO_ASM TRUE)
+endif()
+
 if(CMAKE_C_COMPILER_ID MATCHES "Clang")
   # Additional flags only useful when compiling with clang
   string(APPEND PQC_CMAKE_C_CXX_FLAGS " -Wconditional-uninitialized -Wno-missing-variable-declarations -Wno-unused-command-line-argument")

@@ -6,7 +6,7 @@ set(
   p434/params.c
   p434/sike.c)
 
-if(${ARCH} STREQUAL "ARCH_x86_64")
+if(${ARCH} STREQUAL "ARCH_x86_64" AND NOT ${NO_ASM})
 add_definitions(-DPQC_ASM=1)
 set(
   SRC_CLEAN_SIKE_P434
