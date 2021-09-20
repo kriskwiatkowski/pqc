@@ -4,7 +4,8 @@ extern crate bindgen;
 
 fn main() {
 	let dst = Config::new("../../../")
-		.profile("Debug")
+		.profile("Release")
+        .define("PQC_NO_ASM","1")
 		.very_verbose(true)
         .build();
 
