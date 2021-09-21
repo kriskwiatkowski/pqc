@@ -1,3 +1,7 @@
+if(NOT ${NO_ASM})
+add_definitions(-DPQC_ASM=1)
+endif()
+
 set(
   SRC_CLEAN_FALCON
   api.c

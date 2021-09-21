@@ -271,23 +271,23 @@ fpr_sqrt(fpr x)
 	 * the dependency to libm will still be there.
 	 */
 
-#if defined __GNUC__ && defined __SSE2_MATH__
+#if defined __GNUC__ && defined __SSE2_MATH__ && defined PQC_ASM
 	return FPR(_mm_cvtsd_f64(_mm_sqrt_pd(_mm_set1_pd(x.v))));
-#elif defined __GNUC__ && defined __i386__
+#elif defined __GNUC__ && defined __i386__ && defined PQC_ASM
 	__asm__ __volatile__ (
 		"fldl   %0\n\t"
 		"fsqrt\n\t"
 		"fstpl  %0\n\t"
 		: "+m" (x.v) : : );
 	return x;
-#elif defined _M_IX86
+#elif defined _M_IX86 && defined PQC_ASM
 	__asm {
 		fld x.v
 		fsqrt
 		fstp x.v
 	}
 	return x;
-#elif defined __PPC__ && defined __GNUC__
+#elif defined __PPC__ && defined __GNUC__ && defined PQC_ASM
 	fpr y;
 
 #if defined __clang__
@@ -304,7 +304,7 @@ fpr_sqrt(fpr x)
 #endif
 	return y;
 #elif (defined __ARM_FP && ((__ARM_FP & 0x08) == 0x08)) \
-	|| (!defined __ARM_FP && defined __ARM_VFPV2__)
+	|| (!defined __ARM_FP && defined __ARM_VFPV2__) && defined PQC_ASM
 	/*
 	 * On ARM, assembly syntaxes are a bit of a mess, depending on
 	 * whether GCC or Clang is used, and the binutils version, and

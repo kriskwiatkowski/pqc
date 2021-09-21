@@ -121,7 +121,7 @@ struct Zf(params_t) {
  * targets other than 32-bit x86, or when the native 'double' type is
  * not used, the set_fpu_cw() function does nothing at all.
  */
-#if defined __GNUC__ && defined __i386__
+#if defined __GNUC__ && defined __i386__ && defined PQC_ASM
 static inline unsigned
 set_fpu_cw(unsigned x)
 {
@@ -134,7 +134,7 @@ set_fpu_cw(unsigned x)
 	__asm__ __volatile__ ("fldcw %0" : : "m" (t) : );
 	return old;
 }
-#elif defined _M_IX86
+#elif defined _M_IX86 && defined PQC_ASM
 static inline unsigned
 set_fpu_cw(unsigned x)
 {
