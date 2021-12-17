@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <sstream>
 #include <vector>
 #include <gtest/gtest.h>
 #include <pqc/pqc.h>
@@ -48,5 +49,27 @@ TEST(SIGN,OneOff) {
             pqc_sig_create(p, sig.data(), &sigsz, msg, 1234, sk.data()));
         ASSERT_TRUE(
             pqc_sig_verify(p, sig.data(), sigsz, msg, 1234, pk.data()));
+    }
+}
+
+TEST(KEMSIG,PrintSizes) {
+
+    for (int i=0; i<PQC_ALG_SIG_MAX; i++) {
+        std::stringstream out;
+        const pqc_ctx_t *p = pqc_sig_alg_by_id(i);
+        out << std::setw(30) << std::left << p->alg_name
+            << " :pk: "   << std::setw(15) << pqc_public_key_bsz(p)
+            << " :sign: " << std::setw(15) << pqc_signature_bsz(p);
+        std::cout << out.str() << std::endl;
+    }
+
+
+    for (int i=0; i<PQC_ALG_KEM_MAX; i++) {
+        std::stringstream out;
+        const pqc_ctx_t *p = pqc_kem_alg_by_id(i);
+        out << std::setw(30) << std::left << p->alg_name
+            << " :pk: " << std::setw(15) << pqc_public_key_bsz(p)
+            << " :ct: " << std::setw(15) << pqc_ciphertext_bsz(p);
+        std::cout << out.str() << std::endl;
     }
 }
