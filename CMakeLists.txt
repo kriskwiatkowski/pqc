@@ -196,7 +196,6 @@ string(APPEND PQC_CMAKE_C_CXX_FLAGS " -Wpedantic")
 set(CMAKE_C_FLAGS "${PQC_CMAKE_C_CXX_FLAGS} ${EXTRA_C_CXX_FLAGS}")
 set(CMAKE_CXX_FLAGS "${PQC_CMAKE_C_CXX_FLAGS} ${EXTRA_C_CXX_FLAGS}")
 string(APPEND LDFLAGS "${EXTRA_LDFLAGS}")
-
 include_directories(
   public
   src/common/
@@ -395,30 +394,28 @@ target_link_directories(
 add_dependencies(ut gtest_project)
 
 
-if(NOT CMAKE_BUILD_TYPE_LOWER STREQUAL "debug")
-  # settings below are required by benchmark library
-  set(CMAKE_BUILD_TYPE "Release" CACHE STRING "" FORCE)
-  # Target for benchmark - it also builds gtest library
-  set(BENCHMARK_ENABLE_GTEST_TESTS ON CACHE BOOL "Enable testing of the benchmark library." FORCE)
-  set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "Disable benchmark tests" FORCE)
-  set(GOOGLETEST_PATH "${CMAKE_SOURCE_DIR}/3rd/gtest" CACHE PATH "Path to the gtest sources" FORCE)
-  #if (NOT MACOSX)
-  # set(BENCHMARK_ENABLE_LTO ON CACHE BOOL "Enable link time optim" FORCE)
-  #endif()
-  set(BENCHMARK_ENABLE_INSTALL OFF CACHE BOOL "" FORCE)
-  set(BENCHMARK_ENABLE_EXCEPTIONS OFF CACHE BOOL "" FORCE)
-  set(CMAKE_C_FLAGS "${EXTRA_C_CXX_FLAGS}")
-  set(CMAKE_CXX_FLAGS "${EXTRA_C_CXX_FLAGS}")
-  if (MEMSAN)
-    set(BENCHMARK_USE_LIBCXX ON CACHE BOOL "" FORCE)
-    # Since build requires C++20 it is safe to assume that std::regex is available.
-    # It seems I need to force it as benchmark build doesn't work very well with libc++
-    set(HAVE_STD_REGEX ON CACHE BOOL "OK" FORCE)
-  endif()
-
-  add_subdirectory(${CMAKE_SOURCE_DIR}/3rd/gbench)
-  add_subdirectory(test/bench)
+# settings below are required by benchmark library
+set(CMAKE_BUILD_TYPE "Release" CACHE STRING "" FORCE)
+# Target for benchmark - it also builds gtest library
+set(BENCHMARK_ENABLE_GTEST_TESTS ON CACHE BOOL "Enable testing of the benchmark library." FORCE)
+set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "Disable benchmark tests" FORCE)
+set(GOOGLETEST_PATH "${CMAKE_SOURCE_DIR}/3rd/gtest" CACHE PATH "Path to the gtest sources" FORCE)
+#if (NOT MACOSX)
+# set(BENCHMARK_ENABLE_LTO ON CACHE BOOL "Enable link time optim" FORCE)
+#endif()
+set(BENCHMARK_ENABLE_INSTALL OFF CACHE BOOL "" FORCE)
+set(BENCHMARK_ENABLE_EXCEPTIONS OFF CACHE BOOL "" FORCE)
+set(CMAKE_C_FLAGS "${EXTRA_C_CXX_FLAGS}")
+set(CMAKE_CXX_FLAGS "${EXTRA_C_CXX_FLAGS}")
+if (MEMSAN)
+  set(BENCHMARK_USE_LIBCXX ON CACHE BOOL "" FORCE)
+  # Since build requires C++20 it is safe to assume that std::regex is available.
+  # It seems I need to force it as benchmark build doesn't work very well with libc++
+  set(HAVE_STD_REGEX ON CACHE BOOL "OK" FORCE)
 endif()
+
+add_subdirectory(${CMAKE_SOURCE_DIR}/3rd/gbench)
+add_subdirectory(test/bench)
 
 install(TARGETS pqc pqc_s
   PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ GROUP_WRITE WORLD_READ WORLD_WRITE
