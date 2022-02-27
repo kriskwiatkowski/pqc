@@ -2,9 +2,6 @@
 #define PQC_SCHEMES_
 
 // PQClean include
-#include "sign/rainbow/rainbowV-classic/clean/api.h"
-#include "sign/rainbow/rainbowI-classic/clean/api.h"
-#include "sign/rainbow/rainbowIII-classic/clean/api.h"
 #include "sign/sphincs/sphincs-sha256-192f-simple/clean/api.h"
 #include "sign/sphincs/sphincs-sha256-192f-simple/avx2/api.h"
 #include "sign/sphincs/sphincs-shake256-256f-simple/clean/api.h"

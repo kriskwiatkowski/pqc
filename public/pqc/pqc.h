@@ -16,9 +16,6 @@ extern "C" {
     _(DILITHIUM5)                \
     _(FALCON512)                 \
     _(FALCON1024)                \
-    _(RAINBOWICLASSIC)           \
-    _(RAINBOWIIICLASSIC)         \
-    _(RAINBOWVCLASSIC)           \
     _(SPHINCSSHAKE256128FSIMPLE) \
     _(SPHINCSSHAKE256128SSIMPLE) \
     _(SPHINCSSHAKE256128FROBUST) \
