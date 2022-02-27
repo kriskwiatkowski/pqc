@@ -219,11 +219,6 @@ const KATS: &'static[Register] = &[
     REG_KEM!(PQC_ALG_KEM_HQCRMRS192, "round3/hqc/hqc-192/hqc-192_kat.rsp"),
     REG_KEM!(PQC_ALG_KEM_HQCRMRS256, "round3/hqc/hqc-256/hqc-256_kat.rsp"),
     REG_KEM!(PQC_ALG_KEM_SIKE434, "round3/sike/PQCkemKAT_374.rsp"),
-
-    // Those are Round2. KATs are very big, so skip testing until it makes sense to do so.
-    //REG_SIGN!(PQC_ALG_SIG_RAINBOWVCLASSIC),
-    //REG_SIGN!(PQC_ALG_SIG_RAINBOWICLASSIC),
-    //REG_SIGN!(PQC_ALG_SIG_RAINBOWIIICLASSIC),
 ];
 
 fn execute(kat_dir: String, thc: usize, file_filter: &str) {
