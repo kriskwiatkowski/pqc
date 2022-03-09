@@ -5,11 +5,19 @@ use std::env;
 use std::path::Path;
 use threadpool::ThreadPool;
 use std::convert::TryInto;
-use aes_ctr_drbg::DrbgCtx;
+use aes_ctr_drbg::DrbgCtx as AesCtrDrbgCtx;
 use std::collections::HashMap;
 use std::thread;
 use std::sync::Mutex;
 use lazy_static::lazy_static;
+
+#[derive(PartialEq)]
+enum TestStatus {
+    Processed,
+    // For now this variant is not used
+    #[allow(dead_code)]
+    Skipped,
+}
 
 // Used for signature algorithm registration
 macro_rules! REG_SIGN {
@@ -33,13 +41,88 @@ macro_rules! REG_KEM {
                 execfn: test_kem_vector}
     }
 }
+// Needed to implement get_rng.
+trait Rng {
+    fn init(&mut self, entropy: &[u8], diversifier: Vec<u8>);
+    fn get_random(&mut self, data: &mut [u8]);
+}
+
+// DummyDrbg just returns value of self.data. Useful
+// in testing functions that are non-deterministic.
+struct DummyDrbgContext{
+    data: Vec<u8>,
+}
+
+impl Rng for DummyDrbgContext {
+    fn init(&mut self, entropy: &[u8], _diversifier: Vec<u8>) {
+        self.data = entropy.to_vec();
+    }
+    fn get_random(&mut self, data: &mut [u8]) {
+        for i in 0..std::cmp::min(data.len(), self.data.len()) {
+            data[i] = self.data[i];
+        }
+    }
+}
+
+// DrbgCtx uses AES-CTR to generate random byte-string.
+impl Rng for AesCtrDrbgCtx {
+    fn init(&mut self, entropy: &[u8], diversifier: Vec<u8>) {
+        self.init(entropy, diversifier);
+    }
+    fn get_random(&mut self, data: &mut [u8]) {
+        self.get_random(data);
+    }
+}
+
+// Allows to use some custom Drbg that implements
+// Rng trait. In Current implementation if `use_aes`
+// is set then AesCtrDrbgCtx is used (default), otherwise
+// DummyDrbg is used.
+struct CustomizableDrbgCtx{
+    aes_drbg: AesCtrDrbgCtx,
+    dummy: DummyDrbgContext,
+    use_aes: bool,
+}
+
+impl CustomizableDrbgCtx{
+    pub const fn new() -> Self {
+        Self {
+            use_aes: true,
+            aes_drbg: AesCtrDrbgCtx::new(),
+            dummy: DummyDrbgContext{
+                data: Vec::new(),
+            },
+        }
+    }
+
+    // TODO: possibily to be done with Box<> or something
+    fn get_rng(&mut self) -> &mut dyn Rng {
+        if self.use_aes {
+            return &mut self.aes_drbg;
+        } else {
+            return &mut self.dummy;
+        }
+    }
+
+    pub fn init(&mut self, entropy: &[u8], diversifier: Vec<u8>, is_fixed: bool) {
+        if is_fixed {
+            self.use_aes = false;
+        }
+        self.get_rng().init(entropy, diversifier);
+    }
+
+    pub fn get_random(&mut self, data: &mut [u8]) {
+        self.get_rng().get_random(data);
+    }
+}
 
 // Stores one DRBG context per execution thread. DRBG
 // is inserted in this map, just after thread starts
 // and removed after thread is finished. Operation
 // is synchronized.
 lazy_static! {
-    static ref DRBGV: Mutex<HashMap<thread::ThreadId, DrbgCtx>> = Mutex::new(HashMap::new());
+    static ref DRBGV: Mutex<
+        HashMap<thread::ThreadId, CustomizableDrbgCtx>> = Mutex::new(HashMap::new());
 }
 
 // We have to provide the implementation for randombytes
@@ -53,22 +136,21 @@ unsafe extern "C" fn randombytes(
     if let Some(drbg) = DRBGV.lock().unwrap().get_mut(&thread::current().id()) {
         drbg.get_random(&mut slice);
     }
-
 }
 
-type ExecFn = fn(&TestVector);
+type ExecFn = fn(&TestVector) -> TestStatus;
 struct Register {
     kat: katwalk::reader::Kat,
     execfn: ExecFn,
 }
 
-fn test_sign_vector(el: &TestVector) {
+fn test_sign_vector(el: &TestVector) -> TestStatus {
     let mut pk = Vec::new();
     let mut sk = Vec::new();
     let mut sm = Vec::new();
 
     if let Some(drbg) = DRBGV.lock().unwrap().get_mut(&thread::current().id()) {
-        drbg.init(el.sig.seed.as_slice(), Vec::new());
+        drbg.init(el.sig.seed.as_slice(), Vec::new(), false);
     }
 
     unsafe {
@@ -114,17 +196,18 @@ fn test_sign_vector(el: &TestVector) {
                 el.sig.msg.as_ptr(), el.sig.msg.len() as u64,
                 el.sig.pk.as_ptr()),
             true);
+        return TestStatus::Processed;
     }
 }
 
-fn test_kem_vector(el: &TestVector) {
+fn test_kem_vector(el: &TestVector) -> TestStatus {
     let mut pk = Vec::new();
     let mut sk = Vec::new();
     let mut ct = Vec::new();
     let mut ss = Vec::new();
 
     if let Some(drbg) = DRBGV.lock().unwrap().get_mut(&thread::current().id()) {
-        drbg.init(el.kem.seed.as_slice(), Vec::new());
+        drbg.init(el.kem.seed.as_slice(), Vec::new(), false);
     }
 
     unsafe {
@@ -161,6 +244,7 @@ fn test_kem_vector(el: &TestVector) {
             true);
         assert_eq!(ss, el.kem.ss);
     }
+    return TestStatus::Processed;
 }
 
 // KAT test register
@@ -221,30 +305,50 @@ const KATS: &'static[Register] = &[
     REG_KEM!(PQC_ALG_KEM_SIKE434, "round3/sike/PQCkemKAT_374.rsp"),
 ];
 
-fn execute(kat_dir: String, thc: usize, file_filter: &str) {
+// Main loop
+fn execute(kat_dir: String, thc: usize, file_filter: &str) -> u8 {
     // Can't do multi-threads as DRBG context is global
     let pool = ThreadPool::new(thc);
+    let path = Path::new(&kat_dir);
+    let mut code: u8 = 0;
+
     for k in KATS.iter() {
-        let tmp = kat_dir.clone();
         if !file_filter.is_empty() && !k.kat.kat_file.contains(file_filter) {
             continue;
         }
+
+        // Check if file exists
+        let filepath = path.join(k.kat.kat_file);
+        let fhandle = match File::open(filepath) {
+            Ok(fhandle) => fhandle,
+            Err(_) => {
+                eprintln!("File {:?} doesn't exist", k.kat.kat_file);
+                code |= 1;
+                continue;
+            }
+        };
+        let buf = BufReader::new(fhandle);
+
         pool.execute(move || {
             DRBGV.lock().unwrap()
-                .insert(thread::current().id(), DrbgCtx::new());
-            let f = Path::new(&tmp.to_string()).join(k.kat.kat_file);
-            let file = File::open(format!("{}", f.to_str().unwrap()));
-            println!("Processing file: {}", Path::new(k.kat.kat_file).to_str().unwrap());
-            let b = BufReader::new(file.unwrap());
-
-            for el in KatReader::new(b, k.kat.scheme_type, k.kat.scheme_id) {
-                (k.execfn)(&el);
+                .insert(thread::current().id(), CustomizableDrbgCtx::new());
+            let proc = KatReader::new(buf, k.kat.scheme_type, k.kat.scheme_id);
+            let iter = proc.into_iter();
+            let mut processed = 0;
+            let mut skipped = 0;
+            for el in iter {
+                let status = (k.execfn)(&el);
+                match status {
+                    TestStatus::Processed => processed += 1,
+                    TestStatus::Skipped   => skipped += 1,
+                }
             }
-            DRBGV.lock().unwrap()
-                .remove(&thread::current().id());
+            println!("{:60} KAT# : {:10}{:10}", k.kat.kat_file, processed,skipped);
+            DRBGV.lock().unwrap().remove(&thread::current().id());
         });
     }
     pool.join();
+    return code;
 }
 
 fn main() {
@@ -259,6 +363,7 @@ fn main() {
         argmap.insert(&args[i], &args[i+1]);
     }
 
+    // Number of threads to be used
     let thread_number: usize = match argmap.get(&"--threads".to_string()) {
         Some(n) => n.to_string().parse::<usize>().unwrap(),
         None => 4 /* by default 4 threads */,
@@ -270,8 +375,13 @@ fn main() {
         None => ""
     };
 
+    // Header for the results
+    println!("Test file{:60}Processed   Skipped", "");
+    println!("------------------------------------------------------------------------------------------");
     match argmap.get(&"--katdir".to_string()) {
-        Some(kat_dir) => execute(kat_dir.to_string(), thread_number, file_filter),
+        Some(kat_dir) =>
+            std::process::exit(
+                execute(kat_dir.to_string(), thread_number, file_filter).into()),
         None => panic!("--katdir required")
     };
 

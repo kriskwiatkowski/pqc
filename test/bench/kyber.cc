@@ -14,7 +14,7 @@ extern "C" {
     #include "kem/kyber/kyber512/avx2/ntt.h"
 }
 
-auto cpucycle = [](benchmark::State &st, int64_t cycles) {
+static auto cpucycle = [](benchmark::State &st, int64_t cycles) {
     st.counters["CPU cycles: mean"] = benchmark::Counter(
         cycles, benchmark::Counter::kAvgIterations | benchmark::Counter::kResultNoFormat);
 };
