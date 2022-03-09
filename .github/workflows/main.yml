@@ -83,9 +83,9 @@ jobs:
       - name: Run KAT tests
         run: |
           cd test/katrunner &&
-          curl http://amongbytes.com/~flowher/permalinks/kat.zip --output kat.zip
+          curl http://nice.pqsh.net/files/kat.zip --output kat.zip
           unzip kat.zip
-          cargo run --release -- --katdir KAT
+          cargo run --release -- --katdir kat
   MEMSAN:
     name: Memory Sanitizer build
     runs-on: [ubuntu-20.04]
