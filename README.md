@@ -8,20 +8,21 @@ Users shouldn't expect any level of security provided by this code. The library 
 
 ## Supported schemes
 
-| Name                     | NIST Round | x86 optimized |
-|--------------------------|------------|---------------|
-| Kyber                    | 3          |  x |
-| SABER                    | 3          |  x |
-| FrodoKEM                 | 3          |    |
-| Dilithium                | 3          |  x |
-| Falcon                   | 3          |    |
-| SPHINCS+ SHA256/SHAKE256 | 3          |  x |
-| NTRU                     | 3          |  x |
-| NTRU Prime               | 3          |  x |
-| HQC-RMRS                 | 3          |  x |
-| Rainbow                  | 3          |    |
-| SIKE/p434                | 3          |  x |
-| McEliece                 | 3          |    |
+| Name                     | x86 optimized |
+|--------------------------|------------|
+| Kyber                    |  x |
+| Dilithium                |  x |
+| Falcon                   |    |
+| SPHINCS+ SHA256/SHAKE256 |  x |
+
+
+## Round 4 algorithms
+
+| Name                     | x86 optimized |
+|--------------------------|------------|
+| HQC-RMRS                 |  x |
+| SIKE/p434                |  x |
+| McEliece                 |    |
 
 ## Building
 

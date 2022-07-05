@@ -282,23 +282,9 @@ const KATS: &'static[Register] = &[
     REG_SIGN!(PQC_ALG_SIG_SPHINCSSHAKE256256SROBUST,"round3/sphincs/sphincs-shake256-256s-robust/PQCsignKAT_128.rsp"),
 
     // KEM Schemes
-    REG_KEM!(PQC_ALG_KEM_FRODOKEM640SHAKE, "round3/frodokem/PQCkemKAT_19888_shake.rsp"),
-    REG_KEM!(PQC_ALG_KEM_FRODOKEM976SHAKE, "round3/frodokem/PQCkemKAT_31296_shake.rsp"),
-    REG_KEM!(PQC_ALG_KEM_FRODOKEM1344SHAKE, "round3/frodokem/PQCkemKAT_43088_shake.rsp"),
     REG_KEM!(PQC_ALG_KEM_KYBER768, "round3/kyber/kyber768/PQCkemKAT_2400.rsp"),
     REG_KEM!(PQC_ALG_KEM_KYBER1024, "round3/kyber/kyber1024/PQCkemKAT_3168.rsp"),
     REG_KEM!(PQC_ALG_KEM_KYBER512, "round3/kyber/kyber512/PQCkemKAT_1632.rsp"),
-    REG_KEM!(PQC_ALG_KEM_NTRUHPS4096821, "round3/ntru/ntruhps4096821/PQCkemKAT_1590.rsp"),
-    REG_KEM!(PQC_ALG_KEM_NTRUHPS2048509, "round3/ntru/ntruhps2048509/PQCkemKAT_935.rsp"),
-    REG_KEM!(PQC_ALG_KEM_NTRUHRSS701, "round3/ntru/ntruhrss701/PQCkemKAT_1450.rsp"),
-    REG_KEM!(PQC_ALG_KEM_NTRUHPS2048677, "round3/ntru/ntruhps2048677/PQCkemKAT_1234.rsp"),
-    // For some reason NTRUL doesn't pass the tests (keygeneration)
-    //REG_KEM!(PQC_ALG_KEM_NTRULPR761, "round3/ntrup/ntrulpr761/kat_kem.rsp"),
-    //REG_KEM!(PQC_ALG_KEM_NTRULPR653, "round3/ntrup/ntrulpr653/kat_kem.rsp"),
-    //REG_KEM!(PQC_ALG_KEM_NTRULPR857, "round3/ntrup/ntrulpr857/kat_kem.rsp"),
-    REG_KEM!(PQC_ALG_KEM_LIGHTSABER, "round3/saber/LightSaber/PQCkemKAT_1568.rsp"),
-    REG_KEM!(PQC_ALG_KEM_FIRESABER, "round3/saber/FireSaber/PQCkemKAT_3040.rsp"),
-    REG_KEM!(PQC_ALG_KEM_SABER, "round3/saber/Saber/PQCkemKAT_2304.rsp"),
     REG_KEM!(PQC_ALG_KEM_HQCRMRS128, "round3/hqc/hqc-128/hqc-128_kat.rsp"),
     REG_KEM!(PQC_ALG_KEM_HQCRMRS192, "round3/hqc/hqc-192/hqc-192_kat.rsp"),
     REG_KEM!(PQC_ALG_KEM_HQCRMRS256, "round3/hqc/hqc-256/hqc-256_kat.rsp"),
