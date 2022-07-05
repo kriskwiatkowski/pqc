@@ -44,22 +44,9 @@ extern "C" {
 // Defines supported kem algorithm list. The resulting
 // ID of an algorithm is PQC_ALG_KEM_(NAME_AS_BELOW)
 #define PQC_SUPPORTED_KEMS(_)\
-    _(FRODOKEM640SHAKE)  \
-    _(FRODOKEM976SHAKE)  \
-    _(FRODOKEM1344SHAKE) \
     _(KYBER512)          \
     _(KYBER768)          \
     _(KYBER1024)         \
-    _(NTRUHPS2048509)    \
-    _(NTRUHPS4096821)    \
-    _(NTRUHRSS701)       \
-    _(NTRUHPS2048677)    \
-    _(NTRULPR761)        \
-    _(NTRULPR653)        \
-    _(NTRULPR857)        \
-    _(LIGHTSABER)        \
-    _(SABER)             \
-    _(FIRESABER)         \
     _(HQCRMRS128)        \
     _(HQCRMRS192)        \
     _(HQCRMRS256)        \
