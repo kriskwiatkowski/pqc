@@ -8,6 +8,8 @@ Users shouldn't expect any level of security provided by this code. The library 
 
 ## Supported schemes
 
+All schemes selected by NIST duing PQC standardization:
+
 | Name                     | x86 optimized |
 |--------------------------|------------|
 | Kyber                    |  x |
@@ -16,7 +18,7 @@ Users shouldn't expect any level of security provided by this code. The library 
 | SPHINCS+ SHA256/SHAKE256 |  x |
 
 
-## Round 4 algorithms
+KEM candidates for an additional round 4.
 
 | Name                     | x86 optimized |
 |--------------------------|------------|
