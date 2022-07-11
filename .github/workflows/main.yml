@@ -85,7 +85,7 @@ jobs:
           cd test/katrunner &&
           wget http://amongbytes.com/files/kat.zip
           unzip kat.zip
-          cargo run --release -- --katdir KAT
+          cargo run --release -- --katdir kat
   MEMSAN:
     name: Memory Sanitizer build
     runs-on: [ubuntu-20.04]
