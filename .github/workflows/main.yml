@@ -83,7 +83,7 @@ jobs:
       - name: Run KAT tests
         run: |
           cd test/katrunner &&
-          curl http://nice.pqsh.net/files/kat.zip --output kat.zip
+          curl http://amongbytes.com/files/kat.zip --output kat.zip
           unzip kat.zip
           cargo run --release -- --katdir kat
   MEMSAN:
