@@ -4,6 +4,10 @@
 #include <gtest/gtest.h>
 #include <pqc/pqc.h>
 #include <random>
+extern "C" {
+    #include "sign/dilithium/dilithium2/clean/reduce.h"
+    #include "sign/dilithium/dilithium2/clean/params.h"
+}
 
 TEST(KEM,OneOff) {
 
@@ -72,4 +76,20 @@ TEST(KEMSIG,PrintSizes) {
             << " :ct: " << std::setw(15) << pqc_ciphertext_bsz(p);
         std::cout << out.str() << std::endl;
     }
+}
+
+TEST(Dilithium, MontREDC) {
+    ASSERT_EQ(PQCLEAN_DILITHIUM2_CLEAN_montgomery_reduce(0), 0);
+    ASSERT_EQ(PQCLEAN_DILITHIUM2_CLEAN_montgomery_reduce(Q), 0);
+    ASSERT_EQ(PQCLEAN_DILITHIUM2_CLEAN_montgomery_reduce(Q*100), 0);
+    ASSERT_EQ(PQCLEAN_DILITHIUM2_CLEAN_montgomery_reduce(1), -114592);
+    ASSERT_EQ(PQCLEAN_DILITHIUM2_CLEAN_montgomery_reduce(-1), 114592);
+    ASSERT_EQ(PQCLEAN_DILITHIUM2_CLEAN_montgomery_reduce(((uint64_t)Q<<31)-1), 114592);
+    ASSERT_EQ(PQCLEAN_DILITHIUM2_CLEAN_montgomery_reduce(-((int64_t)Q<<31)),0);
+    ASSERT_EQ(PQCLEAN_DILITHIUM2_CLEAN_montgomery_reduce(-((1ULL<<31)*(int64_t)Q)+1), -114592);
+    ASSERT_EQ(PQCLEAN_DILITHIUM2_CLEAN_montgomery_reduce(-(((int64_t)Q)<<31)+1), -114592);
+    ASSERT_EQ(PQCLEAN_DILITHIUM2_CLEAN_montgomery_reduce((uint64_t)1<<15), -523840);
+    ASSERT_EQ(PQCLEAN_DILITHIUM2_CLEAN_montgomery_reduce((uint64_t)1<<31), 4190209);
+    ASSERT_EQ(PQCLEAN_DILITHIUM2_CLEAN_montgomery_reduce(3347556), 2070606);
+    ASSERT_EQ(PQCLEAN_DILITHIUM2_CLEAN_montgomery_reduce(-2581810), 910169);
 }
