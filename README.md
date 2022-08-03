@@ -23,7 +23,6 @@ KEM candidates for an additional round 4.
 | Name                     | x86 optimized |
 |--------------------------|------------|
 | HQC-RMRS                 |  x |
-| SIKE/p434                |  x |
 | McEliece                 |    |
 
 ## Building

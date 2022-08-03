@@ -50,7 +50,6 @@ extern "C" {
     _(HQCRMRS128)        \
     _(HQCRMRS192)        \
     _(HQCRMRS256)        \
-    _(SIKE434)           \
     _(MCELIECE348864)    \
     _(MCELIECE460896)    \
     _(MCELIECE6688128)   \

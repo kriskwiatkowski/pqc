@@ -288,7 +288,6 @@ const KATS: &'static[Register] = &[
     REG_KEM!(PQC_ALG_KEM_HQCRMRS128, "round3/hqc/hqc-128/hqc-128_kat.rsp"),
     REG_KEM!(PQC_ALG_KEM_HQCRMRS192, "round3/hqc/hqc-192/hqc-192_kat.rsp"),
     REG_KEM!(PQC_ALG_KEM_HQCRMRS256, "round3/hqc/hqc-256/hqc-256_kat.rsp"),
-    REG_KEM!(PQC_ALG_KEM_SIKE434, "round3/sike/PQCkemKAT_374.rsp"),
 ];
 
 // Main loop

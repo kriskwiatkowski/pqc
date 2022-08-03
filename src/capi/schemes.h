@@ -89,6 +89,5 @@
 #include "kem/hqc/hqc-rmrs-128/avx2/api.h"
 #include "kem/hqc/hqc-rmrs-192/avx2/api.h"
 #include "kem/hqc/hqc-rmrs-256/avx2/api.h"
-#include "kem/sike/includes/sike/sike.h"
 
 #endif
