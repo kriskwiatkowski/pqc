@@ -98,7 +98,7 @@ void PQCLEAN_DILITHIUM3_AVX2_polyvec_matrix_pointwise_montgomery(polyveck *t, co
 /************ Vectors of polynomials of length L **************/
 /**************************************************************/
 
-void PQCLEAN_DILITHIUM3_AVX2_polyvecl_uniform_eta(polyvecl *v, const uint8_t seed[SEEDBYTES], uint16_t nonce) {
+void PQCLEAN_DILITHIUM3_AVX2_polyvecl_uniform_eta(polyvecl *v, const uint8_t seed[CRHBYTES], uint16_t nonce) {
     unsigned int i;
 
     for (i = 0; i < L; ++i) {
@@ -106,7 +106,7 @@ void PQCLEAN_DILITHIUM3_AVX2_polyvecl_uniform_eta(polyvecl *v, const uint8_t see
     }
 }
 
-void PQCLEAN_DILITHIUM3_AVX2_polyvecl_uniform_gamma1(polyvecl *v, const uint8_t seed[SEEDBYTES], uint16_t nonce) {
+void PQCLEAN_DILITHIUM3_AVX2_polyvecl_uniform_gamma1(polyvecl *v, const uint8_t seed[CRHBYTES], uint16_t nonce) {
     unsigned int i;
 
     for (i = 0; i < L; ++i) {
@@ -119,22 +119,6 @@ void PQCLEAN_DILITHIUM3_AVX2_polyvecl_reduce(polyvecl *v) {
 
     for (i = 0; i < L; ++i) {
         PQCLEAN_DILITHIUM3_AVX2_poly_reduce(&v->vec[i]);
-    }
-}
-
-/*************************************************
-* Name:        PQCLEAN_DILITHIUM3_AVX2_polyvecl_freeze
-*
-* Description: Reduce coefficients of polynomials in vector of length L
-*              to standard representatives.
-*
-* Arguments:   - polyvecl *v: pointer to input/output vector
-**************************************************/
-void PQCLEAN_DILITHIUM3_AVX2_polyvecl_freeze(polyvecl *v) {
-    unsigned int i;
-
-    for (i = 0; i < L; ++i) {
-        PQCLEAN_DILITHIUM3_AVX2_poly_freeze(&v->vec[i]);
     }
 }
 
@@ -231,7 +215,7 @@ int PQCLEAN_DILITHIUM3_AVX2_polyvecl_chknorm(const polyvecl *v, int32_t bound)  
 /************ Vectors of polynomials of length K **************/
 /**************************************************************/
 
-void PQCLEAN_DILITHIUM3_AVX2_polyveck_uniform_eta(polyveck *v, const uint8_t seed[SEEDBYTES], uint16_t nonce) {
+void PQCLEAN_DILITHIUM3_AVX2_polyveck_uniform_eta(polyveck *v, const uint8_t seed[CRHBYTES], uint16_t nonce) {
     unsigned int i;
 
     for (i = 0; i < K; ++i) {
@@ -268,22 +252,6 @@ void PQCLEAN_DILITHIUM3_AVX2_polyveck_caddq(polyveck *v) {
 
     for (i = 0; i < K; ++i) {
         PQCLEAN_DILITHIUM3_AVX2_poly_caddq(&v->vec[i]);
-    }
-}
-
-/*************************************************
-* Name:        PQCLEAN_DILITHIUM3_AVX2_polyveck_freeze
-*
-* Description: Reduce coefficients of polynomials in vector of length K
-*              to standard representatives.
-*
-* Arguments:   - polyveck *v: pointer to input/output vector
-**************************************************/
-void PQCLEAN_DILITHIUM3_AVX2_polyveck_freeze(polyveck *v)  {
-    unsigned int i;
-
-    for (i = 0; i < K; ++i) {
-        PQCLEAN_DILITHIUM3_AVX2_poly_freeze(&v->vec[i]);
     }
 }
 
