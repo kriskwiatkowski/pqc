@@ -4,7 +4,7 @@ Implementation of quantum-safe signature and KEM schemes submitted to NIST PQC S
 
 The goal is to provide an easy-to-use API in C and Rust to enable experimentation. The code is derived from the submission to the NIST Post-Quantum Standardization, either directly or by leveraging [PQClean](https://github.com/PQClean/PQClean) project.
 
-Users shouldn't expect any level of security provided by this code. The library is not meant to be used on live production systems.
+Users shouldn't expect any level of security provided by this code. The library is not meant to be used on production systems.
 
 ## Supported schemes
 
