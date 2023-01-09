@@ -9,7 +9,6 @@ typedef struct {
 
 void PQCLEAN_DILITHIUM5_CLEAN_poly_reduce(poly *a);
 void PQCLEAN_DILITHIUM5_CLEAN_poly_caddq(poly *a);
-void PQCLEAN_DILITHIUM5_CLEAN_poly_freeze(poly *a);
 
 void PQCLEAN_DILITHIUM5_CLEAN_poly_add(poly *c, const poly *a, const poly *b);
 void PQCLEAN_DILITHIUM5_CLEAN_poly_sub(poly *c, const poly *a, const poly *b);
@@ -29,7 +28,7 @@ void PQCLEAN_DILITHIUM5_CLEAN_poly_uniform(poly *a,
         const uint8_t seed[SEEDBYTES],
         uint16_t nonce);
 void PQCLEAN_DILITHIUM5_CLEAN_poly_uniform_eta(poly *a,
-        const uint8_t seed[SEEDBYTES],
+        const uint8_t seed[CRHBYTES],
         uint16_t nonce);
 void PQCLEAN_DILITHIUM5_CLEAN_poly_uniform_gamma1(poly *a,
         const uint8_t seed[CRHBYTES],

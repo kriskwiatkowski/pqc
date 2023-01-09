@@ -249,9 +249,9 @@ fn test_kem_vector(el: &TestVector) -> TestStatus {
 
 // KAT test register
 const KATS: &'static[Register] = &[
-    REG_SIGN!(PQC_ALG_SIG_DILITHIUM2, "round3/dilithium/dilithium2/PQCsignKAT_2544.rsp"),
-    REG_SIGN!(PQC_ALG_SIG_DILITHIUM3, "round3/dilithium/dilithium3/PQCsignKAT_4016.rsp"),
-    REG_SIGN!(PQC_ALG_SIG_DILITHIUM5, "round3/dilithium/dilithium5/PQCsignKAT_4880.rsp"),
+    REG_SIGN!(PQC_ALG_SIG_DILITHIUM2, "pqshield/dilithium/dilithium2/nist.kat"),
+    REG_SIGN!(PQC_ALG_SIG_DILITHIUM3, "pqshield/dilithium/dilithium3/nist.kat"),
+    REG_SIGN!(PQC_ALG_SIG_DILITHIUM5, "pqshield/dilithium/dilithium5/nist.kat"),
     REG_SIGN!(PQC_ALG_SIG_FALCON512,  "round3/falcon/falcon512-KAT.rsp"),
     REG_SIGN!(PQC_ALG_SIG_FALCON1024, "round3/falcon/falcon1024-KAT.rsp"),
 

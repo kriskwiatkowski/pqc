@@ -9,7 +9,6 @@ typedef ALIGNED_INT32(N) poly;
 
 void PQCLEAN_DILITHIUM2_AVX2_poly_reduce(poly *a);
 void PQCLEAN_DILITHIUM2_AVX2_poly_caddq(poly *a);
-void PQCLEAN_DILITHIUM2_AVX2_poly_freeze(poly *a);
 
 void PQCLEAN_DILITHIUM2_AVX2_poly_add(poly *c, const poly *a, const poly *b);
 void PQCLEAN_DILITHIUM2_AVX2_poly_sub(poly *c, const poly *a, const poly *b);
@@ -28,8 +27,8 @@ void PQCLEAN_DILITHIUM2_AVX2_poly_use_hint(poly *b, const poly *a, const poly *h
 int PQCLEAN_DILITHIUM2_AVX2_poly_chknorm(const poly *a, int32_t B);
 void PQCLEAN_DILITHIUM2_AVX2_poly_uniform_preinit(poly *a, stream128_state *state);
 void PQCLEAN_DILITHIUM2_AVX2_poly_uniform(poly *a, const uint8_t seed[SEEDBYTES], uint16_t nonce);
-void PQCLEAN_DILITHIUM2_AVX2_poly_uniform_eta_preinit(poly *a, stream128_state *state);
-void PQCLEAN_DILITHIUM2_AVX2_poly_uniform_eta(poly *a, const uint8_t seed[SEEDBYTES], uint16_t nonce);
+void PQCLEAN_DILITHIUM2_AVX2_poly_uniform_eta_preinit(poly *a, stream256_state *state);
+void PQCLEAN_DILITHIUM2_AVX2_poly_uniform_eta(poly *a, const uint8_t seed[CRHBYTES], uint16_t nonce);
 void PQCLEAN_DILITHIUM2_AVX2_poly_uniform_gamma1_preinit(poly *a, stream256_state *state);
 void PQCLEAN_DILITHIUM2_AVX2_poly_uniform_gamma1(poly *a, const uint8_t seed[CRHBYTES], uint16_t nonce);
 void PQCLEAN_DILITHIUM2_AVX2_poly_challenge(poly *c, const uint8_t seed[SEEDBYTES]);
@@ -47,7 +46,7 @@ void PQCLEAN_DILITHIUM2_AVX2_poly_uniform_eta_4x(poly *a0,
         poly *a1,
         poly *a2,
         poly *a3,
-        const uint8_t seed[SEEDBYTES],
+        const uint8_t seed[CRHBYTES],
         uint16_t nonce0,
         uint16_t nonce1,
         uint16_t nonce2,
@@ -72,8 +71,8 @@ void PQCLEAN_DILITHIUM2_AVX2_polyt0_pack(uint8_t r[POLYT0_PACKEDBYTES], const po
 void PQCLEAN_DILITHIUM2_AVX2_polyt0_unpack(poly *r, const uint8_t a[POLYT0_PACKEDBYTES]);
 
 void PQCLEAN_DILITHIUM2_AVX2_polyz_pack(uint8_t r[POLYZ_PACKEDBYTES], const poly *a);
-void PQCLEAN_DILITHIUM2_AVX2_polyz_unpack(poly *r, const uint8_t a[POLYZ_PACKEDBYTES + 14]);
+void PQCLEAN_DILITHIUM2_AVX2_polyz_unpack(poly *r, const uint8_t *a);
 
-void PQCLEAN_DILITHIUM2_AVX2_polyw1_pack(uint8_t r[POLYW1_PACKEDBYTES + 8], const poly *a);
+void PQCLEAN_DILITHIUM2_AVX2_polyw1_pack(uint8_t *r, const poly *a);
 
 #endif

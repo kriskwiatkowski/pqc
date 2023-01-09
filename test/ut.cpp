@@ -6,6 +6,7 @@
 #include <random>
 extern "C" {
     #include "sign/dilithium/dilithium2/clean/reduce.h"
+    #include "sign/dilithium/dilithium2/clean/poly.h"
     #include "sign/dilithium/dilithium2/clean/params.h"
 }
 
@@ -92,4 +93,19 @@ TEST(Dilithium, MontREDC) {
     ASSERT_EQ(PQCLEAN_DILITHIUM2_CLEAN_montgomery_reduce((uint64_t)1<<31), 4190209);
     ASSERT_EQ(PQCLEAN_DILITHIUM2_CLEAN_montgomery_reduce(3347556), 2070606);
     ASSERT_EQ(PQCLEAN_DILITHIUM2_CLEAN_montgomery_reduce(-2581810), 910169);
+}
+
+TEST(Dilithium, PolyZ) {
+    std::random_device rd;
+    std::uniform_int_distribution<int32_t> dist_z(-((1<<17)-1), 1<<17);
+    uint8_t out[576];
+
+    poly p1, p2;
+    for (auto &x : p1.coeffs) { x = dist_z(rd); }
+    PQCLEAN_DILITHIUM2_CLEAN_polyz_pack(out, &p1);
+    PQCLEAN_DILITHIUM2_CLEAN_polyz_unpack(&p2, out);
+
+    for (size_t j=0; j<256; j++) {
+        ASSERT_EQ(p1.coeffs[j], p2.coeffs[j]);
+    }
 }
