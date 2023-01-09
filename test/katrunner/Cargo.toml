@@ -9,6 +9,6 @@ katwalk = "0.0.10"
 pqc-sys = { path = "../../src/rustapi/pqc-sys" }
 hex = "0.4.2"
 threadpool = "1.8.1"
-rust-crypto = "^0.2"
+rust-crypto = "^0.4"
 lazy_static = "1.4.0"
 aes_ctr_drbg = "0.0.2"
