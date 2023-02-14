@@ -5,6 +5,7 @@
 #include "rounding.h"
 #include "symmetric.h"
 #include <stdint.h>
+#include "utils.h"
 
 #define DBENCH_START()
 #define DBENCH_STOP(t)
@@ -464,6 +465,7 @@ void PQCLEAN_DILITHIUM2_CLEAN_poly_uniform_gamma1(poly *a,
     stream256_init(&state, seed, nonce);
     stream256_squeezeblocks(buf, POLY_UNIFORM_GAMMA1_NBLOCKS, &state);
     stream256_release(&state);
+    dump_buffer_hex(0,0,buf,4);
     PQCLEAN_DILITHIUM2_CLEAN_polyz_unpack(a, buf);
 }
 

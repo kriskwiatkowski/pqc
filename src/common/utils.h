@@ -38,6 +38,23 @@ extern "C" {
     (((uint16_t)(x)[0])<<8 |  \
      ((uint16_t)(x)[1])<<0)   \
 
+//#if !defined(NDEBUG)
+#include <stdio.h>
+static inline void dump_buffer_hex(FILE *f, int ind, const void* data, size_t size) {
+    if (!f) {
+        f = stdout;
+    }
+    fprintf(f, "%*s", ind, " ");
+    for (size_t i = 0; i < size; ++i) {
+        fprintf(f, "%02X:", ((uint8_t*)data)[i]);
+        if ((i+1) % 32 == 0 || i+1 == size) {
+            fprintf(f, "\n%*s", ind, " ");
+        }
+    }
+    fprintf(f,"\n");
+}
+//#endif
+
 #ifdef __cplusplus
 const cpu_features::X86Features*
 #else

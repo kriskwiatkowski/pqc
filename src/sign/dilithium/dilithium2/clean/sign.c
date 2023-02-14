@@ -7,6 +7,7 @@
 #include "sign.h"
 #include "symmetric.h"
 #include <stdint.h>
+#include "utils.h"
 
 /*************************************************
 * Name:        PQCLEAN_DILITHIUM2_CLEAN_crypto_sign_keypair
@@ -116,6 +117,8 @@ int PQCLEAN_DILITHIUM2_CLEAN_crypto_sign_signature(uint8_t *sig,
 
 rej:
     /* Sample intermediate vector y */
+        dump_buffer_hex(0,0,rhoprime,64);
+
     PQCLEAN_DILITHIUM2_CLEAN_polyvecl_uniform_gamma1(&y, rhoprime, nonce++);
 
     /* Matrix-vector multiplication */
@@ -129,6 +132,7 @@ rej:
     PQCLEAN_DILITHIUM2_CLEAN_polyveck_caddq(&w1);
     PQCLEAN_DILITHIUM2_CLEAN_polyveck_decompose(&w1, &w0, &w1);
     PQCLEAN_DILITHIUM2_CLEAN_polyveck_pack_w1(sig, &w1);
+    dump_buffer_hex(0, 4, sig, 10);
 
     shake256_inc_init(&state);
     shake256_inc_absorb(&state, mu, CRHBYTES);

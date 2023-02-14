@@ -74,7 +74,6 @@ static void BenchKeyPair(benchmark::State &st) {
 
 static void BenchSign(benchmark::State &st) {
     int64_t  t, total = 0;
-    struct pqcl_asym_t *key_pair = nullptr;
     uint32_t id = st.range(0);
     uint8_t msg[2048] = {0};
     const pqc_ctx_t *ctx;
@@ -96,7 +95,6 @@ static void BenchSign(benchmark::State &st) {
 
 static void BenchVerify(benchmark::State &st) {
     int64_t  t, total = 0;
-    struct pqcl_asym_t *key_pair = nullptr;
     uint32_t id = st.range(0);
     const pqc_ctx_t *ctx;
     uint8_t msg[2048] = {0};

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.13)
-project(cryptocore VERSION 0.0.1 LANGUAGES C)
+project(pqc VERSION 0.0.1 LANGUAGES C)
 include(FetchContent)
 include(ExternalProject)
 
@@ -138,7 +138,7 @@ include(.cmake/common.mk)
 
 # Control Debug/Release mode
 if(CMAKE_BUILD_TYPE_LOWER STREQUAL "debug")
-  string(APPEND PQC_CMAKE_C_CXX_FLAGS " -g3 -O0 -Wno-unused")
+string(APPEND PQC_CMAKE_C_CXX_FLAGS " -g3 -O0")
 endif()
 
 # Set CPU architecture
@@ -184,17 +184,17 @@ if(PQC_WEAK_RANDOMBYTES)
 endif()
 
 # Build CPU features
-set(CMAKE_C_FLAGS "${PQC_CMAKE_C_CXX_FLAGS} ${EXTRA_C_CXX_FLAGS}")
-set(CMAKE_CXX_FLAGS "$${PQC_CMAKE_C_CXX_FLAGS} {EXTRA_C_CXX_FLAGS}")
+set(CMAKE_C_FLAGS "-O0")
+set(CMAKE_CXX_FLAGS "${PQC_CMAKE_C_CXX_FLAGS}")
 set(BUILD_PIC ON CACHE BOOL "")
 add_subdirectory(3rd/cpu_features)
 
 # PQC library
 
 # Set C, CXX, and LD flags
+if(NOT CMAKE_BUILD_TYPE_LOWER STREQUAL "debug")
 string(APPEND PQC_CMAKE_C_CXX_FLAGS " -Wpedantic")
-set(CMAKE_C_FLAGS "${PQC_CMAKE_C_CXX_FLAGS} ${EXTRA_C_CXX_FLAGS}")
-set(CMAKE_CXX_FLAGS "${PQC_CMAKE_C_CXX_FLAGS} ${EXTRA_C_CXX_FLAGS}")
+endif()
 string(APPEND LDFLAGS "${EXTRA_LDFLAGS}")
 include_directories(
   public
@@ -378,8 +378,8 @@ set(GOOGLETEST_PATH "${CMAKE_SOURCE_DIR}/3rd/gtest" CACHE PATH "Path to the gtes
 #endif()
 set(BENCHMARK_ENABLE_INSTALL OFF CACHE BOOL "" FORCE)
 set(BENCHMARK_ENABLE_EXCEPTIONS OFF CACHE BOOL "" FORCE)
-set(CMAKE_C_FLAGS "${EXTRA_C_CXX_FLAGS}")
-set(CMAKE_CXX_FLAGS "${EXTRA_C_CXX_FLAGS}")
+#set(CMAKE_C_FLAGS "${EXTRA_C_CXX_FLAGS}")
+#set(CMAKE_CXX_FLAGS "${EXTRA_C_CXX_FLAGS}")
 if (MEMSAN)
   set(BENCHMARK_USE_LIBCXX ON CACHE BOOL "" FORCE)
   # Since build requires C++20 it is safe to assume that std::regex is available.
