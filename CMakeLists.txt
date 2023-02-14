@@ -171,14 +171,6 @@ FetchContent_Declare(
 )
 FetchContent_Populate(gbench)
 
-FetchContent_Declare(
-  cpu_features
-  SOURCE_DIR     ${PROJECT_SOURCE_DIR}/3rd/cpu_features
-  GIT_REPOSITORY https://github.com/kriskwiatkowski/cpu_features.git
-  GIT_TAG        38f4324533390b09079a38b524be8b178be8e435
-)
-FetchContent_Populate(cpu_features)
-
 if(PQC_WEAK_RANDOMBYTES)
   string(APPEND PQC_CMAKE_C_CXX_FLAGS " -DPQC_WEAK_RANDOMBYTES")
 endif()
@@ -187,7 +179,6 @@ endif()
 set(CMAKE_C_FLAGS "${PQC_CMAKE_C_CXX_FLAGS} ${EXTRA_C_CXX_FLAGS}")
 set(CMAKE_CXX_FLAGS "$${PQC_CMAKE_C_CXX_FLAGS} {EXTRA_C_CXX_FLAGS}")
 set(BUILD_PIC ON CACHE BOOL "")
-add_subdirectory(3rd/cpu_features)
 
 # PQC library
 
@@ -200,7 +191,6 @@ include_directories(
   public
   src/common/
   src
-  3rd/cpu_features/include
 )
 
 # Define sources of the components
@@ -251,45 +241,6 @@ add_subdirectory(src/kem/mceliece/mceliece6960119f/clean)
 add_subdirectory(src/kem/mceliece/mceliece8192128f/clean)
 # Hardware optimized targets
 
-if(${ARCH} STREQUAL "ARCH_x86_64")
-set(COMMON_EXTRA_SRC "src/common/keccak4x/KeccakP-1600-times4-SIMD256.c")
-
-# Sign
-add_subdirectory(src/sign/dilithium/dilithium2/avx2)
-add_subdirectory(src/sign/dilithium/dilithium3/avx2)
-add_subdirectory(src/sign/dilithium/dilithium5/avx2)
-add_subdirectory(src/sign/sphincs/sphincs-shake256-128s-simple/avx2)
-add_subdirectory(src/sign/sphincs/sphincs-shake256-128f-robust/avx2)
-add_subdirectory(src/sign/sphincs/sphincs-shake256-128s-robust/avx2)
-add_subdirectory(src/sign/sphincs/sphincs-shake256-128f-simple/avx2)
-add_subdirectory(src/sign/sphincs/sphincs-shake256-192s-simple/avx2)
-add_subdirectory(src/sign/sphincs/sphincs-shake256-192f-robust/avx2)
-add_subdirectory(src/sign/sphincs/sphincs-shake256-192s-robust/avx2)
-add_subdirectory(src/sign/sphincs/sphincs-shake256-192f-simple/avx2)
-add_subdirectory(src/sign/sphincs/sphincs-shake256-256f-robust/avx2)
-add_subdirectory(src/sign/sphincs/sphincs-shake256-256f-simple/avx2)
-add_subdirectory(src/sign/sphincs/sphincs-shake256-256s-simple/avx2)
-add_subdirectory(src/sign/sphincs/sphincs-shake256-256s-robust/avx2)
-add_subdirectory(src/sign/sphincs/sphincs-sha256-128f-robust/avx2)
-add_subdirectory(src/sign/sphincs/sphincs-sha256-128s-simple/avx2)
-add_subdirectory(src/sign/sphincs/sphincs-sha256-128s-robust/avx2)
-add_subdirectory(src/sign/sphincs/sphincs-sha256-128f-simple/avx2)
-add_subdirectory(src/sign/sphincs/sphincs-sha256-192s-simple/avx2)
-add_subdirectory(src/sign/sphincs/sphincs-sha256-192f-simple/avx2)
-add_subdirectory(src/sign/sphincs/sphincs-sha256-192s-robust/avx2)
-add_subdirectory(src/sign/sphincs/sphincs-sha256-192f-robust/avx2)
-add_subdirectory(src/sign/sphincs/sphincs-sha256-256s-simple/avx2)
-add_subdirectory(src/sign/sphincs/sphincs-sha256-256f-robust/avx2)
-add_subdirectory(src/sign/sphincs/sphincs-sha256-256f-simple/avx2)
-add_subdirectory(src/sign/sphincs/sphincs-sha256-256s-robust/avx2)
-# KEMs
-add_subdirectory(src/kem/kyber/kyber512/avx2)
-add_subdirectory(src/kem/kyber/kyber768/avx2)
-add_subdirectory(src/kem/kyber/kyber1024/avx2)
-add_subdirectory(src/kem/hqc/hqc-rmrs-128/avx2)
-add_subdirectory(src/kem/hqc/hqc-rmrs-192/avx2)
-add_subdirectory(src/kem/hqc/hqc-rmrs-256/avx2)
-endif()
 
 # The rest of the library
 add_library(
@@ -321,14 +272,12 @@ target_link_libraries(
   pqc
 
   ${OBJ_LIBS}
-  cpu_features
   common
 )
 
 target_link_libraries(
   pqc_s
 
-  cpu_features
   common
   ${OBJ_LIBS}
 )

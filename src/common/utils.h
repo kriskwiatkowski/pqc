@@ -3,7 +3,6 @@
 
 #include <stdint.h>
 #include <stddef.h>
-#include <cpuinfo_x86.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -37,13 +36,6 @@ extern "C" {
 #define LOAD16B(x)            \
     (((uint16_t)(x)[0])<<8 |  \
      ((uint16_t)(x)[1])<<0)   \
-
-#ifdef __cplusplus
-const cpu_features::X86Features*
-#else
-const X86Features*
-#endif
-get_cpu_caps(void);
 
 /**
  * \brief Compares two arrays in constant time.

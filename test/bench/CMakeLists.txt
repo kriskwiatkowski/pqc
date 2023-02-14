@@ -10,9 +10,7 @@ endif()
 
 add_executable(
     bench
-    kyber.cc
-    main.cc
-    sphincs.cc)
+    main.cc)
 
 target_link_libraries(
     bench

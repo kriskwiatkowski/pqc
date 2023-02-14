@@ -1,7 +1,6 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <pqc/pqc.h>
-#include <cpuinfo_x86.h>
 #include <common/utils.h>
 
 #include "schemes.h"
@@ -67,13 +66,6 @@ const pqc_kem_ctx_t kems[] = {
 const pqc_sig_ctx_t sigs[] = {
     PQC_SUPPORTED_SIGS(REG_SIG)
 };
-
-// Contains capabilities on x86 CPU on which implementation is running
-X86Features CPU_CAPS;
-
-const X86Features * get_cpu_caps(void) {
-    return &CPU_CAPS;
-}
 
 const pqc_ctx_t *pqc_kem_alg_by_id(uint8_t id) {
     int i;
