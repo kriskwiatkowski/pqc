@@ -117,8 +117,6 @@ int PQCLEAN_DILITHIUM2_CLEAN_crypto_sign_signature(uint8_t *sig,
 
 rej:
     /* Sample intermediate vector y */
-        dump_buffer_hex(0,0,rhoprime,64);
-
     PQCLEAN_DILITHIUM2_CLEAN_polyvecl_uniform_gamma1(&y, rhoprime, nonce++);
 
     /* Matrix-vector multiplication */
@@ -132,7 +130,6 @@ rej:
     PQCLEAN_DILITHIUM2_CLEAN_polyveck_caddq(&w1);
     PQCLEAN_DILITHIUM2_CLEAN_polyveck_decompose(&w1, &w0, &w1);
     PQCLEAN_DILITHIUM2_CLEAN_polyveck_pack_w1(sig, &w1);
-    dump_buffer_hex(0, 4, sig, 10);
 
     shake256_inc_init(&state);
     shake256_inc_absorb(&state, mu, CRHBYTES);
@@ -141,6 +138,7 @@ rej:
     shake256_inc_squeeze(sig, SEEDBYTES, &state);
     shake256_inc_ctx_release(&state);
     PQCLEAN_DILITHIUM2_CLEAN_poly_challenge(&cp, sig);
+
     PQCLEAN_DILITHIUM2_CLEAN_poly_ntt(&cp);
 
     /* Compute z, reject if it reveals secret */
@@ -154,6 +152,7 @@ rej:
 
     /* Check that subtracting cs2 does not change high bits of w and low bits
      * do not reveal secret information */
+
     PQCLEAN_DILITHIUM2_CLEAN_polyveck_pointwise_poly_montgomery(&h, &cp, &s2);
     PQCLEAN_DILITHIUM2_CLEAN_polyveck_invntt_tomont(&h);
     PQCLEAN_DILITHIUM2_CLEAN_polyveck_sub(&w0, &w0, &h);
@@ -164,12 +163,12 @@ rej:
 
     /* Compute hints for w1 */
     PQCLEAN_DILITHIUM2_CLEAN_polyveck_pointwise_poly_montgomery(&h, &cp, &t0);
+
     PQCLEAN_DILITHIUM2_CLEAN_polyveck_invntt_tomont(&h);
     PQCLEAN_DILITHIUM2_CLEAN_polyveck_reduce(&h);
     if (PQCLEAN_DILITHIUM2_CLEAN_polyveck_chknorm(&h, GAMMA2)) {
         goto rej;
     }
-
     PQCLEAN_DILITHIUM2_CLEAN_polyveck_add(&w0, &w0, &h);
     n = PQCLEAN_DILITHIUM2_CLEAN_polyveck_make_hint(&h, &w0, &w1);
     if (n > OMEGA) {

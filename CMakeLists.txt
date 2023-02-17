@@ -6,7 +6,7 @@ include(ExternalProject)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-
+set(CMAKE_BUILD_TYPE "debug")
 enable_language(C)
 enable_language(CXX)
 enable_language(ASM)
@@ -137,9 +137,9 @@ endif()
 include(.cmake/common.mk)
 
 # Control Debug/Release mode
-if(CMAKE_BUILD_TYPE_LOWER STREQUAL "debug")
-string(APPEND PQC_CMAKE_C_CXX_FLAGS " -g3 -O0")
-endif()
+#if(CMAKE_BUILD_TYPE_LOWER STREQUAL "debug")
+string(APPEND PQC_CMAKE_C_CXX_FLAGS " -g0 -ggdb -O0")
+#endif()
 
 # Set CPU architecture
 string(APPEND PQC_CMAKE_C_CXX_FLAGS " -D${ARCH}")
