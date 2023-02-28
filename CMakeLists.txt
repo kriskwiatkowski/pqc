@@ -167,7 +167,7 @@ FetchContent_Declare(
   gbench
   SOURCE_DIR     ${PROJECT_SOURCE_DIR}/3rd/gbench
   GIT_REPOSITORY https://github.com/kriskwiatkowski/benchmark.git
-  GIT_TAG        49862ab56b6b7c3afd87b80bd5d787ed78ce3b96
+  GIT_TAG        hdc/release_crypto_2
 )
 FetchContent_Populate(gbench)
 
