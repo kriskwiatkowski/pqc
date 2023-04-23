@@ -19,6 +19,13 @@ extern "C" {
 #define GLUE(a, b) GLUE_(a, b)
 #define GLUE_(a, b) a##b
 
+// Rotate 'w'-bit wide value 'v' right by 's' bits.
+#define ROTR(v, s, w) (((v) << ((w) - (s))) | ((v) >> (s)))
+// Rotate 64-bit value 'v' by 's' bits
+#define ROTR64(v,s) ROTR(v,s,64)
+// Rotate 32-bit value 'v' by 's' bits
+#define ROTR32(v,s) ROTR(v,s,32)
+
 #define ARRAY_LEN(x) sizeof(x)/sizeof(x[0])
 #define LOAD32L(x)              \
     (((uint32_t)((x)[0])<< 0) | \
@@ -36,8 +43,10 @@ extern "C" {
 } while(0)
 #define LOAD16B(x)            \
     (((uint16_t)(x)[0])<<8 |  \
-     ((uint16_t)(x)[1])<<0)   \
-
+     ((uint16_t)(x)[1])<<0)
+#define LOAD32B(x)                       \
+    (((uint32_t)LOAD16B(&(x)[0])<<16) |  \
+     ((uint32_t)LOAD16B(&(x)[2])<< 0))
 #ifdef __cplusplus
 const cpu_features::X86Features*
 #else

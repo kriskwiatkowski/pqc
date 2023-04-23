@@ -1,0 +1,1 @@
+void pqc_sha2_init_w32(struct sha2_t* ctx, bool is_224);

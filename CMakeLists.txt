@@ -203,6 +203,9 @@ include_directories(
   3rd/cpu_features/include
 )
 
+add_library(
+  pqc_obj OBJECT)
+
 # Define sources of the components
 add_subdirectory(src/sign/dilithium/dilithium2/clean)
 add_subdirectory(src/sign/dilithium/dilithium3/clean)
@@ -291,6 +294,8 @@ add_subdirectory(src/kem/hqc/hqc-rmrs-192/avx2)
 add_subdirectory(src/kem/hqc/hqc-rmrs-256/avx2)
 endif()
 
+add_subdirectory(src/hash/sha2)
+
 # The rest of the library
 add_library(
   common
@@ -321,6 +326,7 @@ target_link_libraries(
   pqc
 
   ${OBJ_LIBS}
+  pqc_obj
   cpu_features
   common
 )
@@ -331,6 +337,7 @@ target_link_libraries(
   cpu_features
   common
   ${OBJ_LIBS}
+  pqc_obj
 )
 
 SET(UT_SRC test/ut.cpp)
