@@ -350,7 +350,7 @@ inline uint32_t find_peaks(__m256i *transform) {
  * @param[out] cdw Array of size VEC_N1N2_SIZE_64 receiving the encoded message
  * @param[in] msg Array of size VEC_N1_SIZE_64 storing the message
  */
-void PQCLEAN_HQCRMRS192_AVX2_reed_muller_encode(uint8_t *cdw, const uint8_t *msg) {
+void PQC_HQC192_reed_muller_encode(uint8_t *cdw, const uint8_t *msg) {
     for (size_t i = 0; i < VEC_N1_SIZE_BYTES; i++) {
         // encode first word
         encode(&cdw[16 * i * MULTIPLICITY], msg[i]);
@@ -372,7 +372,7 @@ void PQCLEAN_HQCRMRS192_AVX2_reed_muller_encode(uint8_t *cdw, const uint8_t *msg
  * @param[out] msg Array of size VEC_N1_SIZE_64 receiving the decoded message
  * @param[in] cdw Array of size VEC_N1N2_SIZE_64 storing the received word
  */
-void PQCLEAN_HQCRMRS192_AVX2_reed_muller_decode(uint8_t *msg, const uint8_t *cdw) {
+void PQC_HQC192_reed_muller_decode(uint8_t *msg, const uint8_t *cdw) {
     __m256i expanded[8];
     __m256i transform[8];
     for (size_t i = 0; i < VEC_N1_SIZE_BYTES; i++) {

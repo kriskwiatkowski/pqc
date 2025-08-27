@@ -27,7 +27,7 @@
  * @param[out] pk String containing the public key
  * @param[out] sk String containing the secret key
  */
-void PQCLEAN_HQCRMRS256_AVX2_hqc_pke_keygen(unsigned char *pk, unsigned char *sk) {
+void PQC_HQC256_hqc_pke_keygen(unsigned char *pk, unsigned char *sk) {
     AES_XOF_struct sk_seedexpander;
     AES_XOF_struct pk_seedexpander;
     uint8_t sk_seed[SEED_BYTES] = {0};
@@ -51,17 +51,17 @@ void PQCLEAN_HQCRMRS256_AVX2_hqc_pke_keygen(unsigned char *pk, unsigned char *sk
     seedexpander_init(&pk_seedexpander, pk_seed, pk_seed + 32, SEEDEXPANDER_MAX_LENGTH);
 
     // Compute secret key
-    PQCLEAN_HQCRMRS256_AVX2_vect_set_random_fixed_weight(&sk_seedexpander, x, PARAM_OMEGA);
-    PQCLEAN_HQCRMRS256_AVX2_vect_set_random_fixed_weight(&sk_seedexpander, y, PARAM_OMEGA);
+    PQC_HQC256_vect_set_random_fixed_weight(&sk_seedexpander, x, PARAM_OMEGA);
+    PQC_HQC256_vect_set_random_fixed_weight(&sk_seedexpander, y, PARAM_OMEGA);
 
     // Compute public key
-    PQCLEAN_HQCRMRS256_AVX2_vect_set_random(&pk_seedexpander, h);
-    PQCLEAN_HQCRMRS256_AVX2_vect_mul(tmp, &vy, &vh);
-    PQCLEAN_HQCRMRS256_AVX2_vect_add(s, x, tmp, VEC_N_256_SIZE_64);
+    PQC_HQC256_vect_set_random(&pk_seedexpander, h);
+    PQC_HQC256_vect_mul(tmp, &vy, &vh);
+    PQC_HQC256_vect_add(s, x, tmp, VEC_N_256_SIZE_64);
 
     // Parse keys to string
-    PQCLEAN_HQCRMRS256_AVX2_hqc_public_key_to_string(pk, pk_seed, s);
-    PQCLEAN_HQCRMRS256_AVX2_hqc_secret_key_to_string(sk, sk_seed, pk);
+    PQC_HQC256_hqc_public_key_to_string(pk, pk_seed, s);
+    PQC_HQC256_hqc_secret_key_to_string(sk, sk_seed, pk);
 
 }
 
@@ -78,7 +78,7 @@ void PQCLEAN_HQCRMRS256_AVX2_hqc_pke_keygen(unsigned char *pk, unsigned char *sk
  * @param[in] theta Seed used to derive randomness required for encryption
  * @param[in] pk String containing the public key
  */
-void PQCLEAN_HQCRMRS256_AVX2_hqc_pke_encrypt(uint64_t *u, uint64_t *v, uint8_t *m, unsigned char *theta, const unsigned char *pk) {
+void PQC_HQC256_hqc_pke_encrypt(uint64_t *u, uint64_t *v, uint8_t *m, unsigned char *theta, const unsigned char *pk) {
     AES_XOF_struct seedexpander;
     aligned_vec_t vh = {0};
     uint64_t *h = vh.arr64;
@@ -101,29 +101,29 @@ void PQCLEAN_HQCRMRS256_AVX2_hqc_pke_encrypt(uint64_t *u, uint64_t *v, uint8_t *
     seedexpander_init(&seedexpander, theta, theta + 32, SEEDEXPANDER_MAX_LENGTH);
 
     // Retrieve h and s from public key
-    PQCLEAN_HQCRMRS256_AVX2_hqc_public_key_from_string(h, s, pk);
+    PQC_HQC256_hqc_public_key_from_string(h, s, pk);
 
     // Generate r1, r2 and e
-    PQCLEAN_HQCRMRS256_AVX2_vect_set_random_fixed_weight(&seedexpander, r1, PARAM_OMEGA_R);
-    PQCLEAN_HQCRMRS256_AVX2_vect_set_random_fixed_weight(&seedexpander, r2, PARAM_OMEGA_R);
-    PQCLEAN_HQCRMRS256_AVX2_vect_set_random_fixed_weight(&seedexpander, e, PARAM_OMEGA_E);
+    PQC_HQC256_vect_set_random_fixed_weight(&seedexpander, r1, PARAM_OMEGA_R);
+    PQC_HQC256_vect_set_random_fixed_weight(&seedexpander, r2, PARAM_OMEGA_R);
+    PQC_HQC256_vect_set_random_fixed_weight(&seedexpander, e, PARAM_OMEGA_E);
 
 
 
     // Compute u = r1 + r2.h
-    PQCLEAN_HQCRMRS256_AVX2_vect_mul(tmp1, &vr2, &vh);
-    PQCLEAN_HQCRMRS256_AVX2_vect_add(u, r1, tmp1, VEC_N_256_SIZE_64);
+    PQC_HQC256_vect_mul(tmp1, &vr2, &vh);
+    PQC_HQC256_vect_add(u, r1, tmp1, VEC_N_256_SIZE_64);
 
     // Compute v = m.G by encoding the message
-    PQCLEAN_HQCRMRS256_AVX2_code_encode((uint8_t *)v, m);
-    PQCLEAN_HQCRMRS256_AVX2_load8_arr(v, VEC_N1N2_256_SIZE_64, (uint8_t *)v, VEC_N1N2_SIZE_BYTES);
-    PQCLEAN_HQCRMRS256_AVX2_vect_resize(tmp1, PARAM_N, v, PARAM_N1N2);
+    PQC_HQC256_code_encode((uint8_t *)v, m);
+    PQC_HQC256_load8_arr(v, VEC_N1N2_256_SIZE_64, (uint8_t *)v, VEC_N1N2_SIZE_BYTES);
+    PQC_HQC256_vect_resize(tmp1, PARAM_N, v, PARAM_N1N2);
 
     // Compute v = m.G + s.r2 + e
-    PQCLEAN_HQCRMRS256_AVX2_vect_mul(tmp2, &vr2, &vs);
-    PQCLEAN_HQCRMRS256_AVX2_vect_add(tmp3, e, tmp2, VEC_N_256_SIZE_64);
-    PQCLEAN_HQCRMRS256_AVX2_vect_add(tmp2, tmp1, tmp3, VEC_N_256_SIZE_64);
-    PQCLEAN_HQCRMRS256_AVX2_vect_resize(v, PARAM_N1N2, tmp2, PARAM_N);
+    PQC_HQC256_vect_mul(tmp2, &vr2, &vs);
+    PQC_HQC256_vect_add(tmp3, e, tmp2, VEC_N_256_SIZE_64);
+    PQC_HQC256_vect_add(tmp2, tmp1, tmp3, VEC_N_256_SIZE_64);
+    PQC_HQC256_vect_resize(v, PARAM_N1N2, tmp2, PARAM_N);
 
 }
 
@@ -137,7 +137,7 @@ void PQCLEAN_HQCRMRS256_AVX2_hqc_pke_encrypt(uint64_t *u, uint64_t *v, uint8_t *
  * @param[in] v Vector v (second part of the ciphertext)
  * @param[in] sk String containing the secret key
  */
-void PQCLEAN_HQCRMRS256_AVX2_hqc_pke_decrypt(uint8_t *m, const uint64_t *u, const uint64_t *v, const unsigned char *sk) {
+void PQC_HQC256_hqc_pke_decrypt(uint8_t *m, const uint64_t *u, const uint64_t *v, const unsigned char *sk) {
     uint8_t pk[PUBLIC_KEY_BYTES] = {0};
     aligned_vec_t vx = {0};
     uint64_t *x = vx.arr64;
@@ -151,18 +151,18 @@ void PQCLEAN_HQCRMRS256_AVX2_hqc_pke_decrypt(uint8_t *m, const uint64_t *u, cons
     uint64_t *tmp3 = vtmp3.arr64;
 
     // Retrieve x, y, pk from secret key
-    PQCLEAN_HQCRMRS256_AVX2_hqc_secret_key_from_string(x, y, pk, sk);
+    PQC_HQC256_hqc_secret_key_from_string(x, y, pk, sk);
 
     // Compute v - u.y
-    PQCLEAN_HQCRMRS256_AVX2_vect_resize(tmp1, PARAM_N, v, PARAM_N1N2);
+    PQC_HQC256_vect_resize(tmp1, PARAM_N, v, PARAM_N1N2);
     for (size_t i = 0; i < VEC_N_256_SIZE_64; i++) {
         tmp2[i] = u[i];
     }
-    PQCLEAN_HQCRMRS256_AVX2_vect_mul(tmp3, &vy, &vtmp2);
-    PQCLEAN_HQCRMRS256_AVX2_vect_add(tmp2, tmp1, tmp3, VEC_N_256_SIZE_64);
+    PQC_HQC256_vect_mul(tmp3, &vy, &vtmp2);
+    PQC_HQC256_vect_add(tmp2, tmp1, tmp3, VEC_N_256_SIZE_64);
 
 
     // Compute m by decoding v - u.y
-    PQCLEAN_HQCRMRS256_AVX2_store8_arr((uint8_t *)tmp1, VEC_N_SIZE_BYTES, tmp2, VEC_N_256_SIZE_64);
-    PQCLEAN_HQCRMRS256_AVX2_code_decode(m, (uint8_t *)tmp1);
+    PQC_HQC256_store8_arr((uint8_t *)tmp1, VEC_N_SIZE_BYTES, tmp2, VEC_N_256_SIZE_64);
+    PQC_HQC256_code_decode(m, (uint8_t *)tmp1);
 }

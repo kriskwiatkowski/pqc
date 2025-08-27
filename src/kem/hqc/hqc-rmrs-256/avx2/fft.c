@@ -158,7 +158,7 @@ static void radix_big(uint16_t *f0, uint16_t *f1, const uint16_t *f, uint32_t m_
 /**
  * @brief Evaluates f at all subset sums of a given set
  *
- * This function is a subroutine of the function PQCLEAN_HQCRMRS256_AVX2_fft.
+ * This function is a subroutine of the function PQC_HQC256_fft.
  *
  * @param[out] w Array
  * @param[in] f Array
@@ -184,7 +184,7 @@ static void fft_rec(uint16_t *w, uint16_t *f, size_t f_coeffs, uint8_t m, uint32
     // Step 1
     if (m_f == 1) {
         for (i = 0; i < m; ++i) {
-            tmp[i] = PQCLEAN_HQCRMRS256_AVX2_gf_mul(betas[i], f[1]);
+            tmp[i] = PQC_HQC256_gf_mul(betas[i], f[1]);
         }
 
         w[0] = f[0];
@@ -205,8 +205,8 @@ static void fft_rec(uint16_t *w, uint16_t *f, size_t f_coeffs, uint8_t m, uint32
         x = 1;
         x <<= m_f;
         for (i = 1; i < x; ++i) {
-            beta_m_pow = PQCLEAN_HQCRMRS256_AVX2_gf_mul(beta_m_pow, betas[m - 1]);
-            f[i] = PQCLEAN_HQCRMRS256_AVX2_gf_mul(beta_m_pow, f[i]);
+            beta_m_pow = PQC_HQC256_gf_mul(beta_m_pow, betas[m - 1]);
+            f[i] = PQC_HQC256_gf_mul(beta_m_pow, f[i]);
         }
     }
 
@@ -215,8 +215,8 @@ static void fft_rec(uint16_t *w, uint16_t *f, size_t f_coeffs, uint8_t m, uint32
 
     // Step 4: compute gammas and deltas
     for (i = 0; i + 1 < m; ++i) {
-        gammas[i] = PQCLEAN_HQCRMRS256_AVX2_gf_mul(betas[i], PQCLEAN_HQCRMRS256_AVX2_gf_inverse(betas[m - 1]));
-        deltas[i] = PQCLEAN_HQCRMRS256_AVX2_gf_square(gammas[i]) ^ gammas[i];
+        gammas[i] = PQC_HQC256_gf_mul(betas[i], PQC_HQC256_gf_inverse(betas[m - 1]));
+        deltas[i] = PQC_HQC256_gf_square(gammas[i]) ^ gammas[i];
     }
 
     // Compute gammas sums
@@ -231,7 +231,7 @@ static void fft_rec(uint16_t *w, uint16_t *f, size_t f_coeffs, uint8_t m, uint32
         w[0] = u[0];
         w[k] = u[0] ^ f1[0];
         for (i = 1; i < k; ++i) {
-            w[i] = u[i] ^ PQCLEAN_HQCRMRS256_AVX2_gf_mul(gammas_sums[i], f1[0]);
+            w[i] = u[i] ^ PQC_HQC256_gf_mul(gammas_sums[i], f1[0]);
             w[k + i] = w[i] ^ f1[0];
         }
     } else {
@@ -242,7 +242,7 @@ static void fft_rec(uint16_t *w, uint16_t *f, size_t f_coeffs, uint8_t m, uint32
         w[0] = u[0];
         w[k] ^= u[0];
         for (i = 1; i < k; ++i) {
-            w[i] = u[i] ^ PQCLEAN_HQCRMRS256_AVX2_gf_mul(gammas_sums[i], v[i]);
+            w[i] = u[i] ^ PQC_HQC256_gf_mul(gammas_sums[i], v[i]);
             w[k + i] ^= w[i];
         }
     }
@@ -269,7 +269,7 @@ static void fft_rec(uint16_t *w, uint16_t *f, size_t f_coeffs, uint8_t m, uint32
  * @param[in] f Array of 2^PARAM_FFT elements
  * @param[in] f_coeffs Number coefficients of f (i.e. deg(f)+1)
  */
-void PQCLEAN_HQCRMRS256_AVX2_fft(uint16_t *w, const uint16_t *f, size_t f_coeffs) {
+void PQC_HQC256_fft(uint16_t *w, const uint16_t *f, size_t f_coeffs) {
     uint16_t betas[PARAM_M - 1] = {0};
     uint16_t betas_sums[1 << (PARAM_M - 1)] = {0};
     uint16_t f0[1 << (PARAM_FFT - 1)] = {0};
@@ -295,7 +295,7 @@ void PQCLEAN_HQCRMRS256_AVX2_fft(uint16_t *w, const uint16_t *f, size_t f_coeffs
 
     // Step 4: Compute deltas
     for (i = 0; i < PARAM_M - 1; ++i) {
-        deltas[i] = PQCLEAN_HQCRMRS256_AVX2_gf_square(betas[i]) ^ betas[i];
+        deltas[i] = PQC_HQC256_gf_square(betas[i]) ^ betas[i];
     }
 
     // Step 5
@@ -314,7 +314,7 @@ void PQCLEAN_HQCRMRS256_AVX2_fft(uint16_t *w, const uint16_t *f, size_t f_coeffs
 
     // Find other roots
     for (i = 1; i < k; ++i) {
-        w[i] = u[i] ^ PQCLEAN_HQCRMRS256_AVX2_gf_mul(betas_sums[i], v[i]);
+        w[i] = u[i] ^ PQC_HQC256_gf_mul(betas_sums[i], v[i]);
         w[k + i] ^= w[i];
     }
 }
@@ -328,7 +328,7 @@ void PQCLEAN_HQCRMRS256_AVX2_fft(uint16_t *w, const uint16_t *f, size_t f_coeffs
  * @param[out] error_compact Array with the error in a compact form
  * @param[in] w Array of size 2^PARAM_M
  */
-void PQCLEAN_HQCRMRS256_AVX2_fft_retrieve_error_poly(uint8_t *error, const uint16_t *w) {
+void PQC_HQC256_fft_retrieve_error_poly(uint8_t *error, const uint16_t *w) {
     uint16_t gammas[PARAM_M - 1] = {0};
     uint16_t gammas_sums[1 << (PARAM_M - 1)] = {0};
     uint16_t k;

@@ -29,7 +29,7 @@
  * @param[in] weight Integer that is the Hamming weight
  * @param[in] ctx Pointer to the context of the seed expander
  */
-void PQCLEAN_HQCRMRS192_AVX2_vect_set_random_fixed_weight(AES_XOF_struct *ctx, uint64_t *v, uint16_t weight) {
+void PQC_HQC192_vect_set_random_fixed_weight(AES_XOF_struct *ctx, uint64_t *v, uint16_t weight) {
     size_t random_bytes_size = 3 * weight;
     uint8_t rand_bytes[3 * PARAM_OMEGA_R] = {0};
     uint32_t tmp[PARAM_OMEGA_R] = {0};
@@ -105,12 +105,12 @@ void PQCLEAN_HQCRMRS192_AVX2_vect_set_random_fixed_weight(AES_XOF_struct *ctx, u
  * @param[in] v Pointer to an array
  * @param[in] ctx Pointer to the context of the seed expander
  */
-void PQCLEAN_HQCRMRS192_AVX2_vect_set_random(AES_XOF_struct *ctx, uint64_t *v) {
+void PQC_HQC192_vect_set_random(AES_XOF_struct *ctx, uint64_t *v) {
     uint8_t rand_bytes[VEC_N_SIZE_BYTES] = {0};
 
     seedexpander(ctx, rand_bytes, VEC_N_SIZE_BYTES);
 
-    PQCLEAN_HQCRMRS192_AVX2_load8_arr(v, VEC_N_SIZE_64, rand_bytes, VEC_N_SIZE_BYTES);
+    PQC_HQC192_load8_arr(v, VEC_N_SIZE_64, rand_bytes, VEC_N_SIZE_BYTES);
     v[VEC_N_SIZE_64 - 1] &= RED_MASK;
 }
 
@@ -124,7 +124,7 @@ void PQCLEAN_HQCRMRS192_AVX2_vect_set_random(AES_XOF_struct *ctx, uint64_t *v) {
  * @param[in] v2 Pointer to an array that is the second vector
  * @param[in] size Integer that is the size of the vectors
  */
-void PQCLEAN_HQCRMRS192_AVX2_vect_add(uint64_t *o, const uint64_t *v1, const uint64_t *v2, uint32_t size) {
+void PQC_HQC192_vect_add(uint64_t *o, const uint64_t *v1, const uint64_t *v2, uint32_t size) {
     for (uint32_t i = 0; i < size; ++i) {
         o[i] = v1[i] ^ v2[i];
     }
@@ -140,7 +140,7 @@ void PQCLEAN_HQCRMRS192_AVX2_vect_add(uint64_t *o, const uint64_t *v1, const uin
  * @param[in] size Integer that is the size of the vectors
  * @returns 0 if the vectors are equals and a negative/psotive value otherwise
  */
-uint8_t PQCLEAN_HQCRMRS192_AVX2_vect_compare(const uint8_t *v1, const uint8_t *v2, uint32_t size) {
+uint8_t PQC_HQC192_vect_compare(const uint8_t *v1, const uint8_t *v2, uint32_t size) {
     uint64_t r = 0;
     for (size_t i = 0; i < size; i++) {
         r |= v1[i] ^ v2[i];
@@ -159,7 +159,7 @@ uint8_t PQCLEAN_HQCRMRS192_AVX2_vect_compare(const uint8_t *v1, const uint8_t *v
  * @param[in] v Pointer to the input vector
  * @param[in] size_v Integer that is the size of the input vector in bits
  */
-void PQCLEAN_HQCRMRS192_AVX2_vect_resize(uint64_t *o, uint32_t size_o, const uint64_t *v, uint32_t size_v) {
+void PQC_HQC192_vect_resize(uint64_t *o, uint32_t size_o, const uint64_t *v, uint32_t size_v) {
     uint64_t mask = 0x7FFFFFFFFFFFFFFF;
     int8_t val = 0;
     if (size_o < size_v) {

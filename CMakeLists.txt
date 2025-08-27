@@ -157,7 +157,7 @@ ExternalProject_Add(
   GIT_TAG        a3460d1aeeaa43fdf137a6adefef10ba0b59fe4b
   PREFIX         ${CMAKE_CURRENT_BINARY_DIR}/3rd/gtest
   INSTALL_DIR    ${CMAKE_CURRENT_BINARY_DIR}/3rd/gtest
-  CMAKE_ARGS     -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/3rd/gtest -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER} -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER} -DCMAKE_CXX_FLAGS=${EXTRA_C_CXX_FLAGS} -DCMAKE_C_FLAGS=${EXTRA_C_CXX_FLAGS} -Dgtest_disable_pthreads=ON
+  CMAKE_ARGS     -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/3rd/gtest -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER} -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER} -DCMAKE_CXX_FLAGS=${EXTRA_C_CXX_FLAGS} -DCMAKE_C_FLAGS=${EXTRA_C_CXX_FLAGS} -Dgtest_disable_pthreads=ON -DCMAKE_POLICY_VERSION_MINIMUM=3.5
 )
 if(MEMSAN)
 add_dependencies(gtest_project ${CXXLIBS_FOR_MEMORY_SANITIZER})
@@ -236,9 +236,9 @@ add_subdirectory(src/sign/sphincs/sphincs-sha256-192f-robust/clean)
 add_subdirectory(src/kem/kyber/kyber512/clean)
 add_subdirectory(src/kem/kyber/kyber768/clean)
 add_subdirectory(src/kem/kyber/kyber1024/clean)
-add_subdirectory(src/kem/hqc/hqc-rmrs-128/clean)
-add_subdirectory(src/kem/hqc/hqc-rmrs-192/clean)
-add_subdirectory(src/kem/hqc/hqc-rmrs-256/clean)
+add_subdirectory(src/kem/hqc/hqc-rmrs-128/portable)
+add_subdirectory(src/kem/hqc/hqc-rmrs-192/portable)
+add_subdirectory(src/kem/hqc/hqc-rmrs-256/portable)
 add_subdirectory(src/kem/mceliece/mceliece348864/clean)
 add_subdirectory(src/kem/mceliece/mceliece460896/clean)
 add_subdirectory(src/kem/mceliece/mceliece6688128/clean)

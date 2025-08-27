@@ -15,7 +15,7 @@ typedef union {
     __m256i dummy;
 } aligned_vec_t;
 
-void PQCLEAN_HQCRMRS192_AVX2_vect_mul(uint64_t *o, const aligned_vec_t *a1, const aligned_vec_t *a2);
+void PQC_HQC192_vect_mul(uint64_t *o, const aligned_vec_t *a1, const aligned_vec_t *a2);
 
 
 #endif

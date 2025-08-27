@@ -10,18 +10,18 @@
 #include "randombytes.h"
 #include <stdint.h>
 
-void PQCLEAN_HQCRMRS128_AVX2_vect_set_random_fixed_weight(AES_XOF_struct *ctx, uint64_t *v, uint16_t weight);
+void PQC_HQC128_vect_set_random_fixed_weight(AES_XOF_struct *ctx, uint64_t *v, uint16_t weight);
 
-void PQCLEAN_HQCRMRS128_AVX2_vect_set_random(AES_XOF_struct *ctx, uint64_t *v);
+void PQC_HQC128_vect_set_random(AES_XOF_struct *ctx, uint64_t *v);
 
-void PQCLEAN_HQCRMRS128_AVX2_vect_set_random_from_randombytes(uint64_t *v);
+void PQC_HQC128_vect_set_random_from_randombytes(uint64_t *v);
 
 
-void PQCLEAN_HQCRMRS128_AVX2_vect_add(uint64_t *o, const uint64_t *v1, const uint64_t *v2, uint32_t size);
+void PQC_HQC128_vect_add(uint64_t *o, const uint64_t *v1, const uint64_t *v2, uint32_t size);
 
-uint8_t PQCLEAN_HQCRMRS128_AVX2_vect_compare(const uint8_t *v1, const uint8_t *v2, uint32_t size);
+uint8_t PQC_HQC128_vect_compare(const uint8_t *v1, const uint8_t *v2, uint32_t size);
 
-void PQCLEAN_HQCRMRS128_AVX2_vect_resize(uint64_t *o, uint32_t size_o, const uint64_t *v, uint32_t size_v);
+void PQC_HQC128_vect_resize(uint64_t *o, uint32_t size_o, const uint64_t *v, uint32_t size_v);
 
 
 #endif

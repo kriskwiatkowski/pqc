@@ -10,9 +10,9 @@
 #include <stddef.h>
 #include <stdint.h>
 
-void PQCLEAN_HQCRMRS192_AVX2_code_encode(uint8_t *em, const uint8_t *message);
+void PQC_HQC192_code_encode(uint8_t *em, const uint8_t *message);
 
-void PQCLEAN_HQCRMRS192_AVX2_code_decode(uint8_t *m, const uint8_t *em);
+void PQC_HQC192_code_decode(uint8_t *m, const uint8_t *em);
 
 
 #endif

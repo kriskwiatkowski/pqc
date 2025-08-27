@@ -395,7 +395,7 @@ static const __m256i alpha_ij256_4[89] = {
  * @param[out] cdw Array of size VEC_N1_SIZE_64 receiving the encoded message
  * @param[in] msg Array of size VEC_K_SIZE_64 storing the message
  */
-void PQCLEAN_HQCRMRS256_AVX2_reed_solomon_encode(uint8_t *cdw, const uint8_t *msg) {
+void PQC_HQC256_reed_solomon_encode(uint8_t *cdw, const uint8_t *msg) {
     size_t i, k;
     uint8_t gate_value = 0;
     uint8_t prev, x;
@@ -415,10 +415,10 @@ void PQCLEAN_HQCRMRS256_AVX2_reed_solomon_encode(uint8_t *cdw, const uint8_t *ms
 
     for (i = 0; i < PARAM_K; ++i) {
         gate_value = (uint8_t) (msg[PARAM_K - 1 - i] ^ cdw[PARAM_N1 - PARAM_K - 1]);
-        _mm256_storeu_si256(&tmp256[0], PQCLEAN_HQCRMRS256_AVX2_gf_mul_vect(_mm256_set1_epi16(gate_value), param256[0]));
-        _mm256_storeu_si256(&tmp256[1], PQCLEAN_HQCRMRS256_AVX2_gf_mul_vect(_mm256_set1_epi16(gate_value), param256[1]));
-        _mm256_storeu_si256(&tmp256[2], PQCLEAN_HQCRMRS256_AVX2_gf_mul_vect(_mm256_set1_epi16(gate_value), param256[2]));
-        _mm256_storeu_si256(&tmp256[3], PQCLEAN_HQCRMRS256_AVX2_gf_mul_vect(_mm256_set1_epi16(gate_value), param256[3]));
+        _mm256_storeu_si256(&tmp256[0], PQC_HQC256_gf_mul_vect(_mm256_set1_epi16(gate_value), param256[0]));
+        _mm256_storeu_si256(&tmp256[1], PQC_HQC256_gf_mul_vect(_mm256_set1_epi16(gate_value), param256[1]));
+        _mm256_storeu_si256(&tmp256[2], PQC_HQC256_gf_mul_vect(_mm256_set1_epi16(gate_value), param256[2]));
+        _mm256_storeu_si256(&tmp256[3], PQC_HQC256_gf_mul_vect(_mm256_set1_epi16(gate_value), param256[3]));
 
         prev = 0;
         for (k = 0; k < PARAM_N1 - PARAM_K; k++) {
@@ -445,22 +445,22 @@ void compute_syndromes(uint16_t *syndromes, uint8_t *cdw) {
     syndromes256[0] = _mm256_set1_epi16(cdw[0]);
 
     for (size_t i = 0; i < PARAM_N1 - 1; ++i) {
-        syndromes256[0] ^= PQCLEAN_HQCRMRS256_AVX2_gf_mul_vect(_mm256_set1_epi16(cdw[i + 1]), alpha_ij256_1[i]);
+        syndromes256[0] ^= PQC_HQC256_gf_mul_vect(_mm256_set1_epi16(cdw[i + 1]), alpha_ij256_1[i]);
     }
 
     syndromes256[1] = _mm256_set1_epi16(cdw[0]);
     for (size_t i = 0; i < PARAM_N1 - 1; ++i) {
-        syndromes256[1] ^= PQCLEAN_HQCRMRS256_AVX2_gf_mul_vect(_mm256_set1_epi16(cdw[i + 1]), alpha_ij256_2[i]);
+        syndromes256[1] ^= PQC_HQC256_gf_mul_vect(_mm256_set1_epi16(cdw[i + 1]), alpha_ij256_2[i]);
     }
 
     syndromes256[2] = _mm256_set1_epi16(cdw[0]);
     for (size_t i = 0; i < PARAM_N1 - 1; ++i) {
-        syndromes256[2] ^= PQCLEAN_HQCRMRS256_AVX2_gf_mul_vect(_mm256_set1_epi16(cdw[i + 1]), alpha_ij256_3[i]);
+        syndromes256[2] ^= PQC_HQC256_gf_mul_vect(_mm256_set1_epi16(cdw[i + 1]), alpha_ij256_3[i]);
     }
 
     last_syndromes256 = _mm256_set1_epi16(cdw[0]);
     for (size_t i = 0; i < PARAM_N1 - 1; ++i) {
-        last_syndromes256 ^= PQCLEAN_HQCRMRS256_AVX2_gf_mul_vect(_mm256_set1_epi16(cdw[i + 1]), alpha_ij256_4[i]);
+        last_syndromes256 ^= PQC_HQC256_gf_mul_vect(_mm256_set1_epi16(cdw[i + 1]), alpha_ij256_4[i]);
     }
 
     __m128i *s128 = (__m128i *) &last_syndromes256;
@@ -512,10 +512,10 @@ static uint16_t compute_elp(uint16_t *sigma, const uint16_t *syndromes) {
         memcpy(sigma_copy, sigma, 2 * (PARAM_DELTA));
         deg_sigma_copy = deg_sigma;
 
-        dd = PQCLEAN_HQCRMRS256_AVX2_gf_mul(d, PQCLEAN_HQCRMRS256_AVX2_gf_inverse(d_p));
+        dd = PQC_HQC256_gf_mul(d, PQC_HQC256_gf_inverse(d_p));
 
         for (i = 1; (i <= mu + 1) && (i <= PARAM_DELTA); ++i) {
-            sigma[i] ^= PQCLEAN_HQCRMRS256_AVX2_gf_mul(dd, X_sigma_p[i]);
+            sigma[i] ^= PQC_HQC256_gf_mul(dd, X_sigma_p[i]);
         }
 
         deg_X = mu - pp;
@@ -545,7 +545,7 @@ static uint16_t compute_elp(uint16_t *sigma, const uint16_t *syndromes) {
         d = syndromes[mu + 1];
 
         for (i = 1; (i <= mu + 1) && (i <= PARAM_DELTA); ++i) {
-            d ^= PQCLEAN_HQCRMRS256_AVX2_gf_mul(sigma[i], syndromes[mu + 1 - i]);
+            d ^= PQC_HQC256_gf_mul(sigma[i], syndromes[mu + 1 - i]);
         }
     }
 
@@ -557,7 +557,7 @@ static uint16_t compute_elp(uint16_t *sigma, const uint16_t *syndromes) {
 /**
  * @brief Computes the error polynomial error from the error locator polynomial sigma
  *
- * See function PQCLEAN_HQCRMRS256_AVX2_fft for more details.
+ * See function PQC_HQC256_fft for more details.
  *
  * @param[out] error Array of 2^PARAM_M elements receiving the error polynomial
  * @param[out] error_compact Array of PARAM_DELTA + PARAM_N1 elements receiving a compact representation of the vector error
@@ -566,8 +566,8 @@ static uint16_t compute_elp(uint16_t *sigma, const uint16_t *syndromes) {
 static void compute_roots(uint8_t *error, uint16_t *sigma) {
     uint16_t w[1 << PARAM_M] = {0};
 
-    PQCLEAN_HQCRMRS256_AVX2_fft(w, sigma, PARAM_DELTA + 1);
-    PQCLEAN_HQCRMRS256_AVX2_fft_retrieve_error_poly(error, w);
+    PQC_HQC256_fft(w, sigma, PARAM_DELTA + 1);
+    PQC_HQC256_fft_retrieve_error_poly(error, w);
 }
 
 
@@ -600,7 +600,7 @@ static void compute_z_poly(uint16_t *z, const uint16_t *sigma, uint16_t degree, 
         z[i] ^= mask & syndromes[i - 1];
 
         for (j = 1; j < i; ++j) {
-            z[i] ^= mask & PQCLEAN_HQCRMRS256_AVX2_gf_mul(sigma[j], syndromes[i - j - 1]);
+            z[i] ^= mask & PQC_HQC256_gf_mul(sigma[j], syndromes[i - j - 1]);
         }
     }
 }
@@ -649,18 +649,18 @@ static void compute_error_values(uint16_t *error_values, const uint16_t *z, cons
     for (size_t i = 0; i < PARAM_DELTA; ++i) {
         tmp1 = 1;
         tmp2 = 1;
-        inverse = PQCLEAN_HQCRMRS256_AVX2_gf_inverse(beta_j[i]);
+        inverse = PQC_HQC256_gf_inverse(beta_j[i]);
         inverse_power_j = 1;
 
         for (size_t j = 1; j <= PARAM_DELTA; ++j) {
-            inverse_power_j = PQCLEAN_HQCRMRS256_AVX2_gf_mul(inverse_power_j, inverse);
-            tmp1 ^= PQCLEAN_HQCRMRS256_AVX2_gf_mul(inverse_power_j, z[j]);
+            inverse_power_j = PQC_HQC256_gf_mul(inverse_power_j, inverse);
+            tmp1 ^= PQC_HQC256_gf_mul(inverse_power_j, z[j]);
         }
         for (size_t k = 1; k < PARAM_DELTA; ++k) {
-            tmp2 = PQCLEAN_HQCRMRS256_AVX2_gf_mul(tmp2, (1 ^ PQCLEAN_HQCRMRS256_AVX2_gf_mul(inverse, beta_j[(i + k) % PARAM_DELTA])));
+            tmp2 = PQC_HQC256_gf_mul(tmp2, (1 ^ PQC_HQC256_gf_mul(inverse, beta_j[(i + k) % PARAM_DELTA])));
         }
         mask1 = (uint16_t) (((int16_t) i - delta_real_value) >> 15); // i < delta_real_value
-        e_j[i] = mask1 & PQCLEAN_HQCRMRS256_AVX2_gf_mul(tmp1, PQCLEAN_HQCRMRS256_AVX2_gf_inverse(tmp2));
+        e_j[i] = mask1 & PQC_HQC256_gf_mul(tmp1, PQC_HQC256_gf_inverse(tmp2));
     }
 
     // Place the delta e_{j_i} values at the right coordinates of the output vector
@@ -711,7 +711,7 @@ static void correct_errors(uint8_t *cdw, const uint16_t *error_values) {
  * @param[out] msg Array of size VEC_K_SIZE_64 receiving the decoded message
  * @param[in] cdw Array of size VEC_N1_SIZE_64 storing the received word
  */
-void PQCLEAN_HQCRMRS256_AVX2_reed_solomon_decode(uint8_t *msg, uint8_t *cdw) {
+void PQC_HQC256_reed_solomon_decode(uint8_t *msg, uint8_t *cdw) {
     uint16_t syndromes[2 * PARAM_DELTA] = {0};
     uint16_t sigma[1 << PARAM_FFT] = {0};
     uint8_t error[1 << PARAM_M] = {0};
